@@ -4,6 +4,8 @@ import PhotoEditor from './PhotoEditor';
 import VideoCombiner from './VideoCombiner';
 import AudioEditor from './AudioEditor';
 import VideoToAudioConverter from './VideoToAudioConverter';
+import PhotoCollageEditor from './PhotoCollageEditor';
+import VideoCollageEditor from './VideoCollageEditor';
 
 export default function EditorWorkspace({ type, onExit }) {
   const [error, setError] = useState(null);
@@ -27,6 +29,10 @@ export default function EditorWorkspace({ type, onExit }) {
         return <AudioEditor />;
       case 'video-to-audio':
         return <VideoToAudioConverter />;
+      case 'photo-collage':
+        return <PhotoCollageEditor />;
+      case 'video-collage':
+        return <VideoCollageEditor />;
       default:
         return <div className="text-red-500 text-center mt-20">Unknown editor type: {type}</div>;
     }
@@ -40,7 +46,9 @@ export default function EditorWorkspace({ type, onExit }) {
           {type === 'photo' ? '📷 Photo Editor' :
            type === 'video' ? '🎬 Video Combinor' :
            type === 'audio' ? '🎵 Audio Editor' :
-           type === 'video-to-audio' ? '🎬➡🎵 Converter' : 'Editor'}
+           type === 'video-to-audio' ? '🎬➡🎵 Converter' :
+           type === 'photo-collage' ? '📷 Photo Collage' :
+           type === 'video-collage' ? '🎬 Video Collage' : 'Editor'}
         </h2>
         <div className="flex gap-4">
           <button
