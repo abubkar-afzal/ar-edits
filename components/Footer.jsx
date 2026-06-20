@@ -9,25 +9,54 @@ export default function Footer() {
   return (
     <>
       <footer
-        className="py-6 px-4 border-t"
-        style={{ backgroundColor: "var(--white)", borderColor: "var(--border)" }}
+        className="py-8 px-6 border-t backdrop-blur-md"
+        style={{
+          backgroundColor: "var(--surface)",
+          borderColor: "var(--border)",
+        }}
       >
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-sm" style={{ color: "var(--gray)" }}>
-            &copy; {new Date().getFullYear()} AR Studio. All rights reserved.
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          {/* Brand & tagline */}
+          <div className="flex flex-col items-center md:items-start gap-1">
+            <h3
+              className="text-xl font-bold tracking-tight"
+              style={{ color: "var(--primary)" }}
+            >
+              AR Studio
+            </h3>
+            <p
+              className="text-xs tracking-wide"
+              style={{ color: "var(--muted)" }}
+            >
+              Creative tools for everyone, free forever.
+            </p>
           </div>
+
+          {/* Center – links */}
           <div className="flex items-center gap-6">
             <button
               onClick={() => setIsPrivacyOpen(true)}
-              className="text-sm hover:opacity-70 transition"
-              style={{ color: "var(--gray)" }}
+              className="text-sm font-medium hover:opacity-70 transition"
+              style={{ color: "var(--text)" }}
             >
               Security & Privacy
             </button>
+            <span style={{ color: "var(--muted)" }}>|</span>
+            <span
+              className="text-xs"
+              style={{ color: "var(--muted)" }}
+            >
+              &copy; {new Date().getFullYear()} All rights reserved.
+            </span>
+          </div>
+
+          {/* Right – theme picker */}
+          <div className="flex items-center gap-4 cursor-pointer">
             <ThemePickerCompact />
           </div>
         </div>
       </footer>
+
       <PrivacyModal isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
     </>
   );

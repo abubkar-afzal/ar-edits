@@ -301,7 +301,7 @@ export default function SnakeGame() {
   return (
     <div
       className="flex flex-col items-center min-h-screen p-4"
-      style={{ backgroundColor: "var(--gray-900, #1a1a1a)" }}
+      style={{ backgroundColor: "var(--white)" }}
     >
       {/* ─── Setup Menu ────────────────────────────────── */}
       <AnimatePresence>
@@ -319,14 +319,14 @@ export default function SnakeGame() {
               exit={{ scale: 0.9, y: 20 }}
               className="rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl"
               style={{
-                backgroundColor: "var(--gray-800, #2a2a2a)",
+                backgroundColor: "var(--white)",
                 border: "1px solid var(--darkgray, #333)",
-                color: "var(--white, #fff)",
+                color: "var(--black)",
               }}
             >
               <h2 className="text-2xl font-bold text-center mb-6">🐍 Snake</h2>
 
-              <p className="text-sm mb-2 font-medium" style={{ color: "var(--gray, #aaa)" }}>
+              <p className="text-sm mb-2 font-medium" style={{ color: "var(--black)" }}>
                 Snake Color
               </p>
               <div className="grid grid-cols-6 gap-2 mb-4">
@@ -346,7 +346,7 @@ export default function SnakeGame() {
                 ))}
               </div>
 
-              <p className="text-sm mb-2 font-medium" style={{ color: "var(--gray, #aaa)" }}>
+              <p className="text-sm mb-2 font-medium" style={{ color: "var(--black)" }}>
                 Food Color
               </p>
               <div className="grid grid-cols-6 gap-2 mb-6">
@@ -373,7 +373,7 @@ export default function SnakeGame() {
                 className="w-full py-3 rounded-xl font-bold text-lg shadow-lg"
                 style={{
                   backgroundColor: "var(--green, #22c55e)",
-                  color: "var(--white, #fff)",
+                  color: "var(--black)",
                 }}
               >
                 Start Game
@@ -386,7 +386,7 @@ export default function SnakeGame() {
       {/* ─── Top Bar ────────────────────────────────────── */}
       {!showSetup && (
         <div className="w-full flex justify-between items-center mb-2 flex-shrink-0">
-          <div className="text-sm font-semibold" style={{ color: "var(--white, #fff)" }}>
+          <div className="text-sm font-semibold" style={{ color: "var(--black)" }}>
             🐍 Score: {score}
           </div>
           <motion.div className="relative">
@@ -395,7 +395,7 @@ export default function SnakeGame() {
               whileTap={{ scale: 0.9 }}
               onClick={() => setShowMenu(!showMenu)}
               className="p-2 rounded-full"
-              style={{ backgroundColor: "var(--gray-800, #2a2a2a)", color: "var(--white, #fff)" }}
+              style={{ backgroundColor: "var(--white)", color: "var(--black)" }}
             >
               <FaBars size={20} />
             </motion.button>
@@ -408,7 +408,7 @@ export default function SnakeGame() {
                   transition={{ duration: 0.2 }}
                   className="absolute right-0 mt-2 w-48 rounded-xl shadow-2xl z-50 overflow-hidden"
                   style={{
-                    backgroundColor: "var(--gray-800, #2a2a2a)",
+                    backgroundColor: "var(--white)",
                     border: "1px solid var(--darkgray, #333)",
                   }}
                 >
@@ -418,7 +418,7 @@ export default function SnakeGame() {
                       startGame();
                     }}
                     className="w-full px-4 py-3 text-left text-sm font-medium flex items-center gap-3"
-                    style={{ color: "var(--white, #fff)" }}
+                    style={{ color: "var(--black)" }}
                   >
                     <FaRedo /> New Game
                   </button>
@@ -428,7 +428,7 @@ export default function SnakeGame() {
                       setShowMenu(false);
                     }}
                     className="w-full px-4 py-3 text-left text-sm font-medium flex items-center gap-3"
-                    style={{ color: "var(--white, #fff)" }}
+                    style={{ color: "var(--black)" }}
                   >
                     {isFullscreen ? <FaCompress /> : <FaExpand />}
                     {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
@@ -436,7 +436,7 @@ export default function SnakeGame() {
                   <button
                     onClick={() => router.push("/games")}
                     className="w-full px-4 py-3 text-left text-sm font-medium flex items-center gap-3"
-                    style={{ color: "var(--white, #fff)" }}
+                    style={{ color: "var(--black)" }}
                   >
                     <FaArrowLeft /> Back to Games
                   </button>
@@ -487,7 +487,7 @@ export default function SnakeGame() {
                 >
                   Game Over
                 </h2>
-                <p className="text-xl mb-4" style={{ color: "var(--white, #fff)" }}>
+                <p className="text-xl mb-4" style={{ color: "var(--black)" }}>
                   Score: {score}
                 </p>
                 <motion.button
@@ -500,7 +500,7 @@ export default function SnakeGame() {
                   className="px-6 py-2 rounded-full font-medium shadow-lg"
                   style={{
                     backgroundColor: "var(--blue, #3b82f6)",
-                    color: "var(--white, #fff)",
+                    color: "var(--black)",
                   }}
                 >
                   Play Again

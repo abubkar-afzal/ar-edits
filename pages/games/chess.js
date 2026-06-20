@@ -331,22 +331,22 @@ export default function ChessGame() {
   if (phase === 'setup') {
     return (
       <div className="flex flex-col items-center justify-center h-screen p-4"
-           style={{ backgroundColor: "var(--gray-900, #1a1a1a)", color: "var(--white, #fff)" }}>
+           style={{ backgroundColor: "var(--white)", color: "var(--black)" }}>
         <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
                     className="w-full max-w-md p-6 rounded-2xl shadow-2xl"
-                    style={{ backgroundColor: "var(--gray-800, #2a2a2a)", border: "1px solid var(--darkgray, #333)" }}>
-          <h2 className="text-2xl font-bold text-center mb-6" style={{ color: "var(--white, #fff)" }}>⚔️ New Game</h2>
+                    style={{ backgroundColor: "var(--white)", border: "1px solid var(--darkgray, #333)" }}>
+          <h2 className="text-2xl font-bold text-center mb-6" style={{ color: "var(--black)" }}>⚔️ New Game</h2>
 
           <div className="mb-5">
-            <p className="text-sm mb-2 font-medium" style={{ color: "var(--gray, #aaa)" }}>Game Mode</p>
+            <p className="text-sm mb-2 font-medium" style={{ color: "var(--black)" }}>Game Mode</p>
             <div className="flex gap-2">
               {['friend', 'ai'].map(m => (
                 <motion.button key={m} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                                onClick={() => setMode(m)}
                                className="flex-1 py-2.5 rounded-xl font-medium text-sm flex items-center justify-center gap-2"
                                style={{
-                                 backgroundColor: mode === m ? "var(--blue, #3b82f6)" : "var(--gray, #555)",
-                                 color: "var(--white, #fff)",
+                                 backgroundColor: mode === m ? "var(--blue, #3b82f6)" : "var(--white)",
+                                 color: "var(--black)",
                                  border: mode === m ? "2px solid var(--blue, #3b82f6)" : "2px solid transparent",
                                }}>
                   {m === 'friend' ? <FaUserFriends /> : <FaRobot />}
@@ -358,15 +358,15 @@ export default function ChessGame() {
 
           {mode === 'ai' && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="mb-5">
-              <p className="text-sm mb-2 font-medium" style={{ color: "var(--gray, #aaa)" }}>Difficulty</p>
+              <p className="text-sm mb-2 font-medium" style={{ color: "var(--black)" }}>Difficulty</p>
               <div className="grid grid-cols-2 gap-2">
                 {['easy', 'normal', 'hard', 'pro'].map(d => (
                   <motion.button key={d} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                                  onClick={() => setDifficulty(d)}
                                  className="py-2 rounded-xl text-sm font-medium"
                                  style={{
-                                   backgroundColor: difficulty === d ? "var(--blue, #3b82f6)" : "var(--gray, #555)",
-                                   color: "var(--white, #fff)",
+                                   backgroundColor: difficulty === d ? "var(--blue, #3b82f6)" : "var(--white)",
+                                   color: "var(--black)",
                                    border: difficulty === d ? "2px solid var(--blue, #3b82f6)" : "2px solid transparent",
                                  }}>
                     {d === 'easy' ? '🟢 Easy' : d === 'normal' ? '🟡 Normal' : d === 'hard' ? '🟠 Hard' : '🔴 Pro'}
@@ -377,7 +377,7 @@ export default function ChessGame() {
           )}
 
           <div className="mb-6">
-            <p className="text-sm mb-2 font-medium" style={{ color: "var(--gray, #aaa)" }}>Your Color</p>
+            <p className="text-sm mb-2 font-medium" style={{ color: "var(--black)" }}>Your Color</p>
             <div className="flex gap-2">
               {[
                 { value: 'w', label: 'White', icon: <FaChessPawn style={{ color: PIECE_COLOR_MAP.w }} /> },
@@ -388,8 +388,8 @@ export default function ChessGame() {
                                onClick={() => setPlayerColor(c.value)}
                                className="flex-1 py-3 rounded-xl text-sm font-medium flex items-center justify-center gap-2"
                                style={{
-                                 backgroundColor: playerColor === c.value ? "var(--blue, #3b82f6)" : "var(--gray, #555)",
-                                 color: "var(--white, #fff)",
+                                 backgroundColor: playerColor === c.value ? "var(--blue, #3b82f6)" : "var(--white)",
+                                 color: "var(--black)",
                                  border: playerColor === c.value ? "2px solid var(--blue, #3b82f6)" : "2px solid transparent",
                                }}>
                   {c.icon} {c.label}
@@ -407,8 +407,8 @@ export default function ChessGame() {
                          disabled={!playerColor}
                          className="w-full py-3 rounded-xl font-bold text-lg shadow-lg"
                          style={{
-                           backgroundColor: playerColor ? "var(--green, #22c55e)" : "var(--gray, #555)",
-                           color: "var(--white, #fff)",
+                           backgroundColor: playerColor ? "var(--green, #22c55e)" : "var(--white)",
+                           color: "var(--black)",
                            opacity: playerColor ? 1 : 0.5,
                          }}>
             Start Game
@@ -427,7 +427,7 @@ export default function ChessGame() {
 
   return (
     <div className="flex flex-col items-center h-screen p-4 overflow-hidden relative"
-         style={{ backgroundColor: "var(--gray-900, #1a1a1a)", color: "var(--white, #fff)" }}>
+         style={{ backgroundColor: "var(--white)", color: "var(--black)" }}>
 
       {/* Game Over Modal */}
       <AnimatePresence>
@@ -445,7 +445,7 @@ export default function ChessGame() {
               exit={{ scale: 0.8 }}
               className="rounded-2xl p-8 shadow-2xl text-center max-w-sm w-full mx-4"
               style={{
-                backgroundColor: "var(--gray-800, #2a2a2a)",
+                backgroundColor: "var(--white)",
                 border: "1px solid var(--darkgray, #333)",
               }}
             >
@@ -457,7 +457,7 @@ export default function ChessGame() {
               >
                 {status.includes('Checkmate') ? '🏆' : status.includes('Stalemate') ? '🤝' : '🎉'}
               </motion.div>
-              <h2 className="text-2xl font-bold mb-2" style={{ color: "var(--white, #fff)" }}>
+              <h2 className="text-2xl font-bold mb-2" style={{ color: "var(--black)" }}>
                 Game Over
               </h2>
               <p className="text-lg mb-6" style={{ color: "var(--gray, #ccc)" }}>
@@ -469,7 +469,7 @@ export default function ChessGame() {
                   whileTap={{ scale: 0.95 }}
                   onClick={goToSetup}
                   className="px-6 py-3 rounded-xl font-bold shadow-lg"
-                  style={{ backgroundColor: "var(--blue, #3b82f6)", color: "var(--white, #fff)" }}
+                  style={{ backgroundColor: "var(--blue, #3b82f6)", color: "var(--black)" }}
                 >
                   Play Again
                 </motion.button>
@@ -478,7 +478,7 @@ export default function ChessGame() {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => router.push("/games")}
                   className="px-6 py-3 rounded-xl font-bold shadow-lg"
-                  style={{ backgroundColor: "var(--gray, #777)", color: "var(--white, #fff)" }}
+                  style={{ backgroundColor: "var(--gray, #777)", color: "var(--black)" }}
                 >
                   Back to Games
                 </motion.button>
@@ -490,7 +490,7 @@ export default function ChessGame() {
 
       {/* Top Bar */}
       <div className="w-full flex justify-between items-center mb-2 flex-shrink-0">
-        <div className="flex items-center gap-2 text-sm sm:text-base font-semibold" style={{ color: "var(--white, #fff)" }}>
+        <div className="flex items-center gap-2 text-sm sm:text-base font-semibold" style={{ color: "var(--black)" }}>
           <FaChessPawn style={{
             color: mode === 'ai' ? PIECE_COLOR_MAP[playerColor] : (turn === 'w' ? PIECE_COLOR_MAP.w : PIECE_COLOR_MAP.b),
             filter: mode === 'ai' ? PIECE_SHADOW_MAP[playerColor] : (turn === 'w' ? PIECE_SHADOW_MAP.w : PIECE_SHADOW_MAP.b),
@@ -503,7 +503,7 @@ export default function ChessGame() {
         <motion.div className="relative">
           <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => setShowMenu(!showMenu)}
                          className="p-2 rounded-full"
-                         style={{ backgroundColor: "var(--gray-800, #2a2a2a)", color: "var(--white, #fff)" }}>
+                         style={{ backgroundColor: "var(--white)", color: "var(--black)" }}>
             <FaBars size={20} />
           </motion.button>
           <AnimatePresence>
@@ -513,23 +513,23 @@ export default function ChessGame() {
                           exit={{ opacity: 0, scale: 0.9, y: -10 }}
                           transition={{ duration: 0.2 }}
                           className="absolute right-0 mt-2 w-48 rounded-xl shadow-2xl z-50 overflow-hidden"
-                          style={{ backgroundColor: "var(--gray-800, #2a2a2a)", border: "1px solid var(--darkgray, #333)" }}>
+                          style={{ backgroundColor: "var(--white)", border: "1px solid var(--darkgray, #333)" }}>
                 <button onClick={() => handleModeSwitch('friend')} className="w-full px-4 py-3 text-left text-sm font-medium flex items-center gap-3"
-                        style={{ color: "var(--white, #fff)", backgroundColor: mode === 'friend' ? "var(--blue, #3b82f6)" : "transparent" }}>
+                        style={{ color: "var(--black)", backgroundColor: mode === 'friend' ? "var(--blue, #3b82f6)" : "transparent" }}>
                   <FaUserFriends /> Friend
                 </button>
                 <button onClick={() => handleModeSwitch('ai')} className="w-full px-4 py-3 text-left text-sm font-medium flex items-center gap-3"
-                        style={{ color: "var(--white, #fff)", backgroundColor: mode === 'ai' ? "var(--blue, #3b82f6)" : "transparent" }}>
+                        style={{ color: "var(--black)", backgroundColor: mode === 'ai' ? "var(--blue, #3b82f6)" : "transparent" }}>
                   <FaRobot /> Computer
                 </button>
                 {mode === 'ai' && (
                   <div className="border-t" style={{ borderColor: "var(--darkgray, #333)" }}>
-                    <p className="px-4 pt-3 pb-1 text-xs font-medium" style={{ color: "var(--gray, #aaa)" }}>Difficulty</p>
+                    <p className="px-4 pt-3 pb-1 text-xs font-medium" style={{ color: "var(--black)" }}>Difficulty</p>
                     <div className="px-2 pb-2 grid grid-cols-2 gap-1">
                       {['easy', 'normal', 'hard', 'pro'].map(d => (
                         <button key={d} onClick={() => { setDifficulty(d); setShowMenu(false); }}
                                 className="py-1.5 rounded-lg text-xs font-medium"
-                                style={{ backgroundColor: difficulty === d ? "var(--blue, #3b82f6)" : "var(--gray, #555)", color: "var(--white, #fff)" }}>
+                                style={{ backgroundColor: difficulty === d ? "var(--blue, #3b82f6)" : "var(--white)", color: "var(--black)" }}>
                           {d === 'easy' ? '🟢' : d === 'normal' ? '🟡' : d === 'hard' ? '🟠' : '🔴'} {d}
                         </button>
                       ))}
@@ -537,14 +537,14 @@ export default function ChessGame() {
                   </div>
                 )}
                 <div className="border-t" style={{ borderColor: "var(--darkgray, #333)" }}>
-                  <button onClick={handleResetClick} className="w-full px-4 py-3 text-left text-sm font-medium flex items-center gap-3" style={{ color: "var(--white, #fff)" }}>
+                  <button onClick={handleResetClick} className="w-full px-4 py-3 text-left text-sm font-medium flex items-center gap-3" style={{ color: "var(--black)" }}>
                     <FaRedo /> New Game
                   </button>
-                  <button onClick={() => { toggleFullscreen(); setShowMenu(false); }} className="w-full px-4 py-3 text-left text-sm font-medium flex items-center gap-3" style={{ color: "var(--white, #fff)" }}>
+                  <button onClick={() => { toggleFullscreen(); setShowMenu(false); }} className="w-full px-4 py-3 text-left text-sm font-medium flex items-center gap-3" style={{ color: "var(--black)" }}>
                     {isFullscreen ? <FaCompress /> : <FaExpand />}
                     {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
                   </button>
-                  <button onClick={() => router.push("/games")} className="w-full px-4 py-3 text-left text-sm font-medium flex items-center gap-3" style={{ color: "var(--white, #fff)" }}>
+                  <button onClick={() => router.push("/games")} className="w-full px-4 py-3 text-left text-sm font-medium flex items-center gap-3" style={{ color: "var(--black)" }}>
                     <FaArrowLeft /> Back to Games
                   </button>
                 </div>
@@ -682,14 +682,14 @@ export default function ChessGame() {
 
         {/* Move History */}
         <div className="w-48 flex-shrink-0 rounded-lg border p-3 overflow-y-auto hidden lg:block"
-             style={{ backgroundColor: "var(--gray-800, #2a2a2a)", borderColor: "var(--darkgray, #333)", color: "var(--white, #fff)" }}>
-          <h3 className="text-sm font-semibold mb-2 text-center" style={{ color: "var(--white, #fff)" }}>Move History</h3>
+             style={{ backgroundColor: "var(--white)", borderColor: "var(--darkgray, #333)", color: "var(--black)" }}>
+          <h3 className="text-sm font-semibold mb-2 text-center" style={{ color: "var(--black)" }}>Move History</h3>
           <div className="space-y-1 text-xs font-mono">
             {moveHistory.length === 0 && <div style={{ color: "var(--gray, #777)" }} className="text-center">No moves yet</div>}
             {moveHistory.map((move, idx) => (
               <div key={idx} className="flex justify-between items-center">
                 <span style={{ color: "var(--gray, #777)" }}>{idx + 1}.</span>
-                <span style={{ color: "var(--white, #fff)" }}>{move}</span>
+                <span style={{ color: "var(--black)" }}>{move}</span>
               </div>
             ))}
           </div>

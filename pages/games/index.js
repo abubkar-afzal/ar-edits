@@ -8,28 +8,28 @@ import { FaGamepad, FaChess } from "react-icons/fa";
 const games = [
   {
     slug: "snake",
-    title: "3D Snake",
+    title: "Snake",
     icon: <FaGamepad />,
-    desc: "Classic snake game in 3D with glowing effects.",
+    desc: "Classic snake game in with glowing effects.",
     color: "#22c55e",
   },
   {
     slug: "chess",
-    title: "3D Chess",
+    title: "Chess",
     icon: <FaChess />,
-    desc: "Play chess in 3D with friends or against AI.",
+    desc: "Play chess in with friends or against AI.",
     color: "#3b82f6",
   },
   {
     slug: "tic-tac-toe",
-    title: "3D Tic Tac Toe",
+    title: "Tic Tac Toe",
     icon: <FaGamepad />,
-    desc: "Classic tic-tac-toe in 3D with AI.",
+    desc: "Classic tic-tac-toe in with AI.",
     color: "#f59e0b",
   },
   {
     slug: "ludo",
-    title: "3D Ludo",
+    title: "Ludo",
     icon: <FaGamepad />,
     desc: "Play Ludo with AI or friends.",
     color: "#ef4444",
@@ -43,16 +43,16 @@ const games = [
   },
   {
     slug: "tennis",
-    title: "3D Tennis",
+    title: "Tennis",
     icon: <FaGamepad />,
-    desc: "Hit the ball in 3D tennis.",
+    desc: "Hit the ball in tennis.",
     color: "#ec4899",
   },
   {
     slug: "golf",
-    title: "3D Golf",
+    title: "Golf",
     icon: <FaGamepad />,
-    desc: "Mini golf in 3D with putter.",
+    desc: "Mini golf in with putter.",
     color: "#06b6d4",
   },
 ];
@@ -67,9 +67,9 @@ export default function Games() {
         transition={{ duration: 0.6 }}
         className="max-w-7xl mx-auto px-4 py-20"
       >
-        <h1 className="text-4xl font-bold mb-4" style={{ color: "var(--black)" }}>🎮 Games</h1>
+        <h1 className="text-4xl font-bold mb-4" style={{ color: "var(--black)" }}> Games</h1>
         <p className="text-lg mb-10" style={{ color: "var(--gray)" }}>
-          Take a break and play some 3D games built with Three.js.
+          Take a break and play games.
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
