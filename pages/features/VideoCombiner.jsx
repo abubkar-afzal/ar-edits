@@ -5,7 +5,7 @@ import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 import { motion } from "framer-motion";
 import { FaVideo, FaMusic, FaPlay, FaPause, FaExpand, FaCompress, FaUndo, FaRedo, FaTrash, FaExchangeAlt } from "react-icons/fa";
-import { generateThumbnail, formatDuration } from "../utils/generateThumbnail";
+import { generateThumbnail, formatDuration } from "../../utils/generateThumbnail";
 
 // ---------- Constants ----------
 const PIXELS_PER_SECOND = 150;

@@ -3,7 +3,7 @@
 import React, { useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { FaPlus, FaDownload, FaCompress, FaTrash, FaVideo, FaImage } from "react-icons/fa";
-import { generateThumbnail, formatDuration } from "../utils/generateThumbnail";
+import { generateThumbnail, formatDuration } from "../../utils/generateThumbnail";
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
