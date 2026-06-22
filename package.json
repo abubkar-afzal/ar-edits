@@ -20,7 +20,7 @@
     "chess.js": "^1.4.0",
     "framer-motion": "^12.40.0",
     "mediabunny": "^1.46.0",
-    "next": "16.0.1",
+    "next": "16.0.10",
     "next-video": "^2.8.1",
     "pixi.js": "^8.19.0",
     "react": "19.2.0",
