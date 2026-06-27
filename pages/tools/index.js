@@ -13,7 +13,7 @@ import {
 } from "react-icons/fi";
 
 const toolMeta = {
-  photo: { icon: <FiCamera size={32} />, color: "var(--blue)" },
+  photo: { icon: <FiCamera size={32} />, color: "var(--red)" },
   video: { icon: <FiVideo size={32} />, color: "var(--purple)" },
   audio: { icon: <FiMusic size={32} />, color: "var(--green)" },
   "video-to-audio": { icon: <FiSettings size={32} />, color: "var(--orange)" },
@@ -63,7 +63,7 @@ export default function Tools() {
             >
               <span
                 className="text-sm font-semibold tracking-widest uppercase mb-3 block"
-                style={{ color: "var(--blue)" }}
+                style={{ color: "var(--red)" }}
               >
                 Creative Suite
               </span>
@@ -82,7 +82,7 @@ export default function Tools() {
           <div className="max-w-7xl mx-auto">
             <div className="grid sm:grid-cols-1 t:grid-cols-2 l:grid-cols-3 gap-6">
               {tools.map((tool, idx) => {
-                const meta = toolMeta[tool.editorType] || { icon: <FiSettings size={32} />, color: "var(--blue)" };
+                const meta = toolMeta[tool.editorType] || { icon: <FiSettings size={32} />, color: "var(--red)" };
                 const isHovered = hoveredTool === tool.editorType;
 
                 return (
@@ -147,7 +147,7 @@ export default function Tools() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <FiZap size={36} className="mx-auto mb-4" style={{ color: "var(--blue)" }} />
+              <FiZap size={36} className="mx-auto mb-4" style={{ color: "var(--red)" }} />
               <h2 className="text-2xl md:text-3xl font-bold mb-3" style={{ color: "var(--black)" }}>
                 Ready to create?
               </h2>
@@ -160,7 +160,7 @@ export default function Tools() {
                 whileTap={{ scale: 0.96 }}
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className="px-6 py-3 rounded-full text-sm font-semibold flex items-center gap-2 "
-                style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}
+                style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
               >
                 <FiArrowRight size={16} /> Explore Tools
               </motion.button>

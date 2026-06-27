@@ -96,7 +96,7 @@ export default function ToolsSection() {
             >
               <div
                 className="text-4xl mb-3"
-                style={{ color: tool.type === "video-to-audio" ? "var(--yellow)" : "var(--blue)" }}
+                style={{ color: tool.type === "video-to-audio" ? "var(--yellow)" : "var(--red" }}
               >
                 {tool.icon}
               </div>

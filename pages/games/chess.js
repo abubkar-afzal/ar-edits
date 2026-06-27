@@ -345,9 +345,9 @@ export default function ChessGame() {
                                onClick={() => setMode(m)}
                                className="flex-1 py-2.5 rounded-xl font-medium text-sm flex items-center justify-center gap-2"
                                style={{
-                                 backgroundColor: mode === m ? "var(--blue, #3b82f6)" : "var(--white)",
+                                 backgroundColor: mode === m ? "var(--red, #3b82f6)" : "var(--white)",
                                  color: "var(--black)",
-                                 border: mode === m ? "2px solid var(--blue, #3b82f6)" : "2px solid transparent",
+                                 border: mode === m ? "2px solid var(--red, #3b82f6)" : "2px solid transparent",
                                }}>
                   {m === 'friend' ? <FaUserFriends /> : <FaRobot />}
                   {m === 'friend' ? 'Friend' : 'Computer'}
@@ -365,9 +365,9 @@ export default function ChessGame() {
                                  onClick={() => setDifficulty(d)}
                                  className="py-2 rounded-xl text-sm font-medium"
                                  style={{
-                                   backgroundColor: difficulty === d ? "var(--blue, #3b82f6)" : "var(--white)",
+                                   backgroundColor: difficulty === d ? "var(--red, #3b82f6)" : "var(--white)",
                                    color: "var(--black)",
-                                   border: difficulty === d ? "2px solid var(--blue, #3b82f6)" : "2px solid transparent",
+                                   border: difficulty === d ? "2px solid var(--red, #3b82f6)" : "2px solid transparent",
                                  }}>
                     {d === 'easy' ? '🟢 Easy' : d === 'normal' ? '🟡 Normal' : d === 'hard' ? '🟠 Hard' : '🔴 Pro'}
                   </motion.button>
@@ -388,9 +388,9 @@ export default function ChessGame() {
                                onClick={() => setPlayerColor(c.value)}
                                className="flex-1 py-3 rounded-xl text-sm font-medium flex items-center justify-center gap-2"
                                style={{
-                                 backgroundColor: playerColor === c.value ? "var(--blue, #3b82f6)" : "var(--white)",
+                                 backgroundColor: playerColor === c.value ? "var(--red, #3b82f6)" : "var(--white)",
                                  color: "var(--black)",
-                                 border: playerColor === c.value ? "2px solid var(--blue, #3b82f6)" : "2px solid transparent",
+                                 border: playerColor === c.value ? "2px solid var(--red, #3b82f6)" : "2px solid transparent",
                                }}>
                   {c.icon} {c.label}
                 </motion.button>
@@ -405,7 +405,7 @@ export default function ChessGame() {
                            startGame(finalColor);
                          }}
                          disabled={!playerColor}
-                         className="w-full py-3 rounded-xl font-bold text-lg shadow-lg"
+                         className="w-full py-3 rounded-xl font-bold text-lg shadow-lg cursor-pointer"
                          style={{
                            backgroundColor: playerColor ? "var(--green, #22c55e)" : "var(--white)",
                            color: "var(--black)",
@@ -413,6 +413,18 @@ export default function ChessGame() {
                          }}>
             Start Game
           </motion.button>
+          <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => router.push("/games")}
+                          className="w-full py-3 rounded-xl font-bold text-lg shadow-lg flex items-center justify-center my-2 mt-4 cursor-pointer"
+                          style={{
+                            backgroundColor: "var(--red)",
+                            color: "var(--white)",
+                          }}
+                        >
+                          <FaArrowLeft className="mx-2"/> Back to Games
+                        </motion.button>
         </motion.div>
       </div>
     );
@@ -469,7 +481,7 @@ export default function ChessGame() {
                   whileTap={{ scale: 0.95 }}
                   onClick={goToSetup}
                   className="px-6 py-3 rounded-xl font-bold shadow-lg"
-                  style={{ backgroundColor: "var(--blue, #3b82f6)", color: "var(--black)" }}
+                  style={{ backgroundColor: "var(--red, #3b82f6)", color: "var(--black)" }}
                 >
                   Play Again
                 </motion.button>
@@ -515,11 +527,11 @@ export default function ChessGame() {
                           className="absolute right-0 mt-2 w-48 rounded-xl shadow-2xl z-50 overflow-hidden"
                           style={{ backgroundColor: "var(--white)", border: "1px solid var(--darkgray, #333)" }}>
                 <button onClick={() => handleModeSwitch('friend')} className="w-full px-4 py-3 text-left text-sm font-medium flex items-center gap-3"
-                        style={{ color: "var(--black)", backgroundColor: mode === 'friend' ? "var(--blue, #3b82f6)" : "transparent" }}>
+                        style={{ color: "var(--black)", backgroundColor: mode === 'friend' ? "var(--red, #3b82f6)" : "transparent" }}>
                   <FaUserFriends /> Friend
                 </button>
                 <button onClick={() => handleModeSwitch('ai')} className="w-full px-4 py-3 text-left text-sm font-medium flex items-center gap-3"
-                        style={{ color: "var(--black)", backgroundColor: mode === 'ai' ? "var(--blue, #3b82f6)" : "transparent" }}>
+                        style={{ color: "var(--black)", backgroundColor: mode === 'ai' ? "var(--red, #3b82f6)" : "transparent" }}>
                   <FaRobot /> Computer
                 </button>
                 {mode === 'ai' && (
@@ -529,7 +541,7 @@ export default function ChessGame() {
                       {['easy', 'normal', 'hard', 'pro'].map(d => (
                         <button key={d} onClick={() => { setDifficulty(d); setShowMenu(false); }}
                                 className="py-1.5 rounded-lg text-xs font-medium"
-                                style={{ backgroundColor: difficulty === d ? "var(--blue, #3b82f6)" : "var(--white)", color: "var(--black)" }}>
+                                style={{ backgroundColor: difficulty === d ? "var(--red, #3b82f6)" : "var(--white)", color: "var(--black)" }}>
                           {d === 'easy' ? '🟢' : d === 'normal' ? '🟡' : d === 'hard' ? '🟠' : '🔴'} {d}
                         </button>
                       ))}

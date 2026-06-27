@@ -370,13 +370,25 @@ export default function SnakeGame() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={startGame}
-                className="w-full py-3 rounded-xl font-bold text-lg shadow-lg"
+                className="w-full py-3 rounded-xl font-bold text-lg shadow-lg cursor-pointer"
                 style={{
                   backgroundColor: "var(--green, #22c55e)",
                   color: "var(--black)",
                 }}
               >
                 Start Game
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => router.push("/games")}
+                className="w-full py-3 rounded-xl font-bold text-lg shadow-lg flex items-center justify-center my-2 mt-4 cursor-pointer"
+                style={{
+                  backgroundColor: "var(--red)",
+                  color: "var(--white)",
+                }}
+              >
+                <FaArrowLeft className="mx-2"/> Back to Games
               </motion.button>
             </motion.div>
           </motion.div>
@@ -499,7 +511,7 @@ export default function SnakeGame() {
                   }}
                   className="px-6 py-2 rounded-full font-medium shadow-lg"
                   style={{
-                    backgroundColor: "var(--blue, #3b82f6)",
+                    backgroundColor: "var(--red, #3b82f6)",
                     color: "var(--black)",
                   }}
                 >

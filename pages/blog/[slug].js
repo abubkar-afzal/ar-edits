@@ -47,13 +47,13 @@ function ShareButtons({ title, slug }) {
       icon: <FaTwitter size={18} />,
       label: "Twitter",
       href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
-      color: "var(--blue)",
+      color: "var(--red)",
     },
     {
       icon: <FaLinkedin size={18} />,
       label: "LinkedIn",
       href: `https://linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-      color: "var(--blue)",
+      color: "var(--red)",
     },
     {
       icon: <FaWhatsapp size={18} />,
@@ -133,7 +133,7 @@ export default function BlogPost({ post }) {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               className="inline-block px-6 py-3 rounded-full text-sm font-semibold"
-              style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}
+              style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
             >
               ← Back to Blog
             </motion.span>
@@ -181,7 +181,7 @@ export default function BlogPost({ post }) {
             <motion.span
               whileHover={{ x: -3 }}
               className="inline-flex items-center gap-1 text-sm font-medium mb-6 cursor-pointer"
-              style={{ color: "var(--blue)" }}
+              style={{ color: "var(--red)" }}
             >
               <FiArrowLeft size={16} /> Back to Blog
             </motion.span>
@@ -218,7 +218,7 @@ export default function BlogPost({ post }) {
               className="p-5 rounded-2xl border-l-4 mb-8 text-base italic"
               style={{
                 backgroundColor: "var(--lightgray)",
-                borderLeftColor: "var(--blue)",
+                borderLeftColor: "var(--red)",
                 color: "var(--black)",
               }}
             >
@@ -326,8 +326,8 @@ export default function BlogPost({ post }) {
                   </h4>
                   <div className="flex flex-col gap-2">
                     {[
-                      { icon: <FaTwitter size={16} />, label: "Twitter", href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=https://ar-studio-five.vercel.app/blog/${post.slug}`, color: "var(--blue)" },
-                      { icon: <FaLinkedin size={16} />, label: "LinkedIn", href: `https://linkedin.com/sharing/share-offsite/?url=https://ar-studio-five.vercel.app/blog/${post.slug}`, color: "var(--blue)" },
+                      { icon: <FaTwitter size={16} />, label: "Twitter", href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=https://ar-studio-five.vercel.app/blog/${post.slug}`, color: "var(--red)" },
+                      { icon: <FaLinkedin size={16} />, label: "LinkedIn", href: `https://linkedin.com/sharing/share-offsite/?url=https://ar-studio-five.vercel.app/blog/${post.slug}`, color: "var(--red)" },
                       { icon: <FaWhatsapp size={16} />, label: "WhatsApp", href: `https://wa.me/?text=${encodeURIComponent(post.title + " https://ar-studio-five.vercel.app/blog/" + post.slug)}`, color: "var(--green)" },
                     ].map((link, idx) => (
                       <motion.a
@@ -391,7 +391,7 @@ export default function BlogPost({ post }) {
                       <p className="text-xs mb-3 line-clamp-2" style={{ color: "var(--gray)" }}>
                         {related.excerpt}
                       </p>
-                      <span className="text-xs flex items-center gap-1 font-medium" style={{ color: "var(--blue)" }}>
+                      <span className="text-xs flex items-center gap-1 font-medium" style={{ color: "var(--red)" }}>
                         Read more <FiChevronRight size={14} />
                       </span>
                     </div>

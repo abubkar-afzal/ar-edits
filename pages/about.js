@@ -33,12 +33,12 @@ export default function About() {
       icon: <FiTarget size={28} />,
       title: "User Focused",
       desc: "Every feature is designed with simplicity and usability in mind. No learning curve required.",
-      color: "var(--blue)",
+      color: "var(--red)",
     },
   ];
 
   const tools = [
-    { icon: <FiCamera size={32} />, title: "Photo Tools", desc: "Crop, filter, adjust, and enhance your images with professional-grade tools.", color: "var(--blue)" },
+    { icon: <FiCamera size={32} />, title: "Photo Tools", desc: "Crop, filter, adjust, and enhance your images with professional-grade tools.", color: "var(--red)" },
     { icon: <FiVideo size={32} />, title: "Video Tools", desc: "Combine clips, create collages, and compress videos without losing quality.", color: "var(--purple)" },
     { icon: <FiMusic size={32} />, title: "Audio Tools", desc: "Edit, convert, and extract audio with precision and ease.", color: "var(--green)" },
   ];
@@ -57,7 +57,7 @@ export default function About() {
           >
             <span
               className="text-sm font-semibold tracking-widest uppercase mb-3 block"
-              style={{ color: "var(--blue)" }}
+              style={{ color: "var(--red)" }}
             >
               Our Story
             </span>
@@ -86,7 +86,7 @@ export default function About() {
               className="p-5 rounded-2xl text-center"
               style={{ backgroundColor: "var(--lightgray)" }}
             >
-              <div className="flex justify-center mb-2" style={{ color: "var(--blue)" }}>
+              <div className="flex justify-center mb-2" style={{ color: "var(--red)" }}>
                 {stat.icon}
               </div>
               <h3 className="text-2xl font-bold" style={{ color: "var(--black)" }}>{stat.value}</h3>
@@ -107,7 +107,7 @@ export default function About() {
           >
             <span
               className="text-sm font-semibold tracking-widest uppercase mb-2 block"
-              style={{ color: "var(--blue)" }}
+              style={{ color: "var(--red)" }}
             >
               Our Mission
             </span>
@@ -135,7 +135,7 @@ export default function About() {
           >
             <span
               className="text-sm font-semibold tracking-widest uppercase mb-2 block"
-              style={{ color: "var(--blue)" }}
+              style={{ color: "var(--red)" }}
             >
               What We Stand For
             </span>
@@ -180,7 +180,7 @@ export default function About() {
           >
             <span
               className="text-sm font-semibold tracking-widest uppercase mb-2 block"
-              style={{ color: "var(--blue)" }}
+              style={{ color: "var(--red)" }}
             >
               What We Offer
             </span>
@@ -215,7 +215,7 @@ export default function About() {
       </section>
 
       {/* ─── CTA ───────────────────────────────────────────── */}
-      <section className="py-16 px-4" style={{ backgroundColor: "var(--blue)" }}>
+      <section className="py-16 px-4" style={{ backgroundColor: "var(--red)" }}>
         <div className="max-w-3xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -234,7 +234,7 @@ export default function About() {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               className="inline-flex px-6 py-3 rounded-full text-sm font-semibold items-center gap-2"
-              style={{ backgroundColor: "var(--white)", color: "var(--blue)" }}
+              style={{ backgroundColor: "var(--white)", color: "var(--red)" }}
             >
               Explore Tools <FiArrowRight size={16} />
             </motion.a>

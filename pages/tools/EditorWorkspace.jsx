@@ -1,7 +1,18 @@
 // components/EditorWorkspace.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaExpand, FaSignOutAlt, FaCamera, FaVideo, FaMusic, FaExchangeAlt, FaImages, FaFilm, FaCompress } from "react-icons/fa";
+import {
+  FaExpand,
+  FaCompress,
+  FaSignOutAlt,
+  FaCamera,
+  FaVideo,
+  FaMusic,
+  FaExchangeAlt,
+  FaImages,
+  FaFilm,
+  FaCompress as FaCompressIcon,
+} from "react-icons/fa";
 import PhotoEditor from "./PhotoEditor";
 import VideoCombiner from "./VideoCombiner";
 import AudioEditor from "./AudioEditor";
@@ -11,12 +22,24 @@ import VideoCollageEditor from "./VideoCollageEditor";
 import MediaCompressor from "./MediaCompressor";
 
 export default function EditorWorkspace({ type, onExit }) {
-  const [error, setError] = useState(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const requestFullscreen = () => {
-    const el = document.fullscreenElement || document.documentElement;
-    if (el.requestFullscreen) {
-      el.requestFullscreen().catch((e) => setError("Fullscreen denied. Please click the button."));
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      const el = document.documentElement;
+      el.requestFullscreen?.().catch(() => {});
+    } else {
+      document.exitFullscreen?.().catch(() => {});
     }
   };
 
@@ -33,16 +56,6 @@ export default function EditorWorkspace({ type, onExit }) {
     }
   };
 
-  const editorNames = {
-    photo: "Photo Editor",
-    video: "Video Combinor",
-    audio: "Audio Editor",
-    "video-to-audio": "Video to Audio Converter",
-    "photo-collage": "Photo Collage",
-    "video-collage": "Video Collage",
-    "media-compressor": "Media Compressor",
-  };
-
   const editorIcons = {
     photo: <FaCamera />,
     video: <FaVideo />,
@@ -50,7 +63,7 @@ export default function EditorWorkspace({ type, onExit }) {
     "video-to-audio": <FaExchangeAlt />,
     "photo-collage": <FaImages />,
     "video-collage": <FaFilm />,
-    "media-compressor": <FaCompress />,
+    "media-compressor": <FaCompressIcon />,
   };
 
   return (
@@ -67,21 +80,25 @@ export default function EditorWorkspace({ type, onExit }) {
           borderBottom: "1px solid var(--darkgray, #374151)",
         }}
       >
-        <h2
-          className="text-lg mm:text-xl font-bold flex items-center gap-2"
-          style={{ color: "var(--black, #111827)" }}
-        >
-          {editorIcons[type]} {editorNames[type] || "Editor"}
-        </h2>
-        <div className="flex gap-2 mm:gap-4">
+        
+
+        <div className="flex flex-row gap-2 mm:gap-4 items-center justify-between w-full">
           <motion.button
-            onClick={requestFullscreen}
+            onClick={toggleFullscreen}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="px-3 py-1.5 mm:px-4 mm:py-2 rounded-lg text-sm font-medium cursor-pointer flex items-center gap-1"
-            style={{ backgroundColor: "var(--blue, #3b82f6)", color: "var(--white, #ffffff)" }}
+            style={{ backgroundColor: "var(--red, #3b82f6)", color: "var(--white, #ffffff)" }}
           >
-            <FaExpand /> Enter Fullscreen
+            {isFullscreen ? (
+              <>
+                <FaCompress /> Exit Fullscreen
+              </>
+            ) : (
+              <>
+                <FaExpand /> Enter Fullscreen
+              </>
+            )}
           </motion.button>
           <motion.button
             onClick={onExit}
@@ -95,17 +112,7 @@ export default function EditorWorkspace({ type, onExit }) {
         </div>
       </motion.div>
 
-      <div className="flex-1 mt-14 mm:mt-16 overflow-auto p-2 mm:p-4">
-        {error && (
-          <div
-            className="p-2 text-center rounded-lg mb-2"
-            style={{ backgroundColor: "var(--red, #ef4444)", color: "var(--white, #ffffff)" }}
-          >
-            {error}
-          </div>
-        )}
-        {renderEditor()}
-      </div>
+      {renderEditor()}
     </div>
   );
 }

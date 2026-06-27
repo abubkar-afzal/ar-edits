@@ -33,9 +33,9 @@ export default function GolfGame() {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => router.push("/games")}
-          className="px-6 py-3 rounded-xl font-bold shadow-lg flex items-center justify-center gap-2 mx-auto"
+          className="px-6 py-3 rounded-xl font-bold shadow-lg flex items-center justify-center gap-2 mx-auto cursor-pointer"
           style={{
-            backgroundColor: "var(--blue, #3b82f6)",
+            backgroundColor: "var(--red, #3b82f6)",
             color: "var(--black)",
           }}
         >

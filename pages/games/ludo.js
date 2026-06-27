@@ -374,23 +374,23 @@ export default function LudoGame() {
     const activeColors = ["green", "red", "blue", "yellow"].slice(0, playerCount);
     return (
       <div className="flex flex-col items-center justify-center h-screen p-4" style={{ backgroundColor: "var(--white)" }}>
-        <motion.div initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} className="w-full max-w-md p-4 sm:p-6 rounded-2xl shadow-2xl" style={{ backgroundColor:"var(--gray-800, #2a2a2a)", border:"1px solid var(--darkgray, #333)", color:"var(--white, #fff)" }}>
+        <motion.div initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} className="w-full max-w-md p-4 sm:p-6 rounded-2xl shadow-2xl h-[90vh] overflow-y-scroll" style={{ backgroundColor:"var(--white)", border:"1px solid var(--darkgray, #333)", color:"var(--black)" }}>
           <h2 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6">🎲 Ludo</h2>
           <div className="mb-4 sm:mb-5">
-            <p className="text-xs sm:text-sm mb-2 font-medium" style={{ color:"var(--gray, #aaa)" }}>Players</p>
+            <p className="text-xs sm:text-sm mb-2 font-medium" style={{ color:"var(--black)" }}>Players</p>
             <div className="flex gap-2">
               {[2,3,4].map(n => (
-                <motion.button key={n} whileHover={{ scale:1.03 }} whileTap={{ scale:0.97 }} onClick={()=>setPlayerCount(n)} className="flex-1 py-2 sm:py-2.5 rounded-xl font-medium text-sm" style={{ backgroundColor: playerCount===n ? "var(--blue, #3b82f6)" : "var(--white)", color:"var(--white, #fff)" }}>
+                <motion.button key={n} whileHover={{ scale:1.03 }} whileTap={{ scale:0.97 }} onClick={()=>setPlayerCount(n)} className="flex-1 py-2 sm:py-2.5 rounded-xl font-medium text-sm" style={{ backgroundColor: playerCount===n ? "var(--red, #3b82f6)" : "var(--white)", color:playerCount===n ? "var(--white)" : "var(--black)" }}>
                   {n}
                 </motion.button>
               ))}
             </div>
           </div>
           <div className="mb-4 sm:mb-5">
-            <p className="text-xs sm:text-sm mb-2 font-medium" style={{ color:"var(--gray, #aaa)" }}>Mode</p>
+            <p className="text-xs sm:text-sm mb-2 font-medium" style={{ color:"var(--black)" }}>Mode</p>
             <div className="flex gap-2">
               {["friend","ai"].map(m => (
-                <motion.button key={m} whileHover={{ scale:1.03 }} whileTap={{ scale:0.97 }} onClick={()=>setMode(m)} className="flex-1 py-2 sm:py-2.5 rounded-xl font-medium text-sm flex items-center justify-center gap-2" style={{ backgroundColor: mode===m ? "var(--blue, #3b82f6)" : "var(--white)", color:"var(--white, #fff)" }}>
+                <motion.button key={m} whileHover={{ scale:1.03 }} whileTap={{ scale:0.97 }} onClick={()=>setMode(m)} className="flex-1 py-2 sm:py-2.5 rounded-xl font-medium text-sm flex items-center justify-center gap-2" style={{ backgroundColor: mode===m ? "var(--red, #3b82f6)" : "var(--white)", color:"var(--white, #fff)" }}>
                   {m==="friend" ? <FaUserFriends/> : <FaRobot/>}
                   {m==="friend" ? "Friend" : "Computer"}
                 </motion.button>
@@ -399,7 +399,7 @@ export default function LudoGame() {
           </div>
           {activeColors.map(color => (
             <div key={color} className="mb-3 sm:mb-4">
-              <p className="text-xs sm:text-sm mb-1 font-medium" style={{ color:"var(--gray, #aaa)" }}>{color.charAt(0).toUpperCase()+color.slice(1)} color</p>
+              <p className="text-xs sm:text-sm mb-1 font-medium" style={{ color:"var(--black)" }}>{color.charAt(0).toUpperCase()+color.slice(1)} color</p>
               <div className="flex gap-2 flex-wrap">
                 {COLOR_OPTIONS.map(c => {
                   const isSelected = playerColors[color] === c;
@@ -410,7 +410,19 @@ export default function LudoGame() {
               </div>
             </div>
           ))}
-          <motion.button whileHover={{ scale:1.02 }} whileTap={{ scale:0.95 }} onClick={()=>{ initGame(); setPhase("playing"); }} className="w-full py-2.5 sm:py-3 rounded-xl font-bold text-base sm:text-lg shadow-lg" style={{ backgroundColor:"var(--green, #22c55e)", color:"var(--white, #fff)" }}>Start Game</motion.button>
+          <motion.button whileHover={{ scale:1.02 }} whileTap={{ scale:0.95 }} onClick={()=>{ initGame(); setPhase("playing"); }} className="w-full py-2.5 sm:py-3 rounded-xl font-bold text-base sm:text-lg shadow-lg cursor-pointer" style={{ backgroundColor:"var(--green, #22c55e)", color:"var(--white, #fff)" }}>Start Game</motion.button>
+          <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => router.push("/games")}
+                          className="w-full py-3 rounded-xl font-bold text-lg shadow-lg flex items-center justify-center my-2 mt-4 cursor-pointer"
+                          style={{
+                            backgroundColor: "var(--red)",
+                            color: "var(--white)",
+                          }}
+                        >
+                          <FaArrowLeft className="mx-2"/> Back to Games
+                        </motion.button>
         </motion.div>
       </div>
     );
@@ -634,7 +646,7 @@ export default function LudoGame() {
       </div>
 
       {lastMove && (
-        <div className="mt-1 text-[10px] sm:text-xs font-medium text-center" style={{ color:"var(--gray, #aaa)" }}>
+        <div className="mt-1 text-[10px] sm:text-xs font-medium text-center" style={{ color:"var(--black)" }}>
           Last: {lastMove.player} rolled {lastMove.dice}
         </div>
       )}
@@ -644,7 +656,7 @@ export default function LudoGame() {
           <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }} className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor:"rgba(0,0,0,0.6)" }}>
             <motion.div initial={{ scale:0.9 }} animate={{ scale:1 }} exit={{ scale:0.9 }} className="bg-[var(--gray-800)] p-6 rounded-2xl shadow-2xl border border-[var(--darkgray)] text-center">
               <h2 className="text-xl sm:text-2xl font-bold mb-4" style={{ color:"var(--white)" }}>🏆 {winner} Wins!</h2>
-              <motion.button whileHover={{ scale:1.02 }} whileTap={{ scale:0.95 }} onClick={()=>{ setPhase("setup"); setGameOver(false); }} className="px-5 py-2 sm:px-6 sm:py-2 rounded-xl bg-[var(--blue)] text-white font-bold">Play Again</motion.button>
+              <motion.button whileHover={{ scale:1.02 }} whileTap={{ scale:0.95 }} onClick={()=>{ setPhase("setup"); setGameOver(false); }} className="px-5 py-2 sm:px-6 sm:py-2 rounded-xl bg-[var(--red)] text-white font-bold">Play Again</motion.button>
             </motion.div>
           </motion.div>
         )}

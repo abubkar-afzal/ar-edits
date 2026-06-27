@@ -46,7 +46,7 @@ export default function Footer() {
               className="text-xs"
               style={{ color: "var(--muted)" }}
             >
-              &copy; {new Date().getFullYear()} All rights reserved.
+              {`© ${new Date().getFullYear()} AR Studio. All rights reserved.`}
             </span>
           </div>
 

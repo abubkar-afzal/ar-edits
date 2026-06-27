@@ -40,7 +40,7 @@ function ScrollToTop() {
           exit={{ opacity: 0, scale: 0.5 }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full flex items-center justify-center shadow-xl cursor-pointer"
-          style={{ backgroundColor: "var(--blue)", boxShadow: "0 8px 24px rgba(37, 99, 235, 0.3)" }}
+          style={{ backgroundColor: "var(--red)", boxShadow: "0 8px 24px rgba(37, 99, 235, 0.3)" }}
           whileHover={{ scale: 1.1, rotate: 360 }}
           whileTap={{ scale: 0.9 }}
           transition={{ rotate: { duration: 0.5 } }}
@@ -100,14 +100,14 @@ function FeedbackModal({ isOpen, onClose }) {
       <motion.div initial={{ opacity: 0, scale: 0.9, y: 30 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 30 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }} className="rounded-2xl shadow-2xl p-8 w-full max-w-md" style={{ backgroundColor: "var(--white)" }}>
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}><FiMessageCircle size={20} /></div>
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "var(--red)", color: "var(--white)" }}><FiMessageCircle size={20} /></div>
           <h2 className="text-xl font-bold" style={{ color: "var(--black)" }}>Send Feedback</h2>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           {[{ type: "text", placeholder: "Your Name", value: name, setter: setName }, { type: "email", placeholder: "Your Email", value: email, setter: setEmail }].map((f, i) => (
             <input key={i} type={f.type} placeholder={f.placeholder} value={f.value} onChange={(e) => f.setter(e.target.value)} required
               className="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-2"
-              style={{ backgroundColor: "var(--lightgray)", borderColor: "var(--border)", color: "var(--black)", "--tw-ring-color": "var(--blue)" }} />
+              style={{ backgroundColor: "var(--lightgray)", borderColor: "var(--border)", color: "var(--black)", "--tw-ring-color": "var(--red)" }} />
           ))}
           <textarea placeholder="Your Message" value={message} onChange={(e) => setMessage(e.target.value)} required rows={4}
             className="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none focus:ring-2 resize-none"
@@ -115,7 +115,7 @@ function FeedbackModal({ isOpen, onClose }) {
           <div className="flex gap-3 justify-end pt-2">
             <button type="button" onClick={onClose} className="px-5 py-2.5 rounded-xl text-sm font-medium hover:opacity-70" style={{ color: "var(--gray)" }}>Cancel</button>
             <motion.button type="submit" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-              className="px-6 py-2.5 rounded-xl flex items-center gap-2 text-sm font-semibold" style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}>
+              className="px-6 py-2.5 rounded-xl flex items-center gap-2 text-sm font-semibold" style={{ backgroundColor: "var(--red)", color: "var(--white)" }}>
               <FiSend size={16} /> Send via WhatsApp
             </motion.button>
           </div>
@@ -153,7 +153,7 @@ export default function Home() {
     "video-collage": <FiVideo size={26} />, "media-compressor": <FiDownload size={26} />,
   };
   const toolColors = {
-    photo: "var(--blue)", video: "var(--purple)", audio: "var(--green)",
+    photo: "var(--red)", video: "var(--purple)", audio: "var(--green)",
     "video-to-audio": "var(--orange)", "photo-collage": "var(--pink)",
     "video-collage": "var(--cyan)", "media-compressor": "var(--teal)",
   };
@@ -173,7 +173,7 @@ export default function Home() {
             <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { icon: <FiUsers size={28} />, end: 10842, suffix: "+", label: "Active Users", color: "var(--blue)" },
+                { icon: <FiUsers size={28} />, end: 10842, suffix: "+", label: "Active Users", color: "var(--red)" },
                 { icon: <FiAward size={28} />, end: 7, suffix: "+", label: "Tools", color: "var(--purple)" },
                 { icon: <FiActivity size={28} />, end: 124500, suffix: "+", label: "Files Processed", color: "var(--green)" },
                 { icon: <FiStar size={28} />, end: 4.9, suffix: "", label: "Rating", color: "var(--orange)", decimals: true },
@@ -197,17 +197,17 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════ */}
         <section id="how-it-works" className="py-24 px-4 relative overflow-hidden" style={{ backgroundColor: "var(--white)" }}>
           <div className="absolute inset-0 pointer-events-none">
-            <motion.div className="absolute w-[600px] h-[600px] rounded-full blur-[150px]" style={{ background: "linear-gradient(135deg, var(--blue), var(--purple))", top: "20%", left: "-15%", opacity: 0.04 }}
+            <motion.div className="absolute w-[600px] h-[600px] rounded-full blur-[150px]" style={{ background: "linear-gradient(135deg, var(--red), var(--purple))", top: "20%", left: "-15%", opacity: 0.04 }}
               animate={{ scale: [1, 1.2, 1], x: [0, 40, 0] }} transition={{ duration: 15, repeat: Infinity }} />
           </div>
           <div className="max-w-5xl mx-auto relative z-10">
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-              <span className="text-sm font-bold tracking-widest uppercase mb-3 block" style={{ color: "var(--blue)" }}>Simple Process</span>
+              <span className="text-sm font-bold tracking-widest uppercase mb-3 block" style={{ color: "var(--red)" }}>Simple Process</span>
               <h2 className="text-4xl md:text-6xl font-black" style={{ color: "var(--black)" }}>How It Works</h2>
             </motion.div>
             <div className="space-y-16">
               {[
-                { step: "01", icon: <FiMousePointer size={28} />, title: "Choose a Tool", desc: "Browse our collection of free, professional‑grade creative tools.", color: "var(--blue)" },
+                { step: "01", icon: <FiMousePointer size={28} />, title: "Choose a Tool", desc: "Browse our collection of free, professional‑grade creative tools.", color: "var(--red)" },
                 { step: "02", icon: <FiCpu size={28} />, title: "Edit in Browser", desc: "No downloads, no signups — edit photos, videos & audio right here.", color: "var(--purple)" },
                 { step: "03", icon: <FiDownload size={28} />, title: "Export & Share", desc: "Download your work or share it instantly. Completely free.", color: "var(--green)" },
               ].map((item, idx) => (
@@ -242,10 +242,10 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════ */}
         <section id="tools" className="py-24 px-4 relative" style={{ backgroundColor: "var(--lightgray)" }}>
           <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
-            style={{ backgroundImage: "radial-gradient(circle, var(--blue) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+            style={{ backgroundImage: "radial-gradient(circle, var(--red) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
           <div className="max-w-7xl mx-auto relative z-10">
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-              <span className="text-sm font-bold tracking-widest uppercase mb-3 block" style={{ color: "var(--blue)" }}>Creative Suite</span>
+              <span className="text-sm font-bold tracking-widest uppercase mb-3 block" style={{ color: "var(--red)" }}>Creative Suite</span>
               <h2 className="text-4xl md:text-6xl font-black" style={{ color: "var(--black)" }}>Featured Tools</h2>
             </motion.div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -275,7 +275,7 @@ export default function Home() {
               <Link href="/tools">
                 <motion.span whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold cursor-pointer shadow-xl"
-                  style={{ backgroundColor: "var(--blue)", color: "var(--white)", boxShadow: "0 8px 32px rgba(37,99,235,0.3)" }}>
+                  style={{ backgroundColor: "var(--red)", color: "var(--white)", boxShadow: "0 8px 32px rgba(37,99,235,0.3)" }}>
                   View All Tools <FiArrowRight size={20} />
                 </motion.span>
               </Link>
@@ -289,12 +289,12 @@ export default function Home() {
         <section className="py-24 px-4 relative overflow-hidden" style={{ backgroundColor: "var(--white)" }}>
           <div className="max-w-6xl mx-auto">
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-              <span className="text-sm font-bold tracking-widest uppercase mb-3 block" style={{ color: "var(--blue)" }}>Why AR Studio</span>
+              <span className="text-sm font-bold tracking-widest uppercase mb-3 block" style={{ color: "var(--red)" }}>Why AR Studio</span>
               <h2 className="text-4xl md:text-6xl font-black" style={{ color: "var(--black)" }}>Built Different</h2>
             </motion.div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
-                { icon: <FiZap size={36} />, title: "Lightning Fast", desc: "All processing happens right in your browser. No uploads, no waiting.", color: "var(--blue)" },
+                { icon: <FiZap size={36} />, title: "Lightning Fast", desc: "All processing happens right in your browser. No uploads, no waiting.", color: "var(--red)" },
                 { icon: <FiShield size={36} />, title: "100% Private", desc: "Your files never leave your device. Complete privacy guaranteed.", color: "var(--green)" },
                 { icon: <FiLayers size={36} />, title: "No Limits", desc: "No watermarks, no file size limits, no forced signups. Ever.", color: "var(--purple)" },
               ].map((item, idx) => (
@@ -322,12 +322,12 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════ */}
         <section className="py-24 px-4 relative overflow-hidden" style={{ backgroundColor: "var(--lightgray)" }}>
           <div className="absolute inset-0 pointer-events-none">
-            <motion.div className="absolute w-[500px] h-[500px] rounded-full blur-[120px]" style={{ background: "linear-gradient(135deg, var(--blue), var(--purple))", bottom: "-10%", right: "-10%", opacity: 0.06 }}
+            <motion.div className="absolute w-[500px] h-[500px] rounded-full blur-[120px]" style={{ background: "linear-gradient(135deg, var(--red), var(--purple))", bottom: "-10%", right: "-10%", opacity: 0.06 }}
               animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 12, repeat: Infinity }} />
           </div>
           <div className="max-w-5xl mx-auto relative z-10">
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-              <span className="text-sm font-bold tracking-widest uppercase mb-3 block" style={{ color: "var(--blue)" }}>Testimonials</span>
+              <span className="text-sm font-bold tracking-widest uppercase mb-3 block" style={{ color: "var(--red)" }}>Testimonials</span>
               <h2 className="text-4xl md:text-6xl font-black" style={{ color: "var(--black)" }}>What Users Say</h2>
             </motion.div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -340,7 +340,7 @@ export default function Home() {
                   whileHover={{ y: -10, scale: 1.03 }} className="p-8 rounded-3xl border shadow-xl text-center relative"
                   style={{ backgroundColor: "var(--white)", borderColor: "var(--border)" }}>
                   <div className="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full flex items-center justify-center shadow-lg"
-                    style={{ background: "linear-gradient(135deg, var(--blue), var(--purple))" }}>
+                    style={{ background: "linear-gradient(135deg, var(--red), var(--purple))" }}>
                     <FiStar size={16} style={{ color: "var(--white)" }} />
                   </div>
                   <div className="flex justify-center gap-1 mb-5 mt-3">
@@ -348,7 +348,7 @@ export default function Home() {
                   </div>
                   <p className="text-base italic mb-6 leading-relaxed" style={{ color: "var(--black)" }}>"{t.quote}"</p>
                   <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3 text-xl font-black"
-                    style={{ background: "linear-gradient(135deg, var(--blue), var(--purple))", color: "var(--white)" }}>{t.author.charAt(0)}</div>
+                    style={{ background: "linear-gradient(135deg, var(--red), var(--purple))", color: "var(--white)" }}>{t.author.charAt(0)}</div>
                   <p className="font-bold text-sm" style={{ color: "var(--black)" }}>{t.author}</p>
                   <p className="text-xs" style={{ color: "var(--gray)" }}>{t.role}</p>
                 </motion.div>
@@ -384,7 +384,7 @@ export default function Home() {
     <motion.div
       className="absolute w-[500px] h-[500px] rounded-full blur-[130px]"
       style={{
-        background: "linear-gradient(135deg, var(--purple), var(--blue))",
+        background: "linear-gradient(135deg, var(--purple), var(--red))",
         bottom: "-10%",
         left: "-10%",
         opacity: 0.05,
@@ -415,7 +415,7 @@ export default function Home() {
     <div
       className="absolute inset-0 opacity-[0.025]"
       style={{
-        backgroundImage: "radial-gradient(circle at 20% 40%, var(--green) 1px, transparent 1px), radial-gradient(circle at 80% 70%, var(--blue) 1px, transparent 1px)",
+        backgroundImage: "radial-gradient(circle at 20% 40%, var(--green) 1px, transparent 1px), radial-gradient(circle at 80% 70%, var(--red) 1px, transparent 1px)",
         backgroundSize: "50px 50px, 40px 40px",
       }}
     />
@@ -571,7 +571,7 @@ export default function Home() {
               <motion.div
                 className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-base font-black shadow-xl cursor-pointer"
                 style={{
-                  background: "linear-gradient(135deg, var(--green), var(--blue))",
+                  background: "linear-gradient(135deg, var(--green), var(--red))",
                   color: "var(--white)",
                   boxShadow: "0 8px 32px rgba(34,197,94,0.3)",
                 }}
@@ -605,13 +605,13 @@ export default function Home() {
             >
               <div
                 className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-all duration-500"
-                style={{ background: "linear-gradient(135deg, var(--purple), var(--blue))" }}
+                style={{ background: "linear-gradient(135deg, var(--purple), var(--red))" }}
               />
               
               <div className="relative z-10 p-7 flex items-center gap-6 h-full">
                 <motion.div
                   className="w-20 h-20 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-xl"
-                  style={{ background: "linear-gradient(135deg, var(--purple), var(--blue))" }}
+                  style={{ background: "linear-gradient(135deg, var(--purple), var(--red))" }}
                   whileHover={{ scale: 1.1, rotate: -8 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
@@ -639,7 +639,7 @@ export default function Home() {
 
                 <motion.div
                   className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
-                  style={{ background: "linear-gradient(135deg, var(--purple), var(--blue))" }}
+                  style={{ background: "linear-gradient(135deg, var(--purple), var(--red))" }}
                   whileHover={{ scale: 1.1 }}
                 >
                   <FiArrowRight size={18} style={{ color: "var(--white)" }} />
@@ -739,7 +739,7 @@ export default function Home() {
           whileTap={{ scale: 0.94 }}
           className="px-10 py-5 rounded-full font-black text-lg inline-flex items-center gap-3 cursor-pointer shadow-2xl transition-all"
           style={{
-            background: "linear-gradient(135deg, var(--blue), var(--purple))",
+            background: "linear-gradient(135deg, var(--red), var(--purple))",
             color: "var(--white)",
             boxShadow: "0 12px 40px rgba(37,99,235,0.35)",
           }}
@@ -756,7 +756,7 @@ export default function Home() {
       
       {/* Trust text */}
       <p className="text-xs mt-4 font-medium" style={{ color: "var(--gray)" }}>
-        <FiZap size={12} className="inline mr-1" style={{ color: "var(--blue)" }} />
+        <FiZap size={12} className="inline mr-1" style={{ color: "var(--red)" }} />
         Free to play • No downloads • Instant fun
       </p>
     </motion.div>
@@ -768,7 +768,7 @@ export default function Home() {
         <section className="py-24 px-4 relative overflow-hidden" style={{ backgroundColor: "var(--white)" }}>
           <div className="max-w-6xl mx-auto">
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-              <span className="text-sm font-bold tracking-widest uppercase mb-3 block" style={{ color: "var(--blue)" }}>Learn & Explore</span>
+              <span className="text-sm font-bold tracking-widest uppercase mb-3 block" style={{ color: "var(--red)" }}>Learn & Explore</span>
               <h2 className="text-4xl md:text-6xl font-black" style={{ color: "var(--black)" }}>Latest Articles</h2>
             </motion.div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -781,7 +781,7 @@ export default function Home() {
                       <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                       <div className="absolute top-4 left-4">
-                        <span className="px-4 py-1.5 rounded-full text-xs font-bold" style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}>
+                        <span className="px-4 py-1.5 rounded-full text-xs font-bold" style={{ backgroundColor: "var(--red)", color: "var(--white)" }}>
                           {new Date(post.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                         </span>
                       </div>
@@ -789,7 +789,7 @@ export default function Home() {
                     <div className="p-6">
                       <h3 className="text-lg font-bold mb-2 line-clamp-2 group-hover:opacity-80 transition" style={{ color: "var(--black)" }}>{post.title}</h3>
                       <p className="text-sm mb-4 line-clamp-2 leading-relaxed" style={{ color: "var(--gray)" }}>{post.excerpt}</p>
-                      <div className="flex items-center gap-2 text-sm font-bold" style={{ color: "var(--blue)" }}>
+                      <div className="flex items-center gap-2 text-sm font-bold" style={{ color: "var(--red)" }}>
                         Read Article <FiArrowRight size={16} />
                       </div>
                     </div>
@@ -803,7 +803,7 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════ */}
         {/* CTA – Dotted Pattern */}
         {/* ═══════════════════════════════════════════════════════ */}
-        <section className="py-28 px-4 relative overflow-hidden" style={{ background: "linear-gradient(135deg, var(--blue), var(--purple))" }}>
+        <section className="py-28 px-4 relative overflow-hidden" style={{ background: "linear-gradient(135deg, var(--red), var(--purple))" }}>
           <motion.div className="absolute inset-0 opacity-[0.06]"
             style={{ backgroundImage: "radial-gradient(circle, var(--white) 1px, transparent 1px)", backgroundSize: "30px 30px" }} />
           <div className="max-w-4xl mx-auto text-center relative z-10">
@@ -817,7 +817,7 @@ export default function Home() {
                 <motion.button whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.94 }}
                   onClick={() => document.getElementById("tools")?.scrollIntoView({ behavior: "smooth" })}
                   className="px-9 py-4 rounded-full font-bold text-lg flex items-center gap-3 cursor-pointer shadow-2xl"
-                  style={{ backgroundColor: "var(--white)", color: "var(--blue)" }}>
+                  style={{ backgroundColor: "var(--white)", color: "var(--red)" }}>
                   <FiCommand size={22} /> Explore All Tools
                 </motion.button>
                 <motion.button whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.94 }}

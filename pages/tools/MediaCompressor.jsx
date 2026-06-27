@@ -1,37 +1,64 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from "react";
-import { motion } from "framer-motion";
-import { FaPlus, FaDownload, FaCompress, FaTrash, FaVideo, FaImage } from "react-icons/fa";
-import { generateThumbnail, formatDuration } from "../../utils/generateThumbnail";
+import React, { useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaPlus, FaDownload, FaCompress, FaTrash, FaVideo, FaImage, FaCloudUploadAlt, FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
 export default function MediaCompressor() {
   const [files, setFiles] = useState([]);
   const [compressingAll, setCompressingAll] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
 
   const allDone = files.length > 0 && files.every(f => f.status === 'done' || f.status === 'error');
+  const hasFiles = files.length > 0;
+
+  const generateThumbnail = (file) => {
+    return new Promise((resolve) => {
+      if (file.type.startsWith("video")) {
+        const video = document.createElement("video");
+        video.preload = "metadata";
+        video.muted = true;
+        video.playsInline = true;
+        const url = URL.createObjectURL(file);
+        video.src = url;
+        video.onloadeddata = () => {
+          video.currentTime = 1;
+        };
+        video.onseeked = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = 160;
+          canvas.height = 90;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          resolve(canvas.toDataURL("image/jpeg", 0.7));
+          URL.revokeObjectURL(url);
+        };
+        video.onerror = () => resolve(null);
+        setTimeout(() => resolve(null), 3000);
+      } else {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = () => resolve(null);
+        reader.readAsDataURL(file);
+      }
+    });
+  };
 
   const handleFileSelect = async (e) => {
     const selectedFiles = Array.from(e.target.files);
-    const newFiles = [];
+    await addFiles(selectedFiles);
+  };
 
+  const addFiles = async (selectedFiles) => {
+    const newFiles = [];
     for (const file of selectedFiles) {
       const id = generateId();
       const url = URL.createObjectURL(file);
       const type = file.type.startsWith("video") ? "video" : "image";
-      let thumbnail = null;
-
-      if (type === "video") {
-        try {
-          thumbnail = await generateThumbnail(file);
-        } catch (err) {
-          console.warn("Thumbnail generation failed", err);
-        }
-      }
-
+      const thumbnail = await generateThumbnail(file);
       newFiles.push({
         id,
         file,
@@ -47,14 +74,31 @@ export default function MediaCompressor() {
         progress: 0,
       });
     }
-
     setFiles((prev) => [...prev, ...newFiles]);
   };
 
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = async (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const droppedFiles = Array.from(e.dataTransfer.files);
+    const mediaFiles = droppedFiles.filter(f => f.type.startsWith("video") || f.type.startsWith("image"));
+    if (mediaFiles.length > 0) {
+      await addFiles(mediaFiles);
+    }
+  };
+
   const updateFileSetting = (id, key, value) => {
-    setFiles((prev) =>
-      prev.map((f) => (f.id === id ? { ...f, [key]: value } : f))
-    );
+    setFiles((prev) => prev.map((f) => (f.id === id ? { ...f, [key]: value } : f)));
   };
 
   const compressImage = (fileObj, onProgress) => {
@@ -188,163 +232,248 @@ export default function MediaCompressor() {
     files.forEach((f) => { if (f.status === "done") setTimeout(() => downloadFile(f), 100); });
   };
 
+  const removeFile = (id) => {
+    setFiles((prev) => prev.filter((f) => f.id !== id));
+  };
+
   const formatSize = (bytes) => {
+    if (!bytes) return "0 B";
     if (bytes < 1024) return bytes + " B";
     if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
     return (bytes / (1024 * 1024)).toFixed(1) + " MB";
   };
 
-  return (
-    <div className="flex flex-col h-full p-4 space-y-4 overflow-auto" style={{ backgroundColor: "var(--white)", color: "var(--black)" }}>
-      <h2 className="text-xl font-bold" style={{ color: "var(--blue)" }}>📦 Media Compressor</h2>
-      <p className="text-sm" style={{ color: "var(--gray)" }}>
-        Compress videos and images by adjusting quality/resolution. Works with bulk or single files.
-      </p>
+  const getReductionPercent = (original, compressed) => {
+    if (!original || !compressed) return 0;
+    return ((1 - compressed / original) * 100).toFixed(0);
+  };
 
-      <div className="flex gap-4 flex-wrap">
-        <input type="file" accept="video/*,image/*" multiple onChange={handleFileSelect} ref={fileInputRef} id="media-upload" className="hidden" />
-        <motion.label
-          htmlFor="media-upload"
-          className="file-upload-label"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <FaPlus /> Add Files
-        </motion.label>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={compressAll}
-          disabled={compressingAll || files.length === 0}
-          className="px-4 py-2 rounded text-sm disabled:opacity-50 cursor-pointer"
-          style={{ backgroundColor: "var(--yellow)", color: "var(--black)" }}
-        >
-          {compressingAll ? "Compressing…" : "Compress All"}
-        </motion.button>
-        {allDone && (
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={downloadAll}
-            className="px-4 py-2 rounded text-sm cursor-pointer"
-            style={{ backgroundColor: "var(--green)", color: "var(--white)" }}
+  return (
+    <div className="flex flex-col h-full overflow-y-auto" style={{ backgroundColor: "var(--white)", color: "var(--black)" }}>
+      {/* ─── Header ────────────────────────────────────────── */}
+      <div className="p-4 border-b" style={{ borderColor: "var(--border)" }}>
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "var(--red)", color: "var(--white)" }}>
+            <FaCompress size={20} />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold" style={{ color: "var(--black)" }}>Media Compressor</h2>
+            <p className="text-xs" style={{ color: "var(--gray)" }}>Reduce file sizes without losing quality</p>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-wrap gap-2">
+          <input type="file" accept="video/*,image/*" multiple onChange={handleFileSelect} ref={fileInputRef} id="media-upload" className="hidden" />
+          <motion.label
+            htmlFor="media-upload"
+            whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+            className="px-4 py-2.5 rounded-xl text-sm font-semibold cursor-pointer flex items-center gap-2"
+            style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
           >
-            Download All
-          </motion.button>
-        )}
+            <FaPlus size={14} /> Add Files
+          </motion.label>
+          
+          {hasFiles && (
+            <>
+              <motion.button
+                whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                onClick={compressAll}
+                disabled={compressingAll}
+                className="px-4 py-2.5 rounded-xl text-sm font-semibold cursor-pointer flex items-center gap-2 disabled:opacity-60"
+                style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}
+              >
+                <FaCompress size={14} /> {compressingAll ? "Compressing..." : "Compress All"}
+              </motion.button>
+              
+              {allDone && (
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                  onClick={downloadAll}
+                  className="px-4 py-2.5 rounded-xl text-sm font-semibold cursor-pointer flex items-center gap-2"
+                  style={{ backgroundColor: "var(--green)", color: "var(--white)" }}
+                >
+                  <FaDownload size={14} /> Download All
+                </motion.button>
+              )}
+            </>
+          )}
+        </div>
       </div>
 
-      <div className="space-y-3">
-        {files.map((fileObj) => (
-          <div
-            key={fileObj.id}
-            className="p-3 rounded flex flex-col gap-2"
-            style={{ backgroundColor: "var(--lightgray)" }}
+      {/* ─── Content Area ──────────────────────────────────── */}
+      <div className="flex-1 p-4 overflow-y-auto">
+        {!hasFiles ? (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            className={`flex flex-col items-center justify-center gap-4 p-12 rounded-3xl border-2 border-dashed transition-all duration-300 cursor-pointer h-full min-h-[300px] ${
+              isDragging ? 'scale-[1.02]' : ''
+            }`}
+            style={{
+              borderColor: isDragging ? "var(--red)" : "var(--border)",
+              backgroundColor: isDragging ? "rgba(20, 184, 166, 0.05)" : "var(--lightgray)",
+            }}
+            onClick={() => fileInputRef.current?.click()}
           >
-            <div className="flex items-center gap-3">
-              {/* Thumbnail */}
-              {fileObj.type === "video" && fileObj.thumbnail ? (
-                <img
-                  src={fileObj.thumbnail}
-                  alt={fileObj.file.name}
-                  className="w-16 h-10 object-cover rounded flex-shrink-0"
-                />
-              ) : fileObj.type === "video" ? (
-                <div className="w-16 h-10 bg-black/30 rounded flex items-center justify-center text-xs flex-shrink-0">
-                  🎬
-                </div>
-              ) : (
-                <div className="w-16 h-10 bg-black/30 rounded flex items-center justify-center text-xs flex-shrink-0">
-                  🖼️
-                </div>
-              )}
-              <div className="flex-1 min-w-0">
-                <div className="truncate text-sm font-medium" style={{ color: "var(--black)" }}>
-                  {fileObj.file.name}
-                </div>
-                <div className="text-xs" style={{ color: "var(--gray)" }}>
-                  {fileObj.type === "video" ? "🎬" : "🖼️"} {formatSize(fileObj.originalSize)}
-                </div>
-              </div>
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 3, repeat: Infinity }}
+              className="w-24 h-24 rounded-3xl flex items-center justify-center"
+              style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
+            >
+              <FaCloudUploadAlt size={40} />
+            </motion.div>
+            <div className="text-center">
+              <h3 className="text-lg font-bold mb-1" style={{ color: "var(--black)" }}>
+                {isDragging ? "Drop Files Here" : "Drag & Drop Files"}
+              </h3>
+              <p className="text-sm" style={{ color: "var(--gray)" }}>
+                or click to browse • Video & Images supported
+              </p>
             </div>
+          </motion.div>
+        ) : (
+          <div className="space-y-3">
+            {files.map((fileObj, idx) => (
+              <motion.div
+                key={fileObj.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.05 }}
+                className="p-4 rounded-2xl border transition-all duration-300"
+                style={{
+                  backgroundColor: "var(--white)",
+                  borderColor: fileObj.status === 'done' ? "var(--green)" : fileObj.status === 'error' ? "var(--red)" : "var(--border)",
+                }}
+              >
+                <div className="flex items-start gap-4">
+                  {/* Thumbnail */}
+                  <div className="w-24 h-16 rounded-xl overflow-hidden flex-shrink-0 relative" style={{ backgroundColor: "var(--lightgray)" }}>
+                    {fileObj.thumbnail ? (
+                      <img src={fileObj.thumbnail} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center" style={{ color: "var(--gray)" }}>
+                        {fileObj.type === "video" ? <FaVideo size={24} /> : <FaImage size={24} />}
+                      </div>
+                    )}
+                    {fileObj.status === "compressing" && (
+                      <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+                        <div className="w-8 h-8 border-3 border-white border-t-transparent rounded-full animate-spin" />
+                      </div>
+                    )}
+                  </div>
 
-            <div className="flex gap-4 text-xs">
-              <label className="flex items-center gap-1" style={{ color: "var(--black)" }}>
-                Quality:
-                <input
-                  type="range"
-                  min="0.1"
-                  max="1"
-                  step="0.05"
-                  value={fileObj.quality}
-                  onChange={(e) => updateFileSetting(fileObj.id, "quality", parseFloat(e.target.value))}
-                  className="w-20"
-                />
-                <span>{Math.round(fileObj.quality * 100)}%</span>
-              </label>
-              <label className="flex items-center gap-1" style={{ color: "var(--black)" }}>
-                Scale:
-                <input
-                  type="range"
-                  min="0.1"
-                  max="1"
-                  step="0.05"
-                  value={fileObj.resolution}
-                  onChange={(e) => updateFileSetting(fileObj.id, "resolution", parseFloat(e.target.value))}
-                  className="w-20"
-                />
-                <span>{Math.round(fileObj.resolution * 100)}%</span>
-              </label>
-            </div>
+                  {/* Info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold truncate" style={{ color: "var(--black)" }}>
+                          {fileObj.file.name}
+                        </p>
+                        <p className="text-xs mt-0.5" style={{ color: "var(--gray)" }}>
+                          {fileObj.type === "video" ? "🎬 Video" : "🖼️ Image"} • {formatSize(fileObj.originalSize)}
+                        </p>
+                      </div>
+                      <motion.button
+                        whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
+                        onClick={() => removeFile(fileObj.id)}
+                        className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 cursor-pointer"
+                        style={{ backgroundColor: "var(--lightgray)", color: "var(--gray)" }}
+                      >
+                        <FaTrash size={12} />
+                      </motion.button>
+                    </div>
 
-            {fileObj.status === "compressing" && (
-              <div className="w-full rounded-full h-2 overflow-hidden" style={{ backgroundColor: "var(--gray)" }}>
-                <div className="h-2 rounded-full transition-all duration-300" style={{ width: `${fileObj.progress}%`, backgroundColor: "var(--blue)" }} />
-              </div>
-            )}
+                    {/* Status */}
+                    {fileObj.status === "compressing" && (
+                      <div className="mt-2">
+                        <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: "var(--lightgray)" }}>
+                          <motion.div
+                            className="h-full rounded-full"
+                            style={{ backgroundColor: "var(--red)" }}
+                            initial={{ width: 0 }}
+                            animate={{ width: `${fileObj.progress}%` }}
+                            transition={{ duration: 0.3 }}
+                          />
+                        </div>
+                        <p className="text-xs mt-1" style={{ color: "var(--red)" }}>Compressing... {fileObj.progress}%</p>
+                      </div>
+                    )}
 
-            <div className="flex items-center justify-between">
-              <span className="text-xs">
-                {fileObj.status === "compressing" && `⏳ Compressing... ${fileObj.progress}%`}
-                {fileObj.status === "done" && <span style={{ color: "var(--green)" }}>✅ Compressed: {formatSize(fileObj.compressedSize)} ({((fileObj.compressedSize / fileObj.originalSize) * 100).toFixed(0)}%)</span>}
-                {fileObj.status === "error" && <span style={{ color: "var(--red)" }}>❌ Error – retry</span>}
-                {fileObj.status === "pending" && "Pending"}
-              </span>
-              <div className="flex gap-2">
-                {fileObj.status === "done" && (
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => downloadFile(fileObj)}
-                    className="px-2 py-1 rounded text-xs cursor-pointer"
-                    style={{ backgroundColor: "var(--green)", color: "var(--white)" }}
-                  >
-                    <FaDownload size={12} />
-                  </motion.button>
-                )}
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => compressSingle(fileObj)}
-                  disabled={fileObj.status === "compressing"}
-                  className="px-2 py-1 rounded text-xs disabled:opacity-50 cursor-pointer"
-                  style={{ backgroundColor: "var(--gray)", color: "var(--white)" }}
-                >
-                  <FaCompress size={12} />
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setFiles((prev) => prev.filter((f) => f.id !== fileObj.id))}
-                  className="px-2 py-1 rounded text-xs cursor-pointer"
-                  style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
-                >
-                  <FaTrash size={12} />
-                </motion.button>
-              </div>
-            </div>
+                    {fileObj.status === "done" && (
+                      <div className="flex items-center gap-2 mt-2">
+                        <FaCheckCircle size={14} style={{ color: "var(--green)" }} />
+                        <span className="text-xs font-medium" style={{ color: "var(--green)" }}>
+                          {formatSize(fileObj.compressedSize)} • Saved {getReductionPercent(fileObj.originalSize, fileObj.compressedSize)}%
+                        </span>
+                      </div>
+                    )}
+
+                    {fileObj.status === "error" && (
+                      <div className="flex items-center gap-2 mt-2">
+                        <FaExclamationTriangle size={14} style={{ color: "var(--red)" }} />
+                        <span className="text-xs" style={{ color: "var(--red)" }}>Failed – try again</span>
+                      </div>
+                    )}
+
+                    {/* Settings */}
+                    <div className="flex flex-wrap gap-3 mt-3">
+                      <label className="flex items-center gap-1.5 text-xs font-medium" style={{ color: "var(--black)" }}>
+                        Quality
+                        <input
+                          type="range" min="0.1" max="1" step="0.05"
+                          value={fileObj.quality}
+                          onChange={(e) => updateFileSetting(fileObj.id, "quality", parseFloat(e.target.value))}
+                          className="w-16"
+                        />
+                        <span style={{ color: "var(--gray)" }}>{Math.round(fileObj.quality * 100)}%</span>
+                      </label>
+                      <label className="flex items-center gap-1.5 text-xs font-medium" style={{ color: "var(--black)" }}>
+                        Scale
+                        <input
+                          type="range" min="0.1" max="1" step="0.05"
+                          value={fileObj.resolution}
+                          onChange={(e) => updateFileSetting(fileObj.id, "resolution", parseFloat(e.target.value))}
+                          className="w-16"
+                        />
+                        <span style={{ color: "var(--gray)" }}>{Math.round(fileObj.resolution * 100)}%</span>
+                      </label>
+
+                      <div className="flex gap-1.5 ml-auto">
+                        {fileObj.status === "done" && (
+                          <motion.button
+                            whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                            onClick={() => downloadFile(fileObj)}
+                            className="px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer flex items-center gap-1.5"
+                            style={{ backgroundColor: "var(--green)", color: "var(--white)" }}
+                          >
+                            <FaDownload size={11} /> Save
+                          </motion.button>
+                        )}
+                        {fileObj.status !== "compressing" && (
+                          <motion.button
+                            whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                            onClick={() => compressSingle(fileObj)}
+                            className="px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer flex items-center gap-1.5"
+                            style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
+                          >
+                            <FaCompress size={11} /> Compress
+                          </motion.button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

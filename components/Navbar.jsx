@@ -65,7 +65,7 @@ export default function Navbar() {
                 whileHover={{ rotate: -5, scale: 1.05 }}
                 transition={{ duration: 0.2 }}
                 className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{backgroundColor : "var(--blue)"}}
+                style={{backgroundColor : "var(--red)"}}
               >
                 <Image src={logo} alt="logo" width={30} height={30} className="w-8 h-8 rounded-sm"/>
               </motion.div>
@@ -86,7 +86,7 @@ export default function Navbar() {
                   className="relative px-3 py-2 text-sm font-medium rounded-full transition-all duration-200 flex items-center gap-1.5"
                   style={{
                     color: isActive(link.path) ? "var(--white)" : "var(--black)",
-                    backgroundColor: isActive(link.path) ? "var(--blue)" : "transparent",
+                    backgroundColor: isActive(link.path) ? "var(--red)" : "transparent",
                   }}
                   onMouseEnter={(e) => {
                     if (!isActive(link.path)) {
@@ -193,14 +193,14 @@ export default function Navbar() {
                       className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all"
                       style={{
                         color: isActive(link.path) ? "var(--white)" : "var(--black)",
-                        backgroundColor: isActive(link.path) ? "var(--blue)" : "var(--lightgray)",
+                        backgroundColor: isActive(link.path) ? "var(--red)" : "var(--lightgray)",
                       }}
                     >
                       <span
                         className="w-8 h-8 rounded-lg flex items-center justify-center"
                         style={{
                           backgroundColor: isActive(link.path) ? "var(--white)" : "var(--white)",
-                          color: isActive(link.path) ? "var(--blue)" : "var(--blue)",
+                          color: isActive(link.path) ? "var(--red)" : "var(--red)",
                           opacity: isActive(link.path) ? 1 : 0.8,
                         }}
                       >

@@ -68,7 +68,7 @@ export default function Document() {
           name="twitter:description"
           content="Edit photos, videos, and audio directly in your browser. No downloads, no signups, completely free."
         />
-        <meta name="twitter:image" content="https://ar-studio-five.vercel.app/my_logo_no_bg.png" />
+        <meta name="twitter:image" content="https://ar-studio-five.vercel.app/my_logo.jpg" />
         <meta name="twitter:image:alt" content="AR Studio – Free Creative Tools" />
 
         {/* ─── Open Graph / Facebook ────────────────────────── */}
@@ -81,7 +81,7 @@ export default function Document() {
           content="Powerful photo, video, and audio editing tools that run entirely in your browser. No signup required, no files uploaded — 100% private and free."
         />
         <meta property="og:url" content="https://ar-studio-five.vercel.app" />
-        <meta property="og:image" content="https://ar-studio-five.vercel.app/my_logo_no_bg.png" />
+        <meta property="og:image" content="https://ar-studio-five.vercel.app/my_logo.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content="AR Studio – Free Browser-Based Creative Suite" />

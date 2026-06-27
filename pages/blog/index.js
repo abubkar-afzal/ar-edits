@@ -55,7 +55,7 @@ export default function BlogIndex() {
           >
             <span
               className="text-sm font-semibold tracking-widest uppercase mb-3 block"
-              style={{ color: "var(--blue)" }}
+              style={{ color: "var(--red)" }}
             >
               Learn & Explore
             </span>
@@ -95,7 +95,7 @@ export default function BlogIndex() {
                   <div className="md:w-3/5 p-6 md:p-8 flex flex-col justify-center">
                     <span
                       className="px-3 py-1 rounded-full text-xs font-semibold inline-block w-fit mb-3"
-                      style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}
+                      style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
                     >
                       <FiStar size={12} className="inline mr-1" /> Featured
                     </span>
@@ -108,7 +108,7 @@ export default function BlogIndex() {
                     <div className="flex flex-wrap items-center gap-4 text-xs" style={{ color: "var(--gray)" }}>
                       <span className="flex items-center gap-1"><FiCalendar size={14} /> {new Date(featuredPost.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span>
                       <span className="flex items-center gap-1"><FiClock size={14} /> {estimateReadTime(featuredPost.content)}</span>
-                      <span className="flex items-center gap-1 text-sm font-medium" style={{ color: "var(--blue)" }}>
+                      <span className="flex items-center gap-1 text-sm font-medium" style={{ color: "var(--red)" }}>
                         Read more <FiArrowRight size={14} />
                       </span>
                     </div>
@@ -124,7 +124,7 @@ export default function BlogIndex() {
       <section className="pb-8 px-4" style={{ backgroundColor: "var(--white)" }}>
         <div className="max-w-6xl mx-auto flex sm:flex-col l:flex-row gap-4 justify-between items-start sm:items-center">
           <h2 className="text-xl font-semibold flex items-center gap-2" style={{ color: "var(--black)" }}>
-            <FiBookOpen size={20} style={{ color: "var(--blue)" }} />
+            <FiBookOpen size={20} style={{ color: "var(--red)" }} />
             Latest Articles
           </h2>
           <div className="relative w-full sm:w-64">
@@ -143,7 +143,7 @@ export default function BlogIndex() {
                 backgroundColor: "var(--lightgray)",
                 borderColor: "var(--border)",
                 color: "var(--black)",
-                "--tw-ring-color": "var(--blue)",
+                "--tw-ring-color": "var(--red)",
               }}
             />
           </div>
@@ -202,7 +202,7 @@ export default function BlogIndex() {
                           {estimateReadTime(post.content)}
                         </span>
                       </div>
-                      <div className="flex items-center gap-1 text-sm font-medium mt-3" style={{ color: "var(--blue)" }}>
+                      <div className="flex items-center gap-1 text-sm font-medium mt-3" style={{ color: "var(--red)" }}>
                         Read more <FiArrowRight size={14} />
                       </div>
                     </div>
@@ -222,7 +222,7 @@ export default function BlogIndex() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <FiSend size={36} className="mx-auto mb-4" style={{ color: "var(--blue)" }} />
+            <FiSend size={36} className="mx-auto mb-4" style={{ color: "var(--red)" }} />
             <h2 className="text-2xl md:text-3xl font-bold mb-3" style={{ color: "var(--black)" }}>
               {subscribed ? "Thanks for Subscribing!" : "Stay Updated"}
             </h2>
@@ -244,7 +244,7 @@ export default function BlogIndex() {
                     backgroundColor: "var(--white)",
                     borderColor: "var(--border)",
                     color: "var(--black)",
-                    "--tw-ring-color": "var(--blue)",
+                    "--tw-ring-color": "var(--red)",
                   }}
                 />
                 <motion.button
@@ -252,7 +252,7 @@ export default function BlogIndex() {
                   whileTap={{ scale: 0.96 }}
                   type="submit"
                   className="px-6 py-3 rounded-full text-sm font-semibold flex items-center gap-2 text-center"
-                  style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}
+                  style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
                 >
                   Subscribe <FiArrowRight size={16} />
                 </motion.button>

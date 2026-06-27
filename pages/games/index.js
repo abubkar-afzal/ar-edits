@@ -21,8 +21,8 @@ const games = [
     title: "Chess",
     icon: <FaChess size={36} />,
     desc: "Play chess with friends or against our smart AI opponent.",
-    color: "var(--blue)",
-    bg: "var(--blue)",
+    color: "var(--red)",
+    bg: "var(--red)",
     players: "1-2 Players",
     difficulty: "Hard",
   },
@@ -96,11 +96,11 @@ export default function Games() {
               transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
               className="inline-block mb-4"
             >
-              <FaGamepad size={48} style={{ color: "var(--blue)" }} />
+              <FaGamepad size={48} style={{ color: "var(--red)" }} />
             </motion.div>
             <span
               className="text-sm font-semibold tracking-widest uppercase mb-3 block"
-              style={{ color: "var(--blue)" }}
+              style={{ color: "var(--red)" }}
             >
               Take a Break
             </span>
@@ -208,7 +208,7 @@ export default function Games() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <FaGamepad size={36} className="mx-auto mb-4" style={{ color: "var(--blue)" }} />
+            <FaGamepad size={36} className="mx-auto mb-4" style={{ color: "var(--red)" }} />
             <h2 className="text-2xl md:text-3xl font-bold mb-3" style={{ color: "var(--black)" }}>
               More Coming Soon!
             </h2>
@@ -220,7 +220,7 @@ export default function Games() {
               whileTap={{ scale: 0.96 }}
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               className="px-6 py-3 rounded-full text-sm font-semibold flex items-center gap-2 mx-auto"
-              style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}
+              style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
             >
               <FaGamepad size={16} /> Browse Games
             </motion.button>

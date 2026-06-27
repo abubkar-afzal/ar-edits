@@ -116,7 +116,7 @@ export default function ThemePickerCompact() {
         {/* ─── Header ───────────────────────────────────── */}
         <div className="flex items-center justify-between p-4 border-b shrink-0" style={{ borderColor: "var(--border)" }}>
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "var(--blue)" }}>
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "var(--red)" }}>
               <FaPalette size={13} style={{ color: "var(--white)" }} />
             </div>
             <h3 className="text-sm font-bold" style={{ color: "var(--black)" }}>Appearance</h3>
@@ -169,8 +169,8 @@ export default function ThemePickerCompact() {
                     whileTap={{ scale: 0.96 }}
                     className="flex flex-col items-center gap-2 p-3 rounded-2xl border-2 transition-all duration-200 cursor-pointer relative"
                     style={{
-                      borderColor: theme === t.name ? "var(--blue)" : "var(--border)",
-                      backgroundColor: theme === t.name ? "var(--blue)" : "var(--white)",
+                      borderColor: theme === t.name ? "var(--red)" : "var(--border)",
+                      backgroundColor: theme === t.name ? "var(--red)" : "var(--white)",
                     }}
                   >
                     <span className="text-xl" style={{ color: theme === t.name ? "var(--white)" : "var(--gray)" }}>
@@ -255,12 +255,12 @@ export default function ThemePickerCompact() {
         className="flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full border-2 text-xs sm:text-sm font-bold transition-all duration-300 cursor-pointer"
         style={{
           backgroundColor: "var(--white)",
-          borderColor: isOpen ? "var(--blue)" : "var(--border)",
+          borderColor: isOpen ? "var(--red)" : "var(--border)",
           color: "var(--black)",
           boxShadow: isOpen ? "0 4px 20px rgba(37,99,235,0.15)" : "none",
         }}
       >
-        <span style={{ color: "var(--blue)" }}>{currentTheme.icon}</span>
+        <span style={{ color: "var(--red)" }}>{currentTheme.icon}</span>
         <span className="hidden sm:inline">Theme</span>
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}

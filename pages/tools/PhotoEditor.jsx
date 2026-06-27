@@ -1,7 +1,7 @@
 // components/PhotoEditor.jsx
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaUpload, FaMagic, FaSpinner, FaExchangeAlt, FaEraser } from 'react-icons/fa';
+import { FaUpload, FaMagic, FaSpinner, FaExchangeAlt, FaEraser, FaDownload } from 'react-icons/fa';
 
 const MAX_CANVAS_WIDTH = 1920;
 const MAX_CANVAS_HEIGHT = 1080;
@@ -537,162 +537,316 @@ export default function PhotoEditor() {
   const resetCrop = () => { const img = imageRef.current; if (!img) return; const full = { x: 0, y: 0, w: img.width, h: img.height }; setCropRect(full); setAppliedCrop(full); setCropMode(false); drawImage(); };
   const download = () => { const canvas = canvasRef.current; if (!canvas) return; const link = document.createElement('a'); link.download = 'edited_image.png'; link.href = canvas.toDataURL(); link.click(); };
 
-  return (
-    <div className="flex flex-col items-center gap-3 p-4 overflow-y-auto" style={{ backgroundColor: "var(--white)", color: "var(--black)", maxHeight: "calc(100vh - 4rem)" }}>
-      <input type="file" accept="image/*" onChange={handleFile} ref={fileInputRef} id="photo-upload" className="hidden" />
-      <input type="file" accept="image/*" onChange={handleReplaceImage} ref={replaceInputRef} id="photo-replace" className="hidden" />
+    return (
+  <div className="flex flex-col h-full overflow-hidden" style={{ backgroundColor: "var(--white)", color: "var(--black)" }}>
+    {/* ─── Header ──────────────────────────────────────── */}
+    <div className="p-4 border-b" style={{ borderColor: "var(--border)" }}>
+      {/* Hidden file inputs – always present so labels can reference them */}
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleFile}
+        ref={fileInputRef}
+        id="photo-upload"
+        className="hidden"
+      />
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleReplaceImage}
+        ref={replaceInputRef}
+        id="photo-replace"
+        className="hidden"
+      />
 
-      {!image ? (
-        <motion.label htmlFor="photo-upload"
-          className="flex flex-col items-center gap-4 p-12 rounded-3xl border-2 border-dashed cursor-pointer transition-all duration-300"
-          style={{ borderColor: "var(--border)", backgroundColor: "var(--lightgray)" }}
-          whileHover={{ scale: 1.02, borderColor: "var(--blue)" }} whileTap={{ scale: 0.98 }}>
-          <div className="w-20 h-20 rounded-2xl flex items-center justify-center" style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}><FaUpload size={32} /></div>
-          <div className="text-center"><h3 className="text-lg font-bold mb-1" style={{ color: "var(--black)" }}>Upload Image</h3><p className="text-sm" style={{ color: "var(--gray)" }}>Click or drag & drop</p></div>
-        </motion.label>
-      ) : (
-        <>
-          {/* ─── Toolbar ──────────────────────────────────── */}
-          <div className="flex flex-wrap gap-2 justify-center items-center">
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={undo}
-              className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer"
-              style={{ backgroundColor: "var(--lightgray)", color: "var(--black)" }}>↩ Undo</motion.button>
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={redo}
-              className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer"
-              style={{ backgroundColor: "var(--lightgray)", color: "var(--black)" }}>↪ Redo</motion.button>
+      <div className="flex items-center gap-3 mb-3">
+        <div
+          className="w-10 h-10 rounded-xl flex items-center justify-center"
+          style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
+        >
+          <FaUpload size={20} />
+        </div>
+        <div>
+          <h2 className="text-xl font-bold" style={{ color: "var(--black)" }}>Photo Editor</h2>
+          <p className="text-xs" style={{ color: "var(--gray)" }}>Edit, enhance, and remove backgrounds</p>
+        </div>
+      </div>
 
-            {/* Replace Image Button */}
-            <motion.label htmlFor="photo-replace"
-              whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-              className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer flex items-center gap-1.5"
-              style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}>
-              <FaExchangeAlt size={12} /> Replace
-            </motion.label>
+      {image && (
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Replace button now uses the always-present input */}
+          <motion.label
+            htmlFor="photo-replace"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer flex items-center gap-1.5"
+            style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}
+          >
+            <FaExchangeAlt size={12} /> Replace
+          </motion.label>
 
-            {/* Background Removal */}
-            {!backgroundRemoved ? (
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-                onClick={handleRemoveBackground} disabled={removingBackground}
-                className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer flex items-center gap-1.5 disabled:opacity-60"
-                style={{ backgroundColor: "var(--purple)", color: "var(--white)" }}>
-                {removingBackground ? <><FaSpinner className="animate-spin" size={12} /> Processing</> : <><FaEraser size={12} /> Remove BG</>}
+          {/* Undo, Redo, Remove BG, Crop, etc. remain unchanged */}
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={undo}
+            className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer flex items-center gap-1.5"
+            style={{ backgroundColor: "var(--lightgray)", color: "var(--black)" }}
+          >
+            ↩ Undo
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={redo}
+            className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer flex items-center gap-1.5"
+            style={{ backgroundColor: "var(--lightgray)", color: "var(--black)" }}
+          >
+            ↪ Redo
+          </motion.button>
+
+          <div className="w-px h-6" style={{ backgroundColor: "var(--border)" }} />
+
+          {!backgroundRemoved ? (
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={handleRemoveBackground}
+              disabled={removingBackground}
+              className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer flex items-center gap-1.5 disabled:opacity-60 shadow-lg"
+              style={{
+                backgroundColor: "var(--red)",
+                color: "var(--white)",
+                boxShadow: "0 4px 16px rgba(239, 68, 68, 0.3)",
+              }}
+            >
+              {removingBackground ? (
+                <>
+                  <FaSpinner className="animate-spin" size={12} /> Removing
+                </>
+              ) : (
+                <>
+                  <FaEraser size={12} /> Remove BG
+                </>
+              )}
+            </motion.button>
+          ) : (
+            <>
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={handleRestoreOriginal}
+                className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer"
+                style={{ backgroundColor: "var(--orange)", color: "var(--white)" }}
+              >
+                Restore
               </motion.button>
-            ) : (
-              <>
-                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleRestoreOriginal}
-                  className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer"
-                  style={{ backgroundColor: "var(--orange)", color: "var(--white)" }}>Restore</motion.button>
-                {/* Background color options */}
-                <div className="flex items-center gap-1">
-                  {['transparent', '#ffffff', '#000000', '#ff0000', '#00ff00', '#0000ff'].map((color) => (
-                    <button key={color} onClick={() => setBgColor(color)}
-                      className="w-6 h-6 rounded-full border-2 cursor-pointer transition-all"
-                      style={{
-                        backgroundColor: color === 'transparent' ? 'transparent' : color,
-                        borderColor: bgColor === color ? 'var(--blue)' : 'var(--border)',
-                        backgroundImage: color === 'transparent' ? 'linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc), linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc)' : 'none',
-                        backgroundSize: color === 'transparent' ? '8px 8px' : 'auto',
-                        backgroundPosition: color === 'transparent' ? '0 0, 4px 4px' : '0 0',
-                      }}
-                    />
-                  ))}
-                </div>
-              </>
-            )}
-
-            {!cropMode && <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={enterCropMode}
-              className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer"
-              style={{ backgroundColor: "var(--lightgray)", color: "var(--black)" }}>✂ Crop</motion.button>}
-            {cropMode && <>
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={applyCrop}
-                className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer"
-                style={{ backgroundColor: "var(--green)", color: "var(--white)" }}>✅</motion.button>
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={cancelCrop}
-                className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer"
-                style={{ backgroundColor: "var(--red)", color: "var(--white)" }}>❌</motion.button>
-            </>}
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={resetCrop}
-              className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer"
-              style={{ backgroundColor: "var(--lightgray)", color: "var(--black)" }}>↺</motion.button>
-
-            <label className="flex items-center gap-1">
-              <input type="color" value={brushColor} onChange={(e) => setBrushColor(e.target.value)} className="w-7 h-7 p-0 border-0 rounded-lg cursor-pointer" />
-              <input type="range" min="1" max="20" value={brushSize} onChange={(e) => setBrushSize(+e.target.value)} className="w-16" />
-            </label>
-
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={download}
-              className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer"
-              style={{ backgroundColor: "var(--green)", color: "var(--white)" }}>💾</motion.button>
-          </div>
-
-          {/* ─── Filter Sliders ────────────────────────────── */}
-          <div className="flex flex-wrap gap-3 justify-center">
-            {[
-              { name: 'Brightness', key: 'brightness', max: 200 },
-              { name: 'Contrast', key: 'contrast', max: 200 },
-              { name: 'Saturation', key: 'saturation', max: 200 },
-              { name: 'Blur', key: 'blur', max: 10, step: 0.1 },
-            ].map(({ name, key, max, step = 1 }) => (
-              <label key={key} className="flex items-center gap-1.5 text-xs font-medium" style={{ color: "var(--black)" }}>
-                {name}
-                <input type="range" min="0" max={max} step={step} value={filterValues[key]}
-                  onChange={(e) => { setFilterValues(f => ({ ...f, [key]: +e.target.value })); saveHistory(); }} className="w-20" />
-              </label>
-            ))}
-          </div>
-
-          {/* ─── Progress Bar ──────────────────────────────── */}
-          <AnimatePresence>
-            {removingBackground && (
-              <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="w-full max-w-xl">
-                <div className="w-full h-2 rounded-full overflow-hidden" style={{ backgroundColor: "var(--lightgray)" }}>
-                  <motion.div className="h-full rounded-full" style={{ backgroundColor: "var(--purple)" }}
-                    initial={{ width: 0 }} animate={{ width: `${removalProgress}%` }} transition={{ duration: 0.3 }} />
-                </div>
-                <p className="text-xs text-center mt-1" style={{ color: "var(--gray)" }}>Removing background... {removalProgress}%</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* ─── Crop Panel ────────────────────────────────── */}
-          {cropMode && (
-            <div className="p-4 rounded-2xl w-full max-w-xl space-y-2" style={{ backgroundColor: "var(--lightgray)" }}>
-              <p className="font-bold text-xs" style={{ color: "var(--black)" }}>Crop Area (pixels)</p>
-              <div className="grid grid-cols-4 gap-2">
-                {[{ label: 'X', value: cropX, setter: setCropX }, { label: 'Y', value: cropY, setter: setCropY }, { label: 'W', value: cropW, setter: setCropW }, { label: 'H', value: cropH, setter: setCropH }].map(f => (
-                  <label key={f.label} className="flex flex-col text-xs font-medium" style={{ color: "var(--gray)" }}>
-                    {f.label}
-                    <input type="number" value={f.value} onChange={(e) => f.setter(+e.target.value)} onBlur={updateCropFromInputs}
-                      className="p-1.5 rounded-lg mt-0.5 text-xs" style={{ backgroundColor: "var(--white)", color: "var(--black)", borderColor: "var(--border)" }} />
-                  </label>
+              <div className="flex items-center gap-1">
+                {['transparent', '#ffffff', '#000000', '#ff0000', '#00ff00', '#0000ff'].map((color) => (
+                  <button
+                    key={color}
+                    onClick={() => setBgColor(color)}
+                    className="w-6 h-6 rounded-full border-2 cursor-pointer transition-all"
+                    style={{
+                      backgroundColor: color === 'transparent' ? 'transparent' : color,
+                      borderColor: bgColor === color ? 'var(--red)' : 'var(--border)',
+                      backgroundImage:
+                        color === 'transparent'
+                          ? 'linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc), linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc)'
+                          : 'none',
+                      backgroundSize: color === 'transparent' ? '8px 8px' : 'auto',
+                      backgroundPosition: color === 'transparent' ? '0 0, 4px 4px' : '0 0',
+                    }}
+                  />
                 ))}
               </div>
-              <div className="flex flex-wrap gap-2 items-center">
-                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={updateCropFromInputs}
-                  className="px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer"
-                  style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}>Apply</motion.button>
-                <span className="text-xs font-medium" style={{ color: "var(--gray)" }}>Presets:</span>
-                {[[16, 9], [4, 3], [1, 1], [9, 16], [21, 9]].map(([w, h]) => (
-                  <motion.button key={`${w}-${h}`} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => applyPreset(w, h)}
-                    className="px-2 py-1 rounded-lg text-xs font-semibold cursor-pointer"
-                    style={{ backgroundColor: "var(--white)", color: "var(--black)" }}>{w}:{h}</motion.button>
-                ))}
-              </div>
-            </div>
+            </>
           )}
 
-          {/* ─── Canvas ────────────────────────────────────── */}
-          <canvas ref={canvasRef}
-            onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}
-            className="border-2 rounded-2xl max-w-full shadow-xl"
+          <div className="w-px h-6" style={{ backgroundColor: "var(--border)" }} />
+
+          {!cropMode ? (
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={enterCropMode}
+              className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer"
+              style={{ backgroundColor: "var(--lightgray)", color: "var(--black)" }}
+            >
+              ✂ Crop
+            </motion.button>
+          ) : (
+            <>
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={applyCrop}
+                className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer"
+                style={{ backgroundColor: "var(--green)", color: "var(--white)" }}
+              >
+                ✅ Apply
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={cancelCrop}
+                className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer"
+                style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
+              >
+                ❌ Cancel
+              </motion.button>
+            </>
+          )}
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={resetCrop}
+            className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer"
+            style={{ backgroundColor: "var(--lightgray)", color: "var(--black)" }}
+          >
+            ↺ Reset
+          </motion.button>
+
+          <div className="w-px h-6" style={{ backgroundColor: "var(--border)" }} />
+
+          <label className="flex items-center gap-1.5">
+            <input
+              type="color"
+              value={brushColor}
+              onChange={(e) => setBrushColor(e.target.value)}
+              className="w-7 h-7 p-0 border-0 rounded-lg cursor-pointer"
+            />
+            <input
+              type="range"
+              min="1"
+              max="20"
+              value={brushSize}
+              onChange={(e) => setBrushSize(+e.target.value)}
+              className="w-16"
+            />
+          </label>
+
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={download}
+            className="px-4 py-2 rounded-xl text-sm font-bold cursor-pointer flex items-center gap-2 shadow-lg ml-auto"
             style={{
-              borderColor: "var(--blue)",
-              maxHeight: '45vh',
-              objectFit: 'contain',
-              cursor: cropMode ? 'default' : drawing ? 'crosshair' : 'default',
-            }} />
-        </>
+              backgroundColor: "var(--red)",
+              color: "var(--white)",
+              boxShadow: "0 4px 16px rgba(239, 68, 68, 0.3)",
+            }}
+          >
+            <FaDownload size={14} /> Export
+          </motion.button>
+        </div>
       )}
     </div>
-  );
+
+    {/* ─── Content Area ──────────────────────────────────── */}
+    <div className="flex-1 overflow-auto">
+      {!image ? (
+        <div className="flex items-center justify-center h-full p-4">
+          <motion.label
+            htmlFor="photo-upload"
+            className="flex flex-col items-center gap-4 p-12 rounded-3xl border-2 border-dashed cursor-pointer transition-all duration-300 w-full max-w-lg"
+            style={{ borderColor: "var(--border)", backgroundColor: "var(--lightgray)" }}
+            whileHover={{ scale: 1.02, borderColor: "var(--red)" }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 3, repeat: Infinity }}
+              className="w-20 h-20 rounded-2xl flex items-center justify-center"
+              style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
+            >
+              <FaUpload size={32} />
+            </motion.div>
+            <div className="text-center">
+              <h3 className="text-lg font-bold mb-1" style={{ color: "var(--black)" }}>Upload Image</h3>
+              <p className="text-sm" style={{ color: "var(--gray)" }}>Click or drag & drop to get started</p>
+            </div>
+          </motion.label>
+        </div>
+      ) : (
+        <div className="p-4 space-y-3">
+            {/* Filter Sliders */}
+            <div className="flex flex-wrap gap-3 justify-center p-3 rounded-2xl" style={{ backgroundColor: "var(--lightgray)" }}>
+              {[
+                { name: 'Brightness', key: 'brightness', max: 200, icon: '☀️' },
+                { name: 'Contrast', key: 'contrast', max: 200, icon: '🌓' },
+                { name: 'Saturation', key: 'saturation', max: 200, icon: '🎨' },
+                { name: 'Blur', key: 'blur', max: 10, step: 0.1, icon: '💧' },
+              ].map(({ name, key, max, step = 1, icon }) => (
+                <label key={key} className="flex items-center gap-2 text-xs font-medium px-3 py-2 rounded-xl" style={{ backgroundColor: "var(--white)", color: "var(--black)" }}>
+                  <span>{icon}</span>
+                  <span>{name}</span>
+                  <input type="range" min="0" max={max} step={step} value={filterValues[key]}
+                    onChange={(e) => { setFilterValues(f => ({ ...f, [key]: +e.target.value })); saveHistory(); }} className="w-20" />
+                </label>
+              ))}
+            </div>
+
+            {/* Progress Bar */}
+            <AnimatePresence>
+              {removingBackground && (
+                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}>
+                  <div className="w-full h-2 rounded-full overflow-hidden" style={{ backgroundColor: "var(--lightgray)" }}>
+                    <motion.div className="h-full rounded-full" style={{ backgroundColor: "var(--red)" }}
+                      initial={{ width: 0 }} animate={{ width: `${removalProgress}%` }} transition={{ duration: 0.3 }} />
+                  </div>
+                  <p className="text-xs text-center mt-1" style={{ color: "var(--gray)" }}>Removing background... {removalProgress}%</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Crop Panel */}
+            <AnimatePresence>
+              {cropMode && (
+                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                  className="p-4 rounded-2xl space-y-3" style={{ backgroundColor: "var(--lightgray)" }}>
+                  <div className="flex items-center justify-between">
+                    <p className="font-bold text-sm" style={{ color: "var(--black)" }}>Crop Area (pixels)</p>
+                    <div className="flex gap-2">
+                      {[[16,9],[4,3],[1,1],[9,16],[21,9]].map(([w,h]) => (
+                        <motion.button key={`${w}-${h}`} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => applyPreset(w,h)}
+                          className="px-2 py-1 rounded-lg text-xs font-semibold cursor-pointer"
+                          style={{ backgroundColor: "var(--white)", color: "var(--black)" }}>{w}:{h}</motion.button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-4 gap-2">
+                    {[{ label: 'X', value: cropX, setter: setCropX, color: 'var(--red)' }, { label: 'Y', value: cropY, setter: setCropY, color: 'var(--orange)' }, { label: 'W', value: cropW, setter: setCropW, color: 'var(--yellow)' }, { label: 'H', value: cropH, setter: setCropH, color: 'var(--pink)' }].map(f => (
+                      <label key={f.label} className="flex flex-col text-xs font-medium" style={{ color: "var(--gray)" }}>
+                        <span className="w-5 h-5 rounded flex items-center justify-center text-[10px] font-bold mb-1" style={{ backgroundColor: f.color, color: "var(--white)" }}>{f.label}</span>
+                        <input type="number" value={f.value} onChange={(e) => f.setter(+e.target.value)} onBlur={updateCropFromInputs}
+                          className="p-1.5 rounded-lg text-xs font-semibold border" style={{ backgroundColor: "var(--white)", color: "var(--black)", borderColor: "var(--border)" }} />
+                      </label>
+                    ))}
+                  </div>
+                  <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} onClick={updateCropFromInputs}
+                    className="px-4 py-2 rounded-lg text-xs font-bold cursor-pointer w-full"
+                    style={{ backgroundColor: "var(--red)", color: "var(--white)" }}>Apply Numbers</motion.button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Canvas */}
+            <div className="flex items-center justify-center">
+              <canvas ref={canvasRef}
+                onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}
+                className="rounded-2xl shadow-2xl"
+                style={{
+                  border: "4px solid var(--white)",
+                  maxWidth: '100%',
+                  maxHeight: '55vh',
+                  objectFit: 'contain',
+                  cursor: cropMode ? 'default' : drawing ? 'crosshair' : 'default',
+                }} />
+            </div>
+          </div>
+      )}
+    </div>
+  </div>
+);
 }

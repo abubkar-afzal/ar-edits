@@ -39,7 +39,7 @@ export default function Contact() {
 
   const socialLinks = [
     { icon: <FiGithub size={22} />, label: "GitHub", href: "https://github.com/abubkar-afzal", color: "var(--black)" },
-    { icon: <FiLinkedin size={22} />, label: "LinkedIn", href: "https://www.linkedin.com/in/hafiz-abubakar-afzal-b77a46354/", color: "var(--blue)" },
+    { icon: <FiLinkedin size={22} />, label: "LinkedIn", href: "https://www.linkedin.com/in/hafiz-abubakar-afzal-b77a46354/", color: "var(--red)" },
     { icon: <FaWhatsapp size={22} />, label: "WhatsApp", href: "https://wa.me/923270972423", color: "var(--green)" },
     { icon: <FiMail size={22} />, label: "Email", href: "mailto:hafizabubakarafzal@gmail.com", color: "var(--red)" },
     { icon: <FiExternalLink size={22} />, label: "Portfolio", href: "https://hafizabubakarafzal.vercel.app", color: "var(--purple)" },
@@ -59,7 +59,7 @@ export default function Contact() {
           >
             <span
               className="text-sm font-semibold tracking-widest uppercase mb-3 block"
-              style={{ color: "var(--blue)" }}
+              style={{ color: "var(--red)" }}
             >
               Let's Connect
             </span>
@@ -86,7 +86,7 @@ export default function Contact() {
             style={{ backgroundColor: "var(--white)", borderColor: "var(--border)" }}
           >
             <div className="flex items-center gap-2 mb-6">
-              <FiMessageCircle size={24} style={{ color: "var(--blue)" }} />
+              <FiMessageCircle size={24} style={{ color: "var(--red)" }} />
               <h2 className="text-2xl font-bold" style={{ color: "var(--black)" }}>Send a Message</h2>
             </div>
 
@@ -125,7 +125,7 @@ export default function Contact() {
                       backgroundColor: "var(--lightgray)",
                       borderColor: "var(--border)",
                       color: "var(--black)",
-                      "--tw-ring-color": "var(--blue)",
+                      "--tw-ring-color": "var(--red)",
                     }}
                   />
                 </div>
@@ -145,7 +145,7 @@ export default function Contact() {
                       backgroundColor: "var(--lightgray)",
                       borderColor: "var(--border)",
                       color: "var(--black)",
-                      "--tw-ring-color": "var(--blue)",
+                      "--tw-ring-color": "var(--red)",
                     }}
                   />
                 </div>
@@ -165,7 +165,7 @@ export default function Contact() {
                       backgroundColor: "var(--lightgray)",
                       borderColor: "var(--border)",
                       color: "var(--black)",
-                      "--tw-ring-color": "var(--blue)",
+                      "--tw-ring-color": "var(--red)",
                     }}
                   />
                 </div>
@@ -174,7 +174,7 @@ export default function Contact() {
                   whileTap={{ scale: 0.98 }}
                   type="submit"
                   className="w-full py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2"
-                  style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}
+                  style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
                 >
                   <FiSend size={16} /> Send via WhatsApp
                 </motion.button>
@@ -249,7 +249,7 @@ export default function Contact() {
           >
             <span
               className="text-sm font-semibold tracking-widest uppercase mb-2 block"
-              style={{ color: "var(--blue)" }}
+              style={{ color: "var(--red)" }}
             >
               About the Developer
             </span>
@@ -267,7 +267,7 @@ export default function Contact() {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               className="inline-flex items-center gap-2 mt-6 px-5 py-2.5 rounded-full text-sm font-semibold"
-              style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}
+              style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
             >
               <FiGlobe size={16} /> Visit Portfolio
             </motion.a>
@@ -289,7 +289,7 @@ export default function Contact() {
                 <div className="flex items-center gap-3 mb-3">
                   <div
                     className="w-10 h-10 rounded-lg flex items-center justify-center"
-                    style={{ backgroundColor: "var(--lightgray)", color: "var(--blue)" }}
+                    style={{ backgroundColor: "var(--lightgray)", color: "var(--red)" }}
                   >
                     {skill.icon}
                   </div>
@@ -303,7 +303,7 @@ export default function Contact() {
       </section>
 
       {/* ─── CTA ───────────────────────────────────────────── */}
-      <section className="py-16 px-4" style={{ backgroundColor: "var(--blue)" }}>
+      <section className="py-16 px-4" style={{ backgroundColor: "var(--red)" }}>
         <div className="max-w-3xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -324,7 +324,7 @@ export default function Contact() {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               className="inline-flex px-6 py-3 rounded-full text-sm font-semibold items-center gap-2"
-              style={{ backgroundColor: "var(--white)", color: "var(--blue)" }}
+              style={{ backgroundColor: "var(--white)", color: "var(--red)" }}
             >
               <FaWhatsapp size={18} /> Chat on WhatsApp
             </motion.a>

@@ -16,7 +16,7 @@ function GradientOrb() {
       <motion.div
         className="absolute w-[600px] h-[600px] rounded-full blur-[120px]"
         style={{
-          background: "linear-gradient(135deg, var(--blue), var(--purple), var(--cyan))",
+          background: "linear-gradient(135deg, var(--red), var(--purple), var(--cyan))",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
@@ -201,7 +201,7 @@ export default function HeroSection() {
         delay={0}
         x="8%"
         y="25%"
-        color="var(--blue)"
+        color="var(--red)"
       />
       <FloatingCard
         icon={<FiVideo size={20} />}
@@ -268,7 +268,7 @@ export default function HeroSection() {
             <h1
               className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-none"
               style={{
-                background: "linear-gradient(135deg, var(--blue), var(--purple), var(--cyan))",
+                background: "linear-gradient(135deg, var(--red), var(--purple), var(--cyan))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -306,7 +306,7 @@ export default function HeroSection() {
             }
             className="px-8 py-4 rounded-full font-semibold text-base sm:text-lg shadow-xl flex items-center gap-2 cursor-pointer"
             style={{
-              backgroundColor: "var(--blue)",
+              backgroundColor: "var(--red)",
               color: "var(--white)",
               boxShadow: "0 8px 32px rgba(37, 99, 235, 0.3)",
             }}

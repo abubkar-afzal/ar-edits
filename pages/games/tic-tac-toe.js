@@ -306,9 +306,9 @@ export default function TicTacToe() {
                   onClick={() => { setNumPlayers(n); if (n > 2) setMode("friend"); }}
                   className="flex-1 py-2.5 rounded-xl font-medium text-sm"
                   style={{
-                    backgroundColor: numPlayers === n ? "var(--blue, #3b82f6)" : "var(--white)",
+                    backgroundColor: numPlayers === n ? "var(--red, #3b82f6)" : "var(--white)",
                     color: "var(--black)",
-                    border: numPlayers === n ? "2px solid var(--blue, #3b82f6)" : "2px solid transparent",
+                    border: numPlayers === n ? "2px solid var(--red, #3b82f6)" : "2px solid transparent",
                   }}
                 >
                   {n} {n === 2 ? "Players" : "Players"}
@@ -331,9 +331,9 @@ export default function TicTacToe() {
                     onClick={() => setMode(m)}
                     className="flex-1 py-2.5 rounded-xl font-medium text-sm flex items-center justify-center gap-2"
                     style={{
-                      backgroundColor: mode === m ? "var(--blue, #3b82f6)" : "var(--white)",
+                      backgroundColor: mode === m ? "var(--red, #3b82f6)" : "var(--white)",
                       color: "var(--black)",
-                      border: mode === m ? "2px solid var(--blue, #3b82f6)" : "2px solid transparent",
+                      border: mode === m ? "2px solid var(--red, #3b82f6)" : "2px solid transparent",
                     }}
                   >
                     {m === "friend" ? <FaUserFriends /> : <FaRobot />}
@@ -358,9 +358,9 @@ export default function TicTacToe() {
                     onClick={() => setPlayerSymbol(s)}
                     className="flex-1 py-3 rounded-xl font-bold text-lg"
                     style={{
-                      backgroundColor: playerSymbol === s ? "var(--blue, #3b82f6)" : "var(--white)",
+                      backgroundColor: playerSymbol === s ? "var(--red, #3b82f6)" : "var(--white)",
                       color: s === "X" ? colors.X : colors.O,
-                      border: playerSymbol === s ? "2px solid var(--blue, #3b82f6)" : "2px solid transparent",
+                      border: playerSymbol === s ? "2px solid var(--red, #3b82f6)" : "2px solid transparent",
                     }}
                   >
                     {s}
@@ -388,9 +388,9 @@ export default function TicTacToe() {
                     onClick={() => setDifficulty(d)}
                     className="py-2 rounded-xl text-sm font-medium capitalize"
                     style={{
-                      backgroundColor: difficulty === d ? "var(--blue, #3b82f6)" : "var(--white)",
+                      backgroundColor: difficulty === d ? "var(--red, #3b82f6)" : "var(--white)",
                       color: "var(--black)",
-                      border: difficulty === d ? "2px solid var(--blue, #3b82f6)" : "2px solid transparent",
+                      border: difficulty === d ? "2px solid var(--red, #3b82f6)" : "2px solid transparent",
                     }}
                   >
                     {d}
@@ -428,11 +428,23 @@ export default function TicTacToe() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.95 }}
             onClick={startGame}
-            className="w-full py-3 rounded-xl font-bold text-lg shadow-lg mt-4"
+            className="w-full py-3 rounded-xl font-bold text-lg shadow-lg mt-4 cursor-pointer"
             style={{ backgroundColor: "var(--green, #22c55e)", color: "var(--black)" }}
           >
             Start Game
           </motion.button>
+          <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => router.push("/games")}
+                          className="w-full py-3 rounded-xl font-bold text-lg shadow-lg flex items-center justify-center my-2 mt-4 cursor-pointer"
+                          style={{
+                            backgroundColor: "var(--red)",
+                            color: "var(--white)",
+                          }}
+                        >
+                          <FaArrowLeft className="mx-2"/> Back to Games
+                        </motion.button>
         </motion.div>
       </div>
     );
@@ -608,7 +620,7 @@ export default function TicTacToe() {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => goToSetup()}
                 className="px-6 py-3 rounded-xl font-bold shadow-lg"
-                style={{ backgroundColor: "var(--blue, #3b82f6)", color: "var(--black)" }}
+                style={{ backgroundColor: "var(--red, #3b82f6)", color: "var(--black)" }}
               >
                 Play Again
               </motion.button>

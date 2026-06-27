@@ -36,7 +36,7 @@ export default function PrivacyModal({ isOpen, onClose }) {
             <button
               onClick={onClose}
               className="mt-4 px-4 py-2 rounded-full font-medium transition hover:opacity-80"
-              style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}
+              style={{ backgroundColor: "var(--red", color: "var(--white)" }}
             >
               Got it
             </button>
