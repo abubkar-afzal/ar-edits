@@ -1,18 +1,17 @@
 // components/HeroSection.jsx
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
-import { useRef, useEffect } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import {
   FiArrowRight, FiPlay, FiCamera, FiVideo, FiMusic,
   FiZap, FiStar,
 } from "react-icons/fi";
 
 // ═══════════════════════════════════════════════════════════
-// Animated Gradient Orb
+// Animated Gradient Orb (unchanged)
 // ═══════════════════════════════════════════════════════════
 function GradientOrb() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Main large orb */}
       <motion.div
         className="absolute w-[600px] h-[600px] rounded-full blur-[120px]"
         style={{
@@ -31,8 +30,6 @@ function GradientOrb() {
           ease: "easeInOut",
         }}
       />
-
-      {/* Secondary orb */}
       <motion.div
         className="absolute w-[400px] h-[400px] rounded-full blur-[100px]"
         style={{
@@ -52,8 +49,6 @@ function GradientOrb() {
           delay: 3,
         }}
       />
-
-      {/* Small accent orb */}
       <motion.div
         className="absolute w-[250px] h-[250px] rounded-full blur-[80px]"
         style={{
@@ -78,7 +73,7 @@ function GradientOrb() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// Floating Glass Card
+// Floating Glass Card (unchanged)
 // ═══════════════════════════════════════════════════════════
 function FloatingCard({ icon, label, delay, x, y, color }) {
   return (
@@ -116,7 +111,7 @@ function FloatingCard({ icon, label, delay, x, y, color }) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// Text Reveal Animation
+// Text Reveal Animation (unchanged)
 // ═══════════════════════════════════════════════════════════
 function TextReveal({ children, delay }) {
   return (
@@ -137,7 +132,7 @@ function TextReveal({ children, delay }) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// Floating Stats Ring
+// Floating Stats Ring (unchanged)
 // ═══════════════════════════════════════════════════════════
 function StatsRing() {
   const stats = [
@@ -191,10 +186,10 @@ export default function HeroSection() {
       className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20 pb-10 overflow-hidden"
       style={{ backgroundColor: "var(--white)" }}
     >
-      {/* Gradient orbs background */}
+      {/* Gradient orbs */}
       <GradientOrb />
 
-      {/* Floating glass cards */}
+      {/* Floating glass cards (including Games) */}
       <FloatingCard
         icon={<FiCamera size={20} />}
         label="Photo Editor"
@@ -227,8 +222,17 @@ export default function HeroSection() {
         y="65%"
         color="var(--orange)"
       />
+      {/* New Games floating card */}
+      <FloatingCard
+        icon={<FiPlay size={20} />}
+        label="Play Games"
+        delay={1.2}
+        x="45%"
+        y="80%"
+        color="var(--orange)"
+      />
 
-      {/* Main content with parallax */}
+      {/* Main content */}
       <motion.div
         className="relative z-10 max-w-5xl mx-auto"
         style={{ y, scale, opacity }}
@@ -254,7 +258,7 @@ export default function HeroSection() {
           No Signup Required • Free Forever
         </motion.div>
 
-        {/* Main headline with text reveal */}
+        {/* Headline */}
         <div className="mb-6 space-y-2">
           <TextReveal delay={0.5}>
             <h1
@@ -288,7 +292,7 @@ export default function HeroSection() {
           style={{ color: "var(--gray)" }}
         >
           A free, browser‑based creative suite with powerful tools for photos,
-          videos, and audio. Everything runs locally — your files never leave your device.
+          videos, audio, and games. Everything runs locally — your files never leave your device.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -314,6 +318,23 @@ export default function HeroSection() {
             Explore Tools <FiArrowRight size={20} />
           </motion.button>
 
+          {/* New Play Games button */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() =>
+              document.getElementById("games")?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="px-8 py-4 rounded-full font-semibold text-base sm:text-lg shadow-xl flex items-center gap-2 cursor-pointer"
+            style={{
+              backgroundColor: "var(--green)",
+              color: "var(--white)",
+              boxShadow: "0 8px 32px rgba(249, 115, 22, 0.3)",
+            }}
+          >
+            Play Games <FiPlay size={18} />
+          </motion.button>
+
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -327,7 +348,7 @@ export default function HeroSection() {
               color: "var(--black)",
             }}
           >
-            <FiPlay size={18} /> How it Work
+            <FiPlay size={18} /> How it Works
           </motion.button>
         </motion.div>
 

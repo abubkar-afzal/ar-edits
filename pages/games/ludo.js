@@ -380,7 +380,7 @@ export default function LudoGame() {
             <p className="text-xs sm:text-sm mb-2 font-medium" style={{ color:"var(--black)" }}>Players</p>
             <div className="flex gap-2">
               {[2,3,4].map(n => (
-                <motion.button key={n} whileHover={{ scale:1.03 }} whileTap={{ scale:0.97 }} onClick={()=>setPlayerCount(n)} className="flex-1 py-2 sm:py-2.5 rounded-xl font-medium text-sm" style={{ backgroundColor: playerCount===n ? "var(--red, #3b82f6)" : "var(--white)", color:playerCount===n ? "var(--white)" : "var(--black)" }}>
+                <motion.button key={n} whileHover={{ scale:1.03 }} whileTap={{ scale:0.97 }} onClick={()=>setPlayerCount(n)} className="flex-1 py-2 sm:py-2.5 rounded-xl font-medium text-sm cursor-pointer" style={{ backgroundColor: playerCount===n ? "var(--red, #3b82f6)" : "var(--white)", color:playerCount===n ? "var(--black)" : "var(--black)" }}>
                   {n}
                 </motion.button>
               ))}
@@ -390,7 +390,7 @@ export default function LudoGame() {
             <p className="text-xs sm:text-sm mb-2 font-medium" style={{ color:"var(--black)" }}>Mode</p>
             <div className="flex gap-2">
               {["friend","ai"].map(m => (
-                <motion.button key={m} whileHover={{ scale:1.03 }} whileTap={{ scale:0.97 }} onClick={()=>setMode(m)} className="flex-1 py-2 sm:py-2.5 rounded-xl font-medium text-sm flex items-center justify-center gap-2" style={{ backgroundColor: mode===m ? "var(--red, #3b82f6)" : "var(--white)", color:"var(--white, #fff)" }}>
+                <motion.button key={m} whileHover={{ scale:1.03 }} whileTap={{ scale:0.97 }} onClick={()=>setMode(m)} className="flex-1 py-2 sm:py-2.5 rounded-xl font-medium text-sm flex items-center justify-center gap-2 cursor-pointer" style={{ backgroundColor: mode===m ? "var(--red, #3b82f6)" : "var(--white)", color:"var(--black, #fff)" }}>
                   {m==="friend" ? <FaUserFriends/> : <FaRobot/>}
                   {m==="friend" ? "Friend" : "Computer"}
                 </motion.button>
@@ -404,13 +404,13 @@ export default function LudoGame() {
                 {COLOR_OPTIONS.map(c => {
                   const isSelected = playerColors[color] === c;
                   return (
-                    <motion.button key={c} whileHover={{ scale:1.1 }} whileTap={{ scale:0.9 }} onClick={()=>setPlayerColors(prev=>({...prev,[color]:c}))} className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2" style={{ backgroundColor:c, borderColor: isSelected ? "var(--white, #fff)" : "transparent", boxShadow: isSelected ? `0 0 8px ${c}` : "none" }} />
+                    <motion.button key={c} whileHover={{ scale:1.1 }} whileTap={{ scale:0.9 }} onClick={()=>setPlayerColors(prev=>({...prev,[color]:c}))} className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 cursor-pointer" style={{ backgroundColor:c, borderColor: isSelected ? "var(--white, #fff)" : "transparent", boxShadow: isSelected ? `0 0 8px ${c}` : "none" }} />
                   );
                 })}
               </div>
             </div>
           ))}
-          <motion.button whileHover={{ scale:1.02 }} whileTap={{ scale:0.95 }} onClick={()=>{ initGame(); setPhase("playing"); }} className="w-full py-2.5 sm:py-3 rounded-xl font-bold text-base sm:text-lg shadow-lg cursor-pointer" style={{ backgroundColor:"var(--green, #22c55e)", color:"var(--white, #fff)" }}>Start Game</motion.button>
+          <motion.button whileHover={{ scale:1.02 }} whileTap={{ scale:0.95 }} onClick={()=>{ initGame(); setPhase("playing"); }} className="w-full py-2.5 sm:py-3 rounded-xl font-bold text-base sm:text-lg shadow-lg cursor-pointer" style={{ backgroundColor:"var(--green, #22c55e)", color:"var(--black, #fff)" }}>Start Game</motion.button>
           <motion.button
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.95 }}

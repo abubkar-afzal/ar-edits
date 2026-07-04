@@ -48,7 +48,7 @@ export default function VideoCombiner() {
   const [dragType, setDragType] = useState(null);
   const [backgroundAudioClip, setBackgroundAudioClip] = useState(null);
   const [selectedBgAudioId, setSelectedBgAudioId] = useState(null);
-
+const [editingInputKey, setEditingInputKey] = useState(null);
   // --- mobile dropdown states (ADDED) ---
   const [showMobileLeft, setShowMobileLeft] = useState(false);
   const [showMobileRight, setShowMobileRight] = useState(false);
@@ -76,7 +76,8 @@ export default function VideoCombiner() {
   const cancelledRef = useRef(false);
   const bgAudioRef = useRef(null); // plain <audio> element for background (simpler)
   const bgAudioReadyRef = useRef(false);
-
+const preventClickRef = useRef(false);
+const lastTapForInputRef = useRef({ time: 0, key: null });
   const getSourceVideo = (id) => sourceVideos.find((v) => v.id === id);
 
   // ---- close mobile dropdowns on outside click (ADDED) ----
@@ -609,123 +610,134 @@ export default function VideoCombiner() {
 
   // ---- canvas interactions (updated to pointer events) ----
   const handleCanvasPointerDown = (e) => {
-    e.preventDefault();
-    const rect = canvasRef.current.getBoundingClientRect();
-    const scaleX = canvasW / rect.width;
-    const scaleY = canvasH / rect.height;
-    const x = (e.clientX - rect.left) * scaleX;
-    const y = (e.clientY - rect.top) * scaleY;
+  e.preventDefault();
+  const canvas = canvasRef.current;
+  if (!canvas) return;
 
-    // Check if click is on transform handles of selected clip
-    if (selectedClipId) {
-      const clip = clips.find((c) => c.id === selectedClipId);
-      if (clip) {
-        const t = clip.transform;
-        const handleSize = 16; // larger for touch
-        const corners = [
-          [t.x, t.y],
-          [t.x + t.width, t.y],
-          [t.x, t.y + t.height],
-          [t.x + t.width, t.y + t.height],
-        ];
-        for (let i = 0; i < corners.length; i++) {
-          const [cx, cy] = corners[i];
-          if (
-            x >= cx - handleSize / 2 &&
-            x <= cx + handleSize / 2 &&
-            y >= cy - handleSize / 2 &&
-            y <= cy + handleSize / 2
-          ) {
-            setIsDraggingTransform(true);
-            setDragType(i);
-            return;
-          }
+  // Capture pointer so we receive moves even if finger leaves the element
+  canvas.setPointerCapture(e.pointerId);
+  
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvasW / rect.width;
+  const scaleY = canvasH / rect.height;
+  const x = (e.clientX - rect.left) * scaleX;
+  const y = (e.clientY - rect.top) * scaleY;
+
+  // Check if click is on transform handles of selected clip
+  if (selectedClipId) {
+    const clip = clips.find((c) => c.id === selectedClipId);
+    if (clip) {
+      const t = clip.transform;
+      const handleSize = 30; // touch-friendly
+      const corners = [
+        [t.x, t.y],
+        [t.x + t.width, t.y],
+        [t.x, t.y + t.height],
+        [t.x + t.width, t.y + t.height],
+      ];
+      for (let i = 0; i < corners.length; i++) {
+        const [cx, cy] = corners[i];
+        if (
+          x >= cx - handleSize / 2 &&
+          x <= cx + handleSize / 2 &&
+          y >= cy - handleSize / 2 &&
+          y <= cy + handleSize / 2
+        ) {
+          setIsDraggingTransform(true);
+          setDragType(i);
+          return; // don’t trigger click later
         }
       }
     }
-    // Otherwise select clip or deselect
-    // handled by click
-  };
+  }
+};
 
-  const handleCanvasPointerMove = (e) => {
-    e.preventDefault();
-    if (!isDraggingTransform || selectedClipId === null) return;
-    const rect = canvasRef.current.getBoundingClientRect();
-    const scaleX = canvasW / rect.width;
-    const scaleY = canvasH / rect.height;
-    const x = (e.clientX - rect.left) * scaleX;
-    const y = (e.clientY - rect.top) * scaleY;
-    const clip = clips.find((c) => c.id === selectedClipId);
-    if (!clip) return;
+const handleCanvasPointerMove = (e) => {
+  e.preventDefault();
+  if (!isDraggingTransform || selectedClipId === null) return;
+  const rect = canvasRef.current.getBoundingClientRect();
+  const scaleX = canvasW / rect.width;
+  const scaleY = canvasH / rect.height;
+  const x = (e.clientX - rect.left) * scaleX;
+  const y = (e.clientY - rect.top) * scaleY;
+  const clip = clips.find((c) => c.id === selectedClipId);
+  if (!clip) return;
+  const t = clip.transform;
+  const newTransform = { ...t };
+  const minSize = 10;
+  switch (dragType) {
+    case 0: // top-left
+      newTransform.x = Math.min(x, t.x + t.width - minSize);
+      newTransform.y = Math.min(y, t.y + t.height - minSize);
+      newTransform.width = t.x + t.width - newTransform.x;
+      newTransform.height = t.y + t.height - newTransform.y;
+      break;
+    case 1: // top-right
+      newTransform.y = Math.min(y, t.y + t.height - minSize);
+      newTransform.height = t.y + t.height - newTransform.y;
+      newTransform.width = Math.max(minSize, x - t.x);
+      break;
+    case 2: // bottom-left
+      newTransform.x = Math.min(x, t.x + t.width - minSize);
+      newTransform.width = t.x + t.width - newTransform.x;
+      newTransform.height = Math.max(minSize, y - t.y);
+      break;
+    case 3: // bottom-right
+      newTransform.width = Math.max(minSize, x - t.x);
+      newTransform.height = Math.max(minSize, y - t.y);
+      break;
+    default:
+      return;
+  }
+  if (newTransform.width > 0 && newTransform.height > 0) {
+    updateClipTransform(selectedClipId, newTransform);
+  }
+};
+
+const handleCanvasPointerUp = (e) => {
+  const canvas = canvasRef.current;
+  if (canvas) canvas.releasePointerCapture(e.pointerId);
+  
+  if (isDraggingTransform) {
+    // Mark that a drag just ended so the upcoming click is suppressed
+    preventClickRef.current = true;
+  }
+  setIsDraggingTransform(false);
+  setDragType(null);
+};
+
+const handleCanvasClick = (e) => {
+  // Ignore click if it was part of a drag
+  if (preventClickRef.current) {
+    preventClickRef.current = false;
+    return;
+  }
+  
+  const rect = canvasRef.current.getBoundingClientRect();
+  const scaleX = canvasW / rect.width;
+  const scaleY = canvasH / rect.height;
+  const x = (e.clientX - rect.left) * scaleX;
+  const y = (e.clientY - rect.top) * scaleY;
+
+  const sortedClips = [...clips].sort((a, b) => a.startTime - b.startTime);
+  let found = null;
+  for (let i = sortedClips.length - 1; i >= 0; i--) {
+    const clip = sortedClips[i];
     const t = clip.transform;
-    const newTransform = { ...t };
-    const minSize = 10;
-    switch (dragType) {
-      case 0: // top-left
-        newTransform.x = Math.min(x, t.x + t.width - minSize);
-        newTransform.y = Math.min(y, t.y + t.height - minSize);
-        newTransform.width = t.x + t.width - newTransform.x;
-        newTransform.height = t.y + t.height - newTransform.y;
-        break;
-      case 1: // top-right
-        newTransform.y = Math.min(y, t.y + t.height - minSize);
-        newTransform.height = t.y + t.height - newTransform.y;
-        newTransform.width = Math.max(minSize, x - t.x);
-        break;
-      case 2: // bottom-left
-        newTransform.x = Math.min(x, t.x + t.width - minSize);
-        newTransform.width = t.x + t.width - newTransform.x;
-        newTransform.height = Math.max(minSize, y - t.y);
-        break;
-      case 3: // bottom-right
-        newTransform.width = Math.max(minSize, x - t.x);
-        newTransform.height = Math.max(minSize, y - t.y);
-        break;
-      default:
-        return;
+    if (x >= t.x && x <= t.x + t.width && y >= t.y && y <= t.y + t.height) {
+      found = clip;
+      break;
     }
-    if (newTransform.width > 0 && newTransform.height > 0) {
-      updateClipTransform(selectedClipId, newTransform);
-    }
-  };
-
-  const handleCanvasPointerUp = () => {
-    setIsDraggingTransform(false);
-    setDragType(null);
-  };
-
-  const handleCanvasClick = (e) => {
-    // select clip based on click
-    const rect = canvasRef.current.getBoundingClientRect();
-    const scaleX = canvasW / rect.width;
-    const scaleY = canvasH / rect.height;
-    const x = (e.clientX - rect.left) * scaleX;
-    const y = (e.clientY - rect.top) * scaleY;
-
-    // Find which clip is under the click (reverse order for topmost)
-    const sortedClips = [...clips].sort((a, b) => a.startTime - b.startTime);
-    let found = null;
-    for (let i = sortedClips.length - 1; i >= 0; i--) {
-      const clip = sortedClips[i];
-      const t = clip.transform;
-      if (x >= t.x && x <= t.x + t.width && y >= t.y && y <= t.y + t.height) {
-        found = clip;
-        break;
-      }
-    }
-    if (found) {
-      setSelectedClipId(found.id);
-    } else {
-      setSelectedClipId(null);
-    }
-  };
+  }
+  setSelectedClipId(found ? found.id : null);
+};
 
   // ---- drag-to-adjust inputs (updated to pointer events) ----
   useEffect(() => {
     if (!isDraggingInput) return;
     const onPointerMove = (e) => {
       const deltaX = e.clientX - dragStartPointerX;
-      const newValue = Math.round(dragStartValue + deltaX * 0.5);
+      const newValue = Math.round(dragStartValue + deltaX * 6);
       const clip = clips.find((c) => c.id === selectedClipId);
       if (clip) {
         const newTransform = { ...clip.transform, [dragInputKey]: newValue };
@@ -1255,7 +1267,7 @@ export default function VideoCombiner() {
       </div>
 
       {/* Center */}
-      <div className="flex-1 flex flex-col p-3 min-h-0 overflow-y-scroll overscroll-x-hidden">
+      <div className="flex-1 flex flex-col p-3 min-h-0 overflow-y-scroll overscroll-x-hidden scrollbar-thick">
         {/* Canvas container */}
         <div
           className="flex-1 flex items-center justify-center rounded-2xl relative"
@@ -1272,6 +1284,7 @@ export default function VideoCombiner() {
             width={canvasW}
             height={canvasH}
             className="max-w-full max-h-full touch-none"
+            style={{ touchAction: "none" }}
             onPointerDown={handleCanvasPointerDown}
             onPointerMove={handleCanvasPointerMove}
             onPointerUp={handleCanvasPointerUp}
@@ -1358,90 +1371,123 @@ export default function VideoCombiner() {
 
         {/* Transform controls for video clips */}
         {selectedClipId && (
-          <div
-            className="flex flex-wrap gap-2 p-2 rounded-xl text-xs font-medium mb-2"
-            style={{ backgroundColor: "var(--lightgray)" }}
-          >
-            {["X", "Y", "W", "H"].map((label, i) => {
-              const key = ["x", "y", "width", "height"][i];
-              const colors = [
-                "var(--red)",
-                "var(--orange)",
-                "var(--yellow)",
-                "var(--pink)",
-              ];
-              const clip = clips.find((c) => c.id === selectedClipId);
+  <div
+    className="flex flex-wrap gap-2 p-2 rounded-xl text-xs font-medium mb-2"
+    style={{ backgroundColor: "var(--lightgray)" }}
+  >
+    {["X", "Y", "W", "H"].map((label, i) => {
+      const key = ["x", "y", "width", "height"][i];
+      const colors = ["var(--red)", "var(--orange)", "var(--yellow)", "var(--pink)"];
+      const clip = clips.find((c) => c.id === selectedClipId);
+      const isEditing = editingInputKey === key;
               return (
-                <label
-                  key={label}
-                  className="flex items-center gap-1"
-                  style={{ color: "var(--black)" }}
-                >
-                  <span
-                    className="w-5 h-5 rounded flex items-center justify-center text-[10px] font-bold"
-                    style={{
-                      backgroundColor: colors[i],
-                      color: "var(--white)",
-                    }}
-                  >
-                    {label}
-                  </span>
-                  <input
-                    type="number"
-                    step="any"
-                    value={Math.round(clip?.transform[key] || 0)}
-                    onChange={(e) => {
-                      if (clip)
-                        updateClipTransform(selectedClipId, {
-                          ...clip.transform,
-                          [key]: Number(e.target.value),
-                        });
-                    }}
-                    onPointerDown={(e) => {
-                      if (e.button !== 0) return;
-                      e.preventDefault();
-                      setIsDraggingInput(true);
-                      setDragInputKey(key);
-                      setDragStartValue(clip?.transform[key] || 0);
-                      setDragStartPointerX(e.clientX);
-                    }}
-                    className="w-14 p-1 rounded text-xs font-semibold border cursor-ew-resize"
-                    style={{
-                      backgroundColor: "var(--white)",
-                      color: "var(--black)",
-                      borderColor: "var(--border)",
-                    }}
-                  />
-                  <span
-                    className="text-[10px]"
-                    style={{ color: "var(--gray)" }}
-                  >
-                    px
-                  </span>
-                </label>
-              );
-            })}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => {
-                const clip = clips.find((c) => c.id === selectedClipId);
-                if (clip)
-                  updateClipTransform(
-                    selectedClipId,
-                    getContainTransform(
-                      getSourceVideo(clip.sourceVideoId) || {
-                        videoWidth: 640,
-                        videoHeight: 360,
-                      },
-                    ),
-                  );
-              }}
-              className="px-2 py-1 rounded text-[10px] font-bold cursor-pointer"
-              style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
-            >
-              <FaUndo size={10} /> Reset
-            </motion.button>
+        <label
+          key={label}
+          className="flex items-center gap-1"
+          style={{ color: "var(--black)" }}
+        >
+          <span
+            className="w-5 h-5 rounded flex items-center justify-center text-[10px] font-bold"
+            style={{
+              backgroundColor: colors[i],
+              color: "var(--white)",
+            }}
+          >
+            {label}
+          </span>
+          <input
+            type="number"
+            step="any"
+            value={
+              isEditing
+                ? clip?.transform[key] || 0
+                : Math.round(clip?.transform[key] || 0)
+            }
+            onChange={(e) => {
+              if (clip && isEditing) {
+                updateClipTransform(selectedClipId, {
+                  ...clip.transform,
+                  [key]: Number(e.target.value),
+                });
+              }
+            }}
+            onPointerDown={(e) => {
+              if (e.button !== 0) return;
+              // Stop drag if currently editing this field
+              if (isEditing) {
+                // Let the default input behaviour happen (focus, selection)
+                return;
+              }
+
+              // Double‑tap detection
+              const now = Date.now();
+              const lastTap = lastTapForInputRef.current;
+              if (lastTap.key === key && now - lastTap.time < 300) {
+                // Double tap → enter edit mode
+                e.preventDefault();
+                setEditingInputKey(key);
+                lastTapForInputRef.current = { time: 0, key: null };
+                return;
+              }
+
+              // Single tap: prepare drag
+              lastTapForInputRef.current = { time: now, key: key };
+
+              e.preventDefault();
+              setIsDraggingInput(true);
+              setDragInputKey(key);
+              setDragStartValue(clip?.transform[key] || 0);
+              setDragStartPointerX(e.clientX);
+            }}
+            onBlur={() => {
+              if (isEditing) {
+                setEditingInputKey(null);
+              }
+            }}
+            onKeyDown={(e) => {
+              if (isEditing && e.key === "Enter") {
+                e.target.blur();
+              }
+            }}
+            className={`w-14 p-1 rounded text-xs font-semibold border ${
+              isEditing
+                ? "cursor-text border-blue-500 ring-1 ring-blue-200"
+                : "cursor-ew-resize"
+            }`}
+            style={{
+              backgroundColor: "var(--white)",
+              color: "var(--black)",
+              borderColor: isEditing ? "var(--blue)" : "var(--border)",
+            }}
+            readOnly={!isEditing}
+          />
+          <span className="text-[10px]" style={{ color: "var(--gray)" }}>
+            px
+          </span>
+        </label>
+      );
+    })}
+             <motion.button
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      onClick={() => {
+        const clip = clips.find((c) => c.id === selectedClipId);
+        if (clip)
+          updateClipTransform(
+            selectedClipId,
+            getContainTransform(
+              getSourceVideo(clip.sourceVideoId) || {
+                videoWidth: 640,
+                videoHeight: 360,
+              },
+            ),
+          );
+      }}
+      className="flex items-center px-2 py-1 rounded text-[10px] font-bold cursor-pointer"
+      style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
+    >
+      <FaUndo size={10} className="mr-2"/> Reset
+    </motion.button>
             <div className="flex gap-1 ml-auto">
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -1560,8 +1606,8 @@ export default function VideoCombiner() {
 
         {backgroundAudioClip && (
           <div
-            className="p-2 rounded-xl space-y-2"
-            style={{ backgroundColor: "var(--lightgray)" }}
+            className="p-2 rounded-xl space-y-2 border"
+            style={{ backgroundColor: "var(--white)", color: "var(--black)", borderColor:"var(--black)" }}
           >
             <div className="flex items-center justify-between">
               <span className="truncate text-[10px] font-medium flex-1 mr-1">
@@ -1615,7 +1661,7 @@ export default function VideoCombiner() {
     {/* Timeline */}
     <div className="p-3 border-t" style={{ borderColor: "var(--border)" }}>
       <div
-        className="relative h-12 rounded-xl overflow-x-auto overflow-y-hidden"
+        className="relative h-12 rounded-xl overflow-x-auto overflow-y-scroll"
         style={{ backgroundColor: "var(--lightgray)" }}
         onClick={(e) => {
           if (!e.target.closest("[data-clip]")) {
@@ -1645,6 +1691,21 @@ export default function VideoCombiner() {
               </div>
             ),
           )}
+                    {/* Video clips on top */}
+
+          {clips.map((clip) => (
+            <TimelineClip
+              key={clip.id}
+              clip={clip}
+              sourceVideo={getSourceVideo(clip.sourceVideoId)}
+              onDrag={handleClipDrag}
+              onTrimChange={handleTrimChange}
+              onMuteToggle={(muted) => toggleMuteClip(clip.id, muted)}
+              pixelsPerSecond={PIXELS_PER_SECOND}
+              isSelected={clip.id === selectedClipId}
+              onSelect={() => setSelectedClipId(clip.id)}
+            />
+          ))}
           {/* Background audio first (behind video clips) */}
           {backgroundAudioClip && (
             <TimelineBgAudio
@@ -1662,20 +1723,7 @@ export default function VideoCombiner() {
               onSelect={() => setSelectedBgAudioId(backgroundAudioClip.id)}
             />
           )}
-          {/* Video clips on top */}
-          {clips.map((clip) => (
-            <TimelineClip
-              key={clip.id}
-              clip={clip}
-              sourceVideo={getSourceVideo(clip.sourceVideoId)}
-              onDrag={handleClipDrag}
-              onTrimChange={handleTrimChange}
-              onMuteToggle={(muted) => toggleMuteClip(clip.id, muted)}
-              pixelsPerSecond={PIXELS_PER_SECOND}
-              isSelected={clip.id === selectedClipId}
-              onSelect={() => setSelectedClipId(clip.id)}
-            />
-          ))}
+          
         </div>
       </div>
     </div>
@@ -1832,8 +1880,8 @@ function SourceClip({ video, onAddToTimeline }) {
 
   return (
     <div
-      className="p-2 rounded-lg text-xs space-y-1.5"
-      style={{ backgroundColor: "var(--black)", color: "var(--white)" }}
+      className="p-2 rounded-lg text-xs space-y-1.5 border"
+      style={{ backgroundColor: "var(--white)", color: "var(--black)", borderColor:"var(--black)" }}
     >
       <div className="flex items-center gap-2">
         {video.thumbnail ? (
@@ -1888,7 +1936,7 @@ function SourceClip({ video, onAddToTimeline }) {
       <motion.button
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
-        onClick={() => onAddToTimeline(video.id, trimStart, trimEnd)}
+        onClick={() => {onAddToTimeline(video.id, trimStart, trimEnd),  setShowMobileLeft(false)}}
         className="w-full py-1.5 rounded-lg text-[11px] font-bold cursor-pointer"
         style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
       >
@@ -1934,14 +1982,13 @@ function TimelineClip({
   return (
     <div
       data-clip="true"
-      className="absolute top-4 h-6 rounded-lg flex items-center text-[10px] px-1.5 overflow-hidden cursor-grab active:cursor-grabbing"
+      className="absolute top-0 h-6 rounded-lg flex items-center text-[10px] px-1.5 overflow-hidden cursor-grab active:cursor-grabbing"
       style={{
         left: `${left}px`,
         width: `${width}px`,
         backgroundColor: isSelected ? "var(--green)" : "var(--gray)",
         color: "var(--white)",
         minWidth: "40px",
-        zIndex: 2,
         touchAction: "none",
       }}
       onPointerDown={handlePointerDown}
@@ -2055,14 +2102,13 @@ function TimelineBgAudio({
   return (
     <div
       data-clip="true"
-      className="absolute top-0 h-6 rounded-lg flex items-center text-[10px] px-1.5 overflow-hidden cursor-grab active:cursor-grabbing"
+      className="absolute top-8 h-6 rounded-lg flex items-center text-[10px] px-1.5 overflow-hidden cursor-grab active:cursor-grabbing"
       style={{
         left: `${left}px`,
         width: `${width}px`,
         backgroundColor: isSelected ? "var(--purple)" : "var(--pink)",
         color: "var(--white)",
         minWidth: "40px",
-        zIndex: 1,
         touchAction: "none",
       }}
       onPointerDown={handlePointerDown}

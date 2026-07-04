@@ -281,3 +281,28 @@ img, a {
 ::-moz-selection {
   background: transparent;
 }
+
+
+ .scrollbar-thick {
+    scrollbar-width: auto; /* Fallback for Firefox */
+  }
+  
+  .scrollbar-thick::-webkit-scrollbar {
+    width: 16px; /* Thick vertical scrollbar */
+  }
+
+
+  .scrollbar-thick::-webkit-scrollbar-thumb {
+    
+    border-radius: 8px;
+  }
+
+   @media (min-width: 1024px) {
+    .scrollbar-thick {
+      scrollbar-width: auto;
+    }
+    .scrollbar-thick::-webkit-scrollbar {
+      width: 8px; 
+    }
+    
+  }

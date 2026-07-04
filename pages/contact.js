@@ -29,11 +29,11 @@ export default function Contact() {
   };
 
   const skills = [
-    { icon: <FiLayout size={20} />, category: "Frontend", items: "Next.js, React, Tailwind CSS, Framer Motion" },
-    { icon: <FiServer size={20} />, category: "Backend", items: "Node.js, Express, Python, REST APIs" },
-    { icon: <FiDatabase size={20} />, category: "Database", items: "MongoDB, PostgreSQL, Firebase, SQLite" },
-    { icon: <FiCode size={20} />, category: "Languages", items: "JavaScript, TypeScript, Python, HTML/CSS" },
-    { icon: <FiTool size={20} />, category: "Tools", items: "Git, Docker, VS Code, Figma, Vercel" },
+    { icon: <FiLayout size={20} />, category: "Frontend", items: "Next.js, React, Tailwind CSS, Framer Motion, Python" },
+    { icon: <FiServer size={20} />, category: "Backend", items: "Node.js, Next.js, Express, Python, REST APIs" },
+    { icon: <FiDatabase size={20} />, category: "Database", items: "MongoDB, MySQL, SQLite" },
+    { icon: <FiCode size={20} />, category: "Languages", items: "JavaScript, TypeScript, Python, C++, PHP" },
+    { icon: <FiTool size={20} />, category: "Tools", items: "Git, VS Code, Figma, Vercel" },
     { icon: <FiCpu size={20} />, category: "Specialties", items: "Full-Stack Development, WebGL, Media Processing" },
   ];
 
@@ -159,7 +159,7 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     rows={5}
-                    placeholder="Tell me what's on your mind..."
+                    placeholder="Tell me how can I help you..."
                     className="w-full px-4 py-3 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2 resize-none"
                     style={{
                       backgroundColor: "var(--lightgray)",

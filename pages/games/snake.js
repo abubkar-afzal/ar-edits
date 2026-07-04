@@ -398,8 +398,8 @@ export default function SnakeGame() {
       {/* ─── Top Bar ────────────────────────────────────── */}
       {!showSetup && (
         <div className="w-full flex justify-between items-center mb-2 flex-shrink-0">
-          <div className="text-sm font-semibold" style={{ color: "var(--black)" }}>
-            🐍 Score: {score}
+          <div className="text-lg font-black mb-5 tracking-tight" style={{ color: "var(--black)" }}>
+            Score: {score}
           </div>
           <motion.div className="relative">
             <motion.button

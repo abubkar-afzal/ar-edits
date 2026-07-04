@@ -360,7 +360,7 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
 {/* GAMES SECTION – Premium Immersive Arcade */}
 {/* ═══════════════════════════════════════════════════════════ */}
-<section className="pt-28 pb-10 px-4 relative overflow-hidden" style={{ backgroundColor: "var(--white)" }}>
+<section id="games" className="pt-28 pb-10 px-4 relative overflow-hidden" style={{ backgroundColor: "var(--white)" }}>
   
   {/* ─── Background Ambient Orbs ──────────────────────────── */}
   <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -463,19 +463,19 @@ export default function Home() {
         </div>
         TAKE A BREAK
       </motion.div>
-
-      <h2 className="text-5xl md:text-7xl font-black mb-5 tracking-tight flex sm:flex-col t:flex-row" style={{ color: "var(--black)" }}>
-        Games{""}
-        <span>Arcade
+      <div className="text-center w-full flex items-center justify-center">
+      <h2 className="text-5xl md:text-7xl font-black mb-5 tracking-tight flex sm:flex-col l:flex-row" style={{ color: "var(--black)" }}>
+        Games{" "}
+        <span className="mx-2">Arcade
         </span>
-      </h2>
+      </h2></div>
       <p className="text-lg md:text-xl max-w-xl mx-auto leading-relaxed" style={{ color: "var(--gray)" }}>
         Take a break and enjoy our hand‑picked collection of browser games.
       </p>
     </motion.div>
 
     {/* ─── Games Layout – Featured + Sidebar ───────────────── */}
-    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+    <div  className="grid grid-cols-1 lg:grid-cols-5 gap-8">
       
       {/* ─── Featured Game Card (3 columns) ────────────────── */}
       <motion.div
@@ -541,10 +541,10 @@ export default function Home() {
               {/* Content */}
               <div className="flex-1">
                 <h3 className="text-4xl md:text-5xl font-black mb-4" style={{ color: "var(--black)" }}>
-                  3D Snake
+                  Snake
                 </h3>
                 <p className="text-base md:text-lg mb-8 leading-relaxed max-w-lg" style={{ color: "var(--gray)" }}>
-                  Classic snake reimagined in immersive 3D with glowing effects, 
+                  Classic snake reimagined in immersive with glowing effects, 
                   silky‑smooth controls, and endless replayability.
                 </p>
               </div>
@@ -620,13 +620,13 @@ export default function Home() {
                 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <h3 className="text-2xl font-black" style={{ color: "var(--black)" }}>3D Chess</h3>
+                    <h3 className="text-2xl font-black" style={{ color: "var(--black)" }}>Chess</h3>
                     <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ backgroundColor: "var(--purple)", color: "var(--white)" }}>
                       NEW
                     </span>
                   </div>
                   <p className="text-sm mb-3 line-clamp-2" style={{ color: "var(--gray)" }}>
-                    Strategic chess with stunning 3D visuals and AI opponent.
+                    Strategic chess with stunning visuals and AI opponent.
                   </p>
                   <div className="flex items-center gap-2">
                     <div className="flex items-center gap-0.5">

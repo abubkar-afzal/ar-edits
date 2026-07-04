@@ -2,7 +2,16 @@
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { FaArrowsAlt, FaDownload, FaExchangeAlt, FaImages, FaPlus, FaRedo, FaTrash, FaUndo } from "react-icons/fa";
+import {
+  FaArrowsAlt,
+  FaDownload,
+  FaExchangeAlt,
+  FaImages,
+  FaPlus,
+  FaRedo,
+  FaTrash,
+  FaUndo,
+} from "react-icons/fa";
 
 const CANVAS_PRESETS = {
   "1:1 (1080x1080)": { width: 1080, height: 1080 },
@@ -48,6 +57,14 @@ export default function PhotoCollageEditor() {
   const [exporting, setExporting] = useState(false);
   const [exportBlob, setExportBlob] = useState(null);
   const [exportError, setExportError] = useState(null);
+
+  // Drag-to-adjust input state
+  const [editingInputKey, setEditingInputKey] = useState(null);
+  const [isDraggingInput, setIsDraggingInput] = useState(false);
+  const [dragInputKey, setDragInputKey] = useState(null);
+  const [dragStartValue, setDragStartValue] = useState(0);
+  const [dragStartPointerX, setDragStartPointerX] = useState(0);
+  const lastTapForInputRef = useRef({ time: 0, key: null });
 
   const canvasRef = useRef(null);
   const imageCache = useRef({});
@@ -159,6 +176,38 @@ export default function PhotoCollageEditor() {
     });
   }, [photos, drawCanvas, preloadImage]);
 
+  // ─── Drag-to-adjust useEffect ───
+  useEffect(() => {
+    if (!isDraggingInput) return;
+    const onPointerMove = (e) => {
+      const deltaX = e.clientX - dragStartPointerX;
+      const sensitivity = canvasSize.width * 0.01; // 1% of canvas width
+      const newValue = Math.round((dragStartValue * canvasSize.width + deltaX * sensitivity) * 10) / 10;
+      const clip = elements.find((c) => c.frameIdx === selectedFrame);
+      if (clip) {
+        const newTransform = { ...clip.transform, [dragInputKey]: newValue / canvasSize.width };
+        if (dragInputKey === "w" || dragInputKey === "h") {
+          if (newTransform[dragInputKey] < 0.01) newTransform[dragInputKey] = 0.01;
+        }
+        setElements((prev) =>
+          prev.map((el) =>
+            el.frameIdx === selectedFrame ? { ...el, transform: newTransform } : el
+          )
+        );
+      }
+    };
+    const onPointerUp = () => {
+      setIsDraggingInput(false);
+      setDragInputKey(null);
+    };
+    document.addEventListener("pointermove", onPointerMove);
+    document.addEventListener("pointerup", onPointerUp);
+    return () => {
+      document.removeEventListener("pointermove", onPointerMove);
+      document.removeEventListener("pointerup", onPointerUp);
+    };
+  }, [isDraggingInput, dragStartPointerX, dragStartValue, dragInputKey, selectedFrame, elements, canvasSize]);
+
   const handlePhotoUpload = (e) => {
     const files = e.target.files;
     if (!files) return;
@@ -171,7 +220,7 @@ export default function PhotoCollageEditor() {
 
   const applyPreset = (presetObj) => setPreset(presetObj);
 
-  // --- Mouse handlers ---
+  // --- Mouse handlers (unchanged) ---
   const handleCanvasMouseDown = (e) => {
     if (layoutMode || swapMode || selectedFrame === null) return;
     const canvas = canvasRef.current;
@@ -388,59 +437,129 @@ export default function PhotoCollageEditor() {
 
   const selectedPanZoom = selectedFrame !== null ? getPanZoom(selectedFrame) : { offsetX: 0, offsetY: 0, zoom: 1 };
 
-       return (
-    <div className="flex flex-col h-full overflow-hidden" style={{ backgroundColor: "var(--white)", color: "var(--black)" }}>
+  return (
+    <div
+      className="flex flex-col h-full overflow-hidden"
+      style={{ backgroundColor: "var(--white)", color: "var(--black)" }}
+    >
       {/* ─── Header ──────────────────────────────────────── */}
-      <div className="p-4 border-b " style={{ borderColor: "var(--border)" }}>
+      <div className="p-4 border-b" style={{ borderColor: "var(--border)" }}>
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "var(--red)", color: "var(--white)" }}>
+          <div
+            className="w-10 h-10 rounded-xl flex items-center justify-center"
+            style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
+          >
             <FaImages size={20} />
           </div>
           <div>
-            <h2 className="text-xl font-bold" style={{ color: "var(--black)" }}>Photo Collage</h2>
-            <p className="text-xs" style={{ color: "var(--gray)" }}>Create stunning photo layouts with presets</p>
+            <h2 className="text-xl font-bold" style={{ color: "var(--black)" }}>
+              Photo Collage
+            </h2>
+            <p className="text-xs" style={{ color: "var(--gray)" }}>
+              Create stunning photo layouts with presets
+            </p>
           </div>
         </div>
 
         {/* Action Buttons */}
         <div className="flex flex-wrap items-center gap-2">
-          <input type="file" accept="image/*" multiple onChange={handlePhotoUpload} className="hidden" id="photo-upload" />
-          <motion.label htmlFor="photo-upload" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handlePhotoUpload}
+            className="hidden"
+            id="photo-upload"
+          />
+          <motion.label
+            htmlFor="photo-upload"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
             className="px-4 py-2.5 rounded-xl text-sm font-semibold cursor-pointer flex items-center gap-2 shadow-lg"
-            style={{ backgroundColor: "var(--red)", color: "var(--white)", boxShadow: "0 4px 16px rgba(239, 68, 68, 0.3)" }}>
+            style={{
+              backgroundColor: "var(--red)",
+              color: "var(--white)",
+              boxShadow: "0 4px 16px rgba(239, 68, 68, 0.3)",
+            }}
+          >
             <FaPlus size={14} /> Add Photos
           </motion.label>
 
           <div className="flex items-center gap-1 ml-2">
             <FaImages size={12} style={{ color: "var(--gray)" }} />
-            <select value={preset?.name} onChange={(e) => applyPreset(PRESETS.find(p => p.name === e.target.value) || PRESETS[0])}
-              className="px-3 py-2 rounded-xl text-sm font-semibold cursor-pointer border" style={{ backgroundColor: "var(--white)", borderColor: "var(--border)", color: "var(--black)" }}>
-              {PRESETS.map(p => <option key={p.name}>{p.name}</option>)}
+            <select
+              value={preset?.name}
+              onChange={(e) =>
+                applyPreset(PRESETS.find((p) => p.name === e.target.value) || PRESETS[0])
+              }
+              className="px-3 py-2 rounded-xl text-sm font-semibold cursor-pointer border"
+              style={{
+                backgroundColor: "var(--white)",
+                borderColor: "var(--border)",
+                color: "var(--black)",
+              }}
+            >
+              {PRESETS.map((p) => (
+                <option key={p.name}>{p.name}</option>
+              ))}
             </select>
           </div>
 
-          <select value={canvasSizeKey} onChange={(e) => setCanvasSizeKey(e.target.value)}
-            className="px-3 py-2 rounded-xl text-sm font-semibold cursor-pointer border" style={{ backgroundColor: "var(--white)", borderColor: "var(--border)", color: "var(--black)" }}>
-            {Object.keys(CANVAS_PRESETS).map(key => <option key={key}>{key}</option>)}
+          <select
+            value={canvasSizeKey}
+            onChange={(e) => setCanvasSizeKey(e.target.value)}
+            className="px-3 py-2 rounded-xl text-sm font-semibold cursor-pointer border"
+            style={{
+              backgroundColor: "var(--white)",
+              borderColor: "var(--border)",
+              color: "var(--black)",
+            }}
+          >
+            {Object.keys(CANVAS_PRESETS).map((key) => (
+              <option key={key}>{key}</option>
+            ))}
           </select>
 
           <div className="flex gap-1.5 ml-auto">
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setLayoutMode(!layoutMode)}
               className="px-3.5 py-2 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1.5 transition-all"
-              style={{ backgroundColor: layoutMode ? "var(--red)" : "var(--lightgray)", color: layoutMode ? "var(--white)" : "var(--black)" }}>
-              <FaArrowsAlt size={12} /> {layoutMode ? 'Done' : 'Layout'}
+              style={{
+                backgroundColor: layoutMode ? "var(--red)" : "var(--lightgray)",
+                color: layoutMode ? "var(--white)" : "var(--black)",
+              }}
+            >
+              <FaArrowsAlt size={12} /> {layoutMode ? "Done" : "Layout"}
             </motion.button>
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-              onClick={() => { setSwapMode(!swapMode); swapFirstFrameRef.current = null; if (!swapMode) setSelectedFrame(null); }}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                setSwapMode(!swapMode);
+                swapFirstFrameRef.current = null;
+                if (!swapMode) setSelectedFrame(null);
+              }}
               className="px-3.5 py-2 rounded-xl text-xs font-bold cursor-pointer flex items-center gap-1.5 transition-all"
-              style={{ backgroundColor: swapMode ? "var(--red)" : "var(--lightgray)", color: swapMode ? "var(--white)" : "var(--black)" }}>
-              <FaExchangeAlt size={12} /> {swapMode ? 'Swapping' : 'Swap'}
+              style={{
+                backgroundColor: swapMode ? "var(--red)" : "var(--lightgray)",
+                color: swapMode ? "var(--white)" : "var(--black)",
+              }}
+            >
+              <FaExchangeAlt size={12} /> {swapMode ? "Swapping" : "Swap"}
             </motion.button>
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={exportCollage}
               className="px-4 py-2 rounded-xl text-sm font-bold cursor-pointer flex items-center gap-2 shadow-lg"
-              style={{ backgroundColor: "var(--red)", color: "var(--white)", boxShadow: "0 4px 16px rgba(239, 68, 68, 0.3)" }}>
+              style={{
+                backgroundColor: "var(--red)",
+                color: "var(--white)",
+                boxShadow: "0 4px 16px rgba(239, 68, 68, 0.3)",
+              }}
+            >
               <FaDownload size={14} /> Export
             </motion.button>
           </div>
@@ -448,74 +567,316 @@ export default function PhotoCollageEditor() {
       </div>
 
       {/* ─── Canvas Area ──────────────────────────────────── */}
-      <div className="flex-1 flex items-center justify-center p-4 overflow-auto" style={{ backgroundColor: "var(--lightgray)" }}>
-        <motion.div 
+      <div
+        className="flex-1 flex items-center justify-center p-4 overflow-auto"
+        style={{ backgroundColor: "var(--lightgray)" }}
+      >
+        <motion.div
           className="rounded-2xl overflow-hidden shadow-2xl"
           style={{ border: "4px solid var(--white)" }}
           whileHover={{ scale: 1.005 }}
           transition={{ duration: 0.3 }}
         >
-          <canvas ref={canvasRef} width={canvasSize.width} height={canvasSize.height}
+          <canvas
+            ref={canvasRef}
+            width={canvasSize.width}
+            height={canvasSize.height}
             className="max-w-full max-h-full block"
-            style={{ maxHeight: 'calc(100vh - 260px)', maxWidth: 'calc(100vw - 40px)' }}
-            onMouseDown={handleCanvasMouseDown} onMouseMove={handleCanvasMouseMove} onMouseUp={handleCanvasMouseUp} onMouseLeave={handleCanvasMouseUp}
-            onClick={handleCanvasClick} onContextMenu={handleCanvasContextMenu} />
+            style={{
+              maxHeight: "calc(100vh - 260px)",
+              maxWidth: "calc(100vw - 40px)",
+            }}
+            onMouseDown={handleCanvasMouseDown}
+            onMouseMove={handleCanvasMouseMove}
+            onMouseUp={handleCanvasMouseUp}
+            onMouseLeave={handleCanvasMouseUp}
+            onClick={handleCanvasClick}
+            onContextMenu={handleCanvasContextMenu}
+          />
         </motion.div>
       </div>
 
-      {/* ─── Bottom Controls: Pan/Zoom ────────────────────── */}
+      {/* ─── Transform Controls (always visible when frame selected) ─── */}
       <AnimatePresence>
         {selectedFrame !== null && !layoutMode && !swapMode && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }}
-            className="flex items-center gap-4 px-4 py-3 border-t text-sm" style={{ backgroundColor: "var(--white)", borderColor: "var(--border)" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="flex flex-wrap gap-2 p-2 rounded-xl text-xs font-medium mb-2 border-t"
+            style={{
+              backgroundColor: "var(--lightgray)",
+              borderColor: "var(--border)",
+            }}
+          >
+            {["X", "Y", "W", "H"].map((label, i) => {
+              const key = ["x", "y", "w", "h"][i];
+              const colors = ["var(--red)", "var(--orange)", "var(--yellow)", "var(--pink)"];
+              const clip = elements.find((c) => c.frameIdx === selectedFrame);
+              if (!clip) return null;
+              const pixelValue = clip.transform[key] * canvasSize.width;
+              const isEditing = editingInputKey === key;
+              return (
+                <label
+                  key={label}
+                  className="flex items-center gap-1"
+                  style={{ color: "var(--black)" }}
+                >
+                  <span
+                    className="w-5 h-5 rounded flex items-center justify-center text-[10px] font-bold"
+                    style={{
+                      backgroundColor: colors[i],
+                      color: "var(--white)",
+                    }}
+                  >
+                    {label}
+                  </span>
+                  <input
+                    type="number"
+                    step="any"
+                    value={isEditing ? pixelValue : Math.round(pixelValue)}
+                    onChange={(e) => {
+                      if (clip && isEditing) {
+                        const val = Number(e.target.value) / canvasSize.width;
+                        setElements((prev) =>
+                          prev.map((el) =>
+                            el.frameIdx === selectedFrame
+                              ? { ...el, transform: { ...el.transform, [key]: val } }
+                              : el
+                          )
+                        );
+                      }
+                    }}
+                    onPointerDown={(e) => {
+                      if (e.button !== 0) return;
+                      if (isEditing) return; // let default input behavior happen
+
+                      // Double‑tap detection
+                      const now = Date.now();
+                      const lastTap = lastTapForInputRef.current;
+                      if (lastTap.key === key && now - lastTap.time < 300) {
+                        e.preventDefault();
+                        setEditingInputKey(key);
+                        lastTapForInputRef.current = { time: 0, key: null };
+                        return;
+                      }
+                      lastTapForInputRef.current = { time: now, key: key };
+
+                      e.preventDefault();
+                      setIsDraggingInput(true);
+                      setDragInputKey(key);
+                      setDragStartValue(clip.transform[key]);
+                      setDragStartPointerX(e.clientX);
+                    }}
+                    onBlur={() => {
+                      if (isEditing) {
+                        setEditingInputKey(null);
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (isEditing && e.key === "Enter") {
+                        e.target.blur();
+                      }
+                    }}
+                    className={`w-16 p-1.5 rounded-lg text-xs font-semibold border ${
+                      isEditing
+                        ? "cursor-text border-blue-500 ring-1 ring-blue-200"
+                        : "cursor-ew-resize"
+                    }`}
+                    style={{
+                      backgroundColor: "var(--white)",
+                      color: "var(--black)",
+                      borderColor: isEditing ? "var(--blue)" : "var(--border)",
+                    }}
+                    readOnly={!isEditing}
+                  />
+                  <span className="text-[10px]" style={{ color: "var(--gray)" }}>
+                    px
+                  </span>
+                </label>
+              );
+            })}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                const clip = elements.find((c) => c.frameIdx === selectedFrame);
+                if (clip) {
+                  // Reset to original frame from preset
+                  const originalFrame = preset.frames[clip.frameIdx];
+                  if (originalFrame) {
+                    setElements((prev) =>
+                      prev.map((el) =>
+                        el.frameIdx === selectedFrame
+                          ? { ...el, transform: { ...originalFrame } }
+                          : el
+                      )
+                    );
+                  }
+                }
+              }}
+              className="flex items-center px-2 py-1 rounded text-[10px] font-bold cursor-pointer"
+              style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
+            >
+              <FaUndo size={10} className="mr-2" /> Reset
+            </motion.button>
+            <div className="flex gap-1 ml-auto">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={deleteFramePhoto}
+                className="px-2 py-1 rounded text-[10px] font-bold cursor-pointer flex items-center gap-1"
+                style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
+              >
+                <FaTrash size={10} /> Delete
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={replaceFramePhoto}
+                className="px-2 py-1 rounded text-[10px] font-bold cursor-pointer flex items-center gap-1"
+                style={{ backgroundColor: "var(--blue)", color: "var(--white)" }}
+              >
+                <FaExchangeAlt size={10} /> Replace
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ─── Pan/Zoom controls (existing, below transform) ─── */}
+      <AnimatePresence>
+        {selectedFrame !== null && !layoutMode && !swapMode && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="flex items-center justify-between gap-4 px-4 py-3 border-t text-sm"
+            style={{ backgroundColor: "var(--white)", borderColor: "var(--border)" }}
+          >
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "var(--red)", color: "var(--white)" }}>
+              <div
+                className="w-8 h-8 rounded-lg flex items-center justify-center"
+                style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
+              >
                 <FaImages size={14} />
               </div>
-              <span className="font-bold" style={{ color: "var(--black)" }}>Frame {selectedFrame + 1}</span>
+              <span className="font-bold" style={{ color: "var(--black)" }}>
+                Frame {selectedFrame + 1}
+              </span>
             </div>
-            <div className="w-px h-6" style={{ backgroundColor: "var(--border)" }} />
-            <span className="text-xs font-medium" style={{ color: "var(--gray)" }}>🖱️ Drag inside frame to pan</span>
-            <div className="w-px h-6" style={{ backgroundColor: "var(--border)" }} />
-            <label className="flex items-center gap-2 text-xs font-medium" style={{ color: "var(--black)" }}>
+            <div className="h-6" style={{ backgroundColor: "var(--border)" }} />
+            <span className="sm:hidden l:block text-xs font-medium" style={{ color: "var(--gray)" }}>
+              🖱️ Drag inside frame to pan
+            </span>
+            <div className=" h-6" style={{ backgroundColor: "var(--border)" }} />
+            <label
+              className="flex items-center gap-2 text-xs font-medium"
+              style={{ color: "var(--black)" }}
+            >
               Zoom
-              <input type="range" min={0.5} max={3} step={0.01} value={selectedPanZoom.zoom}
-                onChange={(e) => setPanZoom(prev => ({ ...prev, [selectedFrame]: { ...prev[selectedFrame], zoom: parseFloat(e.target.value) } }))} className="w-24" />
-              <span className="font-mono text-xs" style={{ color: "var(--gray)" }}>{selectedPanZoom.zoom.toFixed(2)}x</span>
+              <input
+                type="range"
+                min={0.5}
+                max={3}
+                step={0.01}
+                value={selectedPanZoom.zoom}
+                onChange={(e) =>
+                  setPanZoom((prev) => ({
+                    ...prev,
+                    [selectedFrame]: {
+                      ...prev[selectedFrame],
+                      zoom: parseFloat(e.target.value),
+                    },
+                  }))
+                }
+                className="w-24"
+              />
+              <span className="font-mono text-xs" style={{ color: "var(--gray)" }}>
+                {selectedPanZoom.zoom.toFixed(2)}x
+              </span>
             </label>
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-              onClick={() => setPanZoom(prev => ({ ...prev, [selectedFrame]: { offsetX: 0, offsetY: 0, zoom: 1 } }))}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() =>
+                setPanZoom((prev) => ({
+                  ...prev,
+                  [selectedFrame]: { offsetX: 0, offsetY: 0, zoom: 1 },
+                }))
+              }
               className="px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer ml-auto flex items-center gap-1.5"
-              style={{ backgroundColor: "var(--lightgray)", color: "var(--black)" }}>
+              style={{ backgroundColor: "var(--lightgray)", color: "var(--black)" }}
+            >
               <FaUndo size={11} /> Reset
             </motion.button>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ─── Bottom Controls: Layout Mode ─────────────────── */}
+      {/* ─── Layout Mode (when enabled) ─── */}
       <AnimatePresence>
         {layoutMode && selectedFrame !== null && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }}
-            className="flex items-center gap-3 px-4 py-3 border-t text-xs font-medium" style={{ backgroundColor: "var(--white)", borderColor: "var(--border)" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="flex items-center gap-3 px-4 py-3 border-t text-xs font-medium"
+            style={{ backgroundColor: "var(--white)", borderColor: "var(--border)" }}
+          >
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "var(--red)", color: "var(--white)" }}>
+              <div
+                className="w-8 h-8 rounded-lg flex items-center justify-center"
+                style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
+              >
                 <FaArrowsAlt size={14} />
               </div>
-              <span className="font-bold text-sm" style={{ color: "var(--red)" }}>Layout Mode</span>
+              <span className="font-bold text-sm" style={{ color: "var(--red)" }}>
+                Layout Mode
+              </span>
             </div>
             <div className="w-px h-6" style={{ backgroundColor: "var(--border)" }} />
-            {['X','Y','W','H'].map((label, i) => {
-              const key = ['x','y','w','h'][i];
-              const colors = ['var(--red)', 'var(--orange)', 'var(--yellow)', 'var(--pink)'];
+            {["X", "Y", "W", "H"].map((label, i) => {
+              const key = ["x", "y", "w", "h"][i];
+              const colors = ["var(--red)", "var(--orange)", "var(--yellow)", "var(--pink)"];
               return (
-                <label key={label} className="flex items-center gap-1.5" style={{ color: "var(--black)" }}>
-                  <span className="w-5 h-5 rounded flex items-center justify-center text-[10px] font-bold" style={{ backgroundColor: colors[i], color: "var(--white)" }}>{label}</span>
-                  <input type="number"
-                    value={Math.round((elements.find(e => e.frameIdx === selectedFrame)?.transform[key] || 0) * 100)}
-                    onChange={(e) => { const val = Number(e.target.value) / 100; setElements(prev => prev.map(el => el.frameIdx === selectedFrame ? { ...el, transform: { ...el.transform, [key]: val } } : el)); }}
-                    className="w-16 p-1.5 rounded-lg text-xs font-semibold border" style={{ backgroundColor: "var(--lightgray)", color: "var(--black)", borderColor: "var(--border)" }} />
-                  <span className="text-[10px]" style={{ color: "var(--gray)" }}>%</span>
+                <label
+                  key={label}
+                  className="flex items-center gap-1.5"
+                  style={{ color: "var(--black)" }}
+                >
+                  <span
+                    className="w-5 h-5 rounded flex items-center justify-center text-[10px] font-bold"
+                    style={{ backgroundColor: colors[i], color: "var(--white)" }}
+                  >
+                    {label}
+                  </span>
+                  <input
+                    type="number"
+                    value={Math.round(
+                      (elements.find((e) => e.frameIdx === selectedFrame)?.transform[key] || 0) *
+                        100
+                    )}
+                    onChange={(e) => {
+                      const val = Number(e.target.value) / 100;
+                      setElements((prev) =>
+                        prev.map((el) =>
+                          el.frameIdx === selectedFrame
+                            ? { ...el, transform: { ...el.transform, [key]: val } }
+                            : el
+                        )
+                      );
+                    }}
+                    className="w-16 p-1.5 rounded-lg text-xs font-semibold border"
+                    style={{
+                      backgroundColor: "var(--lightgray)",
+                      color: "var(--black)",
+                      borderColor: "var(--border)",
+                    }}
+                  />
+                  <span className="text-[10px]" style={{ color: "var(--gray)" }}>
+                    %
+                  </span>
                 </label>
               );
             })}
@@ -526,18 +887,42 @@ export default function PhotoCollageEditor() {
       {/* ─── Context Menu ─────────────────────────────────── */}
       <AnimatePresence>
         {contextMenu && (
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
-            className="fixed z-50 rounded-2xl shadow-2xl border py-2 w-48 overflow-hidden" style={{ left: contextMenu.x, top: contextMenu.y, backgroundColor: "var(--white)", borderColor: "var(--border)" }}>
-            <button onClick={deleteFramePhoto} 
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="fixed z-50 rounded-2xl shadow-2xl border py-2 w-48 overflow-hidden"
+            style={{
+              left: contextMenu.x,
+              top: contextMenu.y,
+              backgroundColor: "var(--white)",
+              borderColor: "var(--border)",
+            }}
+          >
+            <button
+              onClick={deleteFramePhoto}
               className="w-full text-left px-4 py-2.5 text-sm font-semibold flex items-center gap-3 cursor-pointer transition-colors hover:opacity-80"
-              style={{ color: "var(--red)" }}>
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "var(--red)", color: "var(--white)" }}><FaTrash size={12} /></div>
+              style={{ color: "var(--red)" }}
+            >
+              <div
+                className="w-8 h-8 rounded-lg flex items-center justify-center"
+                style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
+              >
+                <FaTrash size={12} />
+              </div>
               Delete Photo
             </button>
-            <button onClick={replaceFramePhoto} 
+            <button
+              onClick={replaceFramePhoto}
               className="w-full text-left px-4 py-2.5 text-sm font-semibold flex items-center gap-3 cursor-pointer transition-colors hover:opacity-80"
-              style={{ color: "var(--black)" }}>
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "var(--red)", color: "var(--white)" }}><FaRedo size={12} /></div>
+              style={{ color: "var(--black)" }}
+            >
+              <div
+                className="w-8 h-8 rounded-lg flex items-center justify-center"
+                style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
+              >
+                <FaRedo size={12} />
+              </div>
               Replace Photo
             </button>
           </motion.div>
@@ -547,42 +932,110 @@ export default function PhotoCollageEditor() {
       {/* ─── Export Modal ──────────────────────────────────── */}
       <AnimatePresence>
         {(exporting || exportBlob || exportError) && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: "rgba(0,0,0,0.5)", backdropFilter: "blur(8px)" }}>
-            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
-              className="rounded-2xl shadow-2xl p-6 w-full max-w-sm text-center space-y-4" style={{ backgroundColor: "var(--white)" }}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            style={{
+              backgroundColor: "rgba(0,0,0,0.5)",
+              backdropFilter: "blur(8px)",
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="rounded-2xl shadow-2xl p-6 w-full max-w-sm text-center space-y-4"
+              style={{ backgroundColor: "var(--white)" }}
+            >
               {exportError ? (
                 <>
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto" style={{ backgroundColor: "var(--red)", color: "var(--white)" }}><FaTimes size={24} /></div>
-                  <h3 className="text-lg font-bold" style={{ color: "var(--black)" }}>Export Failed</h3>
-                  <p className="text-sm" style={{ color: "var(--gray)" }}>{exportError}</p>
-                  <button onClick={closeModal} className="px-5 py-2.5 rounded-xl text-sm font-semibold cursor-pointer w-full" style={{ backgroundColor: "var(--lightgray)", color: "var(--black)" }}>Close</button>
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto"
+                    style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
+                  >
+                    <FaTimes size={24} />
+                  </div>
+                  <h3 className="text-lg font-bold" style={{ color: "var(--black)" }}>
+                    Export Failed
+                  </h3>
+                  <p className="text-sm" style={{ color: "var(--gray)" }}>
+                    {exportError}
+                  </p>
+                  <button
+                    onClick={closeModal}
+                    className="px-5 py-2.5 rounded-xl text-sm font-semibold cursor-pointer w-full"
+                    style={{ backgroundColor: "var(--lightgray)", color: "var(--black)" }}
+                  >
+                    Close
+                  </button>
                 </>
               ) : exportBlob ? (
                 <>
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto" style={{ backgroundColor: "var(--red)", color: "var(--white)" }}><FaCheck size={24} /></div>
-                  <h3 className="text-lg font-bold" style={{ color: "var(--black)" }}>Collage Ready!</h3>
-                  <p className="text-sm" style={{ color: "var(--gray)" }}>Your collage has been exported successfully.</p>
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto"
+                    style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
+                  >
+                    <FaCheck size={24} />
+                  </div>
+                  <h3 className="text-lg font-bold" style={{ color: "var(--black)" }}>
+                    Collage Ready!
+                  </h3>
+                  <p className="text-sm" style={{ color: "var(--gray)" }}>
+                    Your collage has been exported successfully.
+                  </p>
                   <div className="flex flex-col gap-2">
-                    <button onClick={downloadBlob} className="px-5 py-3 rounded-xl text-sm font-bold cursor-pointer shadow-lg flex items-center justify-center gap-2" style={{ backgroundColor: "var(--red)", color: "var(--white)", boxShadow: "0 4px 16px rgba(239, 68, 68, 0.3)" }}>
+                    <button
+                      onClick={downloadBlob}
+                      className="px-5 py-3 rounded-xl text-sm font-bold cursor-pointer shadow-lg flex items-center justify-center gap-2"
+                      style={{
+                        backgroundColor: "var(--red)",
+                        color: "var(--white)",
+                        boxShadow: "0 4px 16px rgba(239, 68, 68, 0.3)",
+                      }}
+                    >
                       <FaDownload size={14} /> Download PNG
                     </button>
-                    <button onClick={closeModal} className="px-5 py-2.5 rounded-xl text-sm font-semibold cursor-pointer" style={{ backgroundColor: "var(--lightgray)", color: "var(--black)" }}>Close</button>
+                    <button
+                      onClick={closeModal}
+                      className="px-5 py-2.5 rounded-xl text-sm font-semibold cursor-pointer"
+                      style={{ backgroundColor: "var(--lightgray)", color: "var(--black)" }}
+                    >
+                      Close
+                    </button>
                   </div>
                 </>
               ) : (
                 <>
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto" style={{ backgroundColor: "var(--red)", color: "var(--white)" }}>
-                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }}>
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto"
+                    style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
+                  >
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    >
                       <FaImages size={24} />
                     </motion.div>
                   </div>
-                  <h3 className="text-lg font-bold" style={{ color: "var(--black)" }}>Exporting Collage</h3>
-                  <div className="w-full h-2.5 rounded-full overflow-hidden" style={{ backgroundColor: "var(--lightgray)" }}>
-                    <motion.div className="h-full rounded-full" style={{ backgroundColor: "var(--red)" }} 
-                      animate={{ width: ["0%", "100%"] }} transition={{ duration: 2, repeat: Infinity }} />
+                  <h3 className="text-lg font-bold" style={{ color: "var(--black)" }}>
+                    Exporting Collage
+                  </h3>
+                  <div
+                    className="w-full h-2.5 rounded-full overflow-hidden"
+                    style={{ backgroundColor: "var(--lightgray)" }}
+                  >
+                    <motion.div
+                      className="h-full rounded-full"
+                      style={{ backgroundColor: "var(--red)" }}
+                      animate={{ width: ["0%", "100%"] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
                   </div>
-                  <p className="text-xs" style={{ color: "var(--gray)" }}>Generating high-quality PNG...</p>
+                  <p className="text-xs" style={{ color: "var(--gray)" }}>
+                    Generating high-quality PNG...
+                  </p>
                 </>
               )}
             </motion.div>
