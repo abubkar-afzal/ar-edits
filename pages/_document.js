@@ -15,8 +15,8 @@ export default function Document() {
         <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
         {/* ─── Application Info ────────────────────────────── */}
-        <meta name="application-name" content="AR Studio" />
-        <meta name="apple-mobile-web-app-title" content="AR Studio" />
+        <meta name="application-name" content="AR Edits" />
+        <meta name="apple-mobile-web-app-title" content="AR Edits" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="mobile-web-app-capable" content="yes" />
@@ -24,7 +24,7 @@ export default function Document() {
 
         {/* ─── Author & Copyright ──────────────────────────── */}
         <meta name="author" content="Hafiz Abubakar Afzal" />
-        <meta name="copyright" content={`© ${new Date().getFullYear()} AR Studio. All rights reserved.`} />
+        <meta name="copyright" content={`© ${new Date().getFullYear()} AR Edits. All rights reserved.`} />
         <meta name="designer" content="Hafiz Abubakar Afzal" />
         <meta name="developer" content="Hafiz Abubakar Afzal" />
 
@@ -44,7 +44,7 @@ export default function Document() {
         <link rel="apple-touch-icon" sizes="180x180" href="/my_logo_no_bg.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/my_logo_no_bg.png" />
         <link rel="manifest" href="/manifest.json" />
-        <title>AR Studio – Free Browser-Based Creative Suite</title>
+        <title>AR Edits – Free Browser-Based Creative Suite</title>
 
         {/* ─── Preconnect for Performance ──────────────────── */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -55,28 +55,28 @@ export default function Document() {
         {/* ─── Default SEO (will be overridden by pages) ───── */}
         <meta
           name="description"
-          content="AR Studio is a free, browser-based creative suite with powerful tools for photo editing, video combining, audio editing, collage making, and file compression. No signup required — edit instantly."
+          content="AR Edits is a free, browser-based creative suite with powerful tools for photo editing, video combining, audio editing, collage making, and file compression. No signup required — edit instantly."
         />
         <meta
           name="keywords"
-          content="photo editor, video editor, audio editor, video combiner, photo collage, video collage, media compressor, free editor, online editor, browser editor, no signup, AR Studio, Hafiz Abubakar Afzal"
+          content="photo editor, video editor, audio editor, video combiner, photo collage, video collage, media compressor, free editor, online editor, browser editor, no signup, AR Edits, Hafiz Abubakar Afzal"
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@arstudio" />
         <meta name="twitter:creator" content="@hafizabubakarafzal" />
-        <meta name="twitter:title" content="AR Studio – Free Browser-Based Creative Suite" />
+        <meta name="twitter:title" content="AR Edits – Free Browser-Based Creative Suite" />
         <meta
           name="twitter:description"
           content="Edit photos, videos, and audio directly in your browser. No downloads, no signups, completely free."
         />
         <meta name="twitter:image" content="https://ar-studio-five.vercel.app/my_logo.jpg" />
-        <meta name="twitter:image:alt" content="AR Studio – Free Creative Tools" />
+        <meta name="twitter:image:alt" content="AR Edits – Free Creative Tools" />
 
         {/* ─── Open Graph / Facebook ────────────────────────── */}
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="AR Studio" />
+        <meta property="og:site_name" content="AR Edits" />
         <meta property="og:locale" content="en_US" />
-        <meta property="og:title" content="AR Studio – Free Browser-Based Creative Suite" />
+        <meta property="og:title" content="AR Edits – Free Browser-Based Creative Suite" />
         <meta
           property="og:description"
           content="Powerful photo, video, and audio editing tools that run entirely in your browser. No signup required, no files uploaded — 100% private and free."
@@ -85,7 +85,7 @@ export default function Document() {
         <meta property="og:image" content="https://ar-studio-five.vercel.app/my_logo.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="AR Studio – Free Browser-Based Creative Suite" />
+        <meta property="og:image:alt" content="AR Edits – Free Browser-Based Creative Suite" />
         <meta property="og:image:type" content="image/png" />
 
         {/* ─── Structured Data / JSON-LD ────────────────────── */}
@@ -95,7 +95,7 @@ export default function Document() {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebApplication",
-              name: "AR Studio",
+              name: "AR Edits",
               url: "https://ar-studio-five.vercel.app",
               description:
                 "Free browser-based creative suite with photo editor, video combiner, audio editor, collage makers, and file compressor. No signup required.",
@@ -118,7 +118,7 @@ export default function Document() {
               },
               publisher: {
                 "@type": "Organization",
-                name: "AR Studio",
+                name: "AR Edits",
                 url: "https://ar-studio-five.vercel.app",
               },
               browserRequirements: "Requires JavaScript. Works best on Chrome, Firefox, Edge, and Safari.",
@@ -142,7 +142,7 @@ export default function Document() {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "AR Studio",
+              name: "AR Edits",
               url: "https://ar-studio-five.vercel.app",
               logo: "https://ar-studio-five.vercel.app/my_logo_no_bg.png",
               sameAs: [

@@ -73,7 +73,7 @@ export default function Navbar() {
                 className="text-lg font-bold tracking-tight hidden sm:block"
                 style={{ color: "var(--black)" }}
               >
-                AR Studio
+                AR Edits
               </span>
             </Link>
 

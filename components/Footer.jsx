@@ -22,7 +22,7 @@ export default function Footer() {
               className="text-xl font-bold tracking-tight"
               style={{ color: "var(--primary)" }}
             >
-              AR Studio
+              AR Edits
             </h3>
             <p
               className="text-xs tracking-wide"
@@ -46,7 +46,7 @@ export default function Footer() {
               className="text-xs"
               style={{ color: "var(--muted)" }}
             >
-              {`© ${new Date().getFullYear()} AR Studio. All rights reserved.`}
+              {`© ${new Date().getFullYear()} AR Edits. All rights reserved.`}
             </span>
           </div>
 

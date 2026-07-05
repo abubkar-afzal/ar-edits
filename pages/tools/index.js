@@ -71,7 +71,7 @@ export default function Tools() {
                 All Tools
               </h1>
               <p className="text-base md:text-lg max-w-2xl mx-auto" style={{ color: "var(--gray)" }}>
-                Explore every free tool AR Studio offers. No signup, no limits — just powerful editing in your browser.
+                Explore every free tool AR Edits offers. No signup, no limits — just powerful editing in your browser.
               </p>
             </motion.div>
           </div>

@@ -28,7 +28,7 @@ export default function PrivacyModal({ isOpen, onClose }) {
               </button>
             </div>
             <div className="space-y-3 text-sm" style={{ color: "var(--gray)" }}>
-              <p><strong style={{ color: "var(--black)" }}>No Login Required</strong> – You can use AR Studio without creating an account. No personal information is collected.</p>
+              <p><strong style={{ color: "var(--black)" }}>No Login Required</strong> – You can use AR Edits without creating an account. No personal information is collected.</p>
               <p><strong style={{ color: "var(--black)" }}>Data Processing</strong> – All media processing happens locally in your browser. Your files are never uploaded to any server.</p>
               <p><strong style={{ color: "var(--black)" }}>Cookies</strong> – We only use local storage for theme preferences and custom color settings. No tracking cookies are used.</p>
               <p><strong style={{ color: "var(--black)" }}>Your Privacy Matters</strong> – We do not share, sell, or store your data. Everything stays on your device.</p>

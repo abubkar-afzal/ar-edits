@@ -131,10 +131,10 @@ export default function About() {
               Our Story
             </span>
             <h1 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: "var(--black)" }}>
-              About AR Studio
+              About AR Edits
             </h1>
             <p className="text-base md:text-lg max-w-3xl mx-auto leading-relaxed" style={{ color: "var(--gray)" }}>
-              AR Studio is a free, browser‑based suite of creative tools built for everyone.
+              AR Edits is a free, browser‑based suite of creative tools built for everyone.
               We believe powerful editing software should be accessible, intuitive, and completely free.
               No downloads, no subscriptions — just pure creativity.
             </p>

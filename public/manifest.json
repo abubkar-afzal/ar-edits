@@ -1,6 +1,6 @@
 {
-  "name": "AR Studio",
-  "short_name": "AR Studio",
+  "name": "AR Edits",
+  "short_name": "AR Edits",
   "description": "Free browser-based creative suite with photo, video, and audio editing tools.",
   "start_url": "/",
   "display": "standalone",

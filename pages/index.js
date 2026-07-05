@@ -289,7 +289,7 @@ export default function Home() {
         <section className="py-24 px-4 relative overflow-hidden" style={{ backgroundColor: "var(--white)" }}>
           <div className="max-w-6xl mx-auto">
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-              <span className="text-sm font-bold tracking-widest uppercase mb-3 block" style={{ color: "var(--red)" }}>Why AR Studio</span>
+              <span className="text-sm font-bold tracking-widest uppercase mb-3 block" style={{ color: "var(--red)" }}>Why AR Edits</span>
               <h2 className="text-4xl md:text-6xl font-black" style={{ color: "var(--black)" }}>Built Different</h2>
             </motion.div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

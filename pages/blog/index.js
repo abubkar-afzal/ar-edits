@@ -63,7 +63,7 @@ export default function BlogIndex() {
               All Articles
             </h1>
             <p className="text-base md:text-lg max-w-2xl mx-auto" style={{ color: "var(--gray)" }}>
-              Tips, tutorials, and creative inspiration from the AR Studio team.
+              Tips, tutorials, and creative inspiration from the AR Edits team.
             </p>
           </motion.div>
         </div>
