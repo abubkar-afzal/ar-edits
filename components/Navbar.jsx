@@ -70,7 +70,7 @@ export default function Navbar() {
                 <Image src={logo} alt="logo" width={30} height={30} className="w-8 h-8 rounded-sm"/>
               </motion.div>
               <span
-                className="text-lg font-bold tracking-tight hidden sm:block"
+                className="text-lg font-bold tracking-tight"
                 style={{ color: "var(--black)" }}
               >
                 AR Edits

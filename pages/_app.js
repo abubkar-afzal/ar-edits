@@ -1,6 +1,7 @@
 // pages/_app.js
 import { useState, useEffect, createContext } from 'react';
 import '../styles/globals.css';
+import Head from 'next/head';
 
 export const AppContext = createContext();
 
@@ -143,6 +144,21 @@ export default function App({ Component, pageProps }) {
   };
 
   return (
+    <>
+     <Head>
+            {/* ─── Primary Meta Tags ──────────────────────────── */}
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+        <meta name="theme-color" content="#3b82f6" />
+        <meta name="color-scheme" content="light dark" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+        <title>AR Edits – Free Browser-Based Creative Suite</title>
+
+          </Head>
+    
     <AppContext.Provider
       value={{
         theme,
@@ -154,6 +170,6 @@ export default function App({ Component, pageProps }) {
       }}
     >
       <Component {...pageProps} />
-    </AppContext.Provider>
+    </AppContext.Provider></>
   );
 }

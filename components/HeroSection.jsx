@@ -1,14 +1,11 @@
 // components/HeroSection.jsx
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useCallback } from "react";
+import { FaGamepad, FaInfoCircle, FaThLarge } from "react-icons/fa";
 import {
-  FiArrowRight, FiPlay, FiCamera, FiVideo, FiMusic,
-  FiZap, FiStar,
+  FiCamera, FiVideo, FiMusic, FiZap, FiStar,
 } from "react-icons/fi";
 
-// ═══════════════════════════════════════════════════════════
-// Animated Gradient Orb (unchanged)
-// ═══════════════════════════════════════════════════════════
 function GradientOrb() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -72,47 +69,8 @@ function GradientOrb() {
   );
 }
 
-// ═══════════════════════════════════════════════════════════
-// Floating Glass Card (unchanged)
-// ═══════════════════════════════════════════════════════════
-function FloatingCard({ icon, label, delay, x, y, color }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      animate={{
-        opacity: 1,
-        y: [0, -15, 0],
-        x: [0, 10, 0],
-      }}
-      transition={{
-        opacity: { delay: delay + 1, duration: 0.8 },
-        y: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: delay },
-        x: { duration: 7, repeat: Infinity, ease: "easeInOut", delay: delay + 1 },
-      }}
-      className="absolute hidden lg:flex items-center gap-3 px-5 py-3 rounded-2xl backdrop-blur-md shadow-lg border"
-      style={{
-        left: x,
-        top: y,
-        backgroundColor: "var(--white)",
-        borderColor: "var(--border)",
-      }}
-    >
-      <div
-        className="w-10 h-10 rounded-xl flex items-center justify-center"
-        style={{ backgroundColor: `${color}15`, color: color }}
-      >
-        {icon}
-      </div>
-      <span className="text-sm font-semibold" style={{ color: "var(--black)" }}>
-        {label}
-      </span>
-    </motion.div>
-  );
-}
 
-// ═══════════════════════════════════════════════════════════
-// Text Reveal Animation (unchanged)
-// ═══════════════════════════════════════════════════════════
+
 function TextReveal({ children, delay }) {
   return (
     <div className="overflow-hidden">
@@ -131,9 +89,6 @@ function TextReveal({ children, delay }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════
-// Floating Stats Ring (unchanged)
-// ═══════════════════════════════════════════════════════════
 function StatsRing() {
   const stats = [
     { value: "10K+", label: "Users" },
@@ -170,9 +125,6 @@ function StatsRing() {
   );
 }
 
-// ═══════════════════════════════════════════════════════════
-// MAIN HERO SECTION
-// ═══════════════════════════════════════════════════════════
 export default function HeroSection() {
   const sectionRef = useRef(null);
   const { scrollY } = useScroll();
@@ -180,64 +132,20 @@ export default function HeroSection() {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
   const scale = useTransform(scrollY, [0, 300], [1, 0.95]);
 
+  
+
   return (
     <section
       ref={sectionRef}
       className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20 pb-10 overflow-hidden"
       style={{ backgroundColor: "var(--white)" }}
     >
-      {/* Gradient orbs */}
       <GradientOrb />
 
-      {/* Floating glass cards (including Games) */}
-      <FloatingCard
-        icon={<FiCamera size={20} />}
-        label="Photo Editor"
-        delay={0}
-        x="8%"
-        y="25%"
-        color="var(--red)"
-      />
-      <FloatingCard
-        icon={<FiVideo size={20} />}
-        label="Video Combiner"
-        delay={0.3}
-        x="78%"
-        y="20%"
-        color="var(--purple)"
-      />
-      <FloatingCard
-        icon={<FiMusic size={20} />}
-        label="Audio Editor"
-        delay={0.6}
-        x="82%"
-        y="60%"
-        color="var(--green)"
-      />
-      <FloatingCard
-        icon={<FiZap size={20} />}
-        label="Compressor"
-        delay={0.9}
-        x="12%"
-        y="65%"
-        color="var(--orange)"
-      />
-      {/* New Games floating card */}
-      <FloatingCard
-        icon={<FiPlay size={20} />}
-        label="Play Games"
-        delay={1.2}
-        x="45%"
-        y="80%"
-        color="var(--orange)"
-      />
-
-      {/* Main content */}
       <motion.div
         className="relative z-10 max-w-5xl mx-auto"
         style={{ y, scale, opacity }}
       >
-        {/* Tagline badge */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -258,7 +166,6 @@ export default function HeroSection() {
           No Signup Required • Free Forever
         </motion.div>
 
-        {/* Headline */}
         <div className="mb-6 space-y-2">
           <TextReveal delay={0.5}>
             <h1
@@ -283,7 +190,6 @@ export default function HeroSection() {
           </TextReveal>
         </div>
 
-        {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -295,7 +201,6 @@ export default function HeroSection() {
           videos, audio, and games. Everything runs locally — your files never leave your device.
         </motion.p>
 
-        {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -315,10 +220,9 @@ export default function HeroSection() {
               boxShadow: "0 8px 32px rgba(37, 99, 235, 0.3)",
             }}
           >
-            Explore Tools <FiArrowRight size={20} />
+            Explore Tools <FaThLarge size={20} />
           </motion.button>
 
-          {/* New Play Games button */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -332,7 +236,7 @@ export default function HeroSection() {
               boxShadow: "0 8px 32px rgba(249, 115, 22, 0.3)",
             }}
           >
-            Play Games <FiPlay size={18} />
+            Play Games <FaGamepad size={20} />
           </motion.button>
 
           <motion.button
@@ -341,22 +245,19 @@ export default function HeroSection() {
             onClick={() =>
               document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" })
             }
-            className="px-8 py-4 rounded-full font-semibold text-base sm:text-lg flex items-center gap-2 backdrop-blur-sm border cursor-pointer"
+            className="px-8 py-4 rounded-full font-semibold text-base sm:text-lg flex items-center gap-2 backdrop-blur-sm cursor-pointer"
             style={{
-              backgroundColor: "var(--white)",
-              borderColor: "var(--border)",
-              color: "var(--black)",
+              backgroundColor: "var(--blue)",
+              color: "var(--white)",
             }}
           >
-            <FiPlay size={18} /> How it Works
+            <FaInfoCircle size={20} /> How it Works
           </motion.button>
         </motion.div>
 
-        {/* Stats ring */}
         <StatsRing />
       </motion.div>
 
-      {/* Bottom fade */}
       <div
         className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
         style={{
