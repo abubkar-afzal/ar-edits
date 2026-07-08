@@ -11,6 +11,7 @@ import {
   FiPlay, FiHeart, FiGlobe, FiClock, FiTrendingUp,
 } from "react-icons/fi";
 import { BiGame, BiBrain } from "react-icons/bi";
+import { VscSnake } from "react-icons/vsc";
 import { AppContext } from "./_app";
 import Navbar from "../components/Navbar";
 import HeroSection from "../components/HeroSection";
@@ -18,6 +19,7 @@ import Footer from "../components/Footer";
 import EditorWorkspace from "./tools/EditorWorkspace";
 import { tools } from "../lib/tools";
 import blogs from "../data/blogs.json";
+import { FaChess } from "react-icons/fa";
 
 const ThreeBackground = dynamic(() => import("../components/ThreeBackground"), { ssr: false });
 
@@ -333,8 +335,8 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 { quote: "Incredible tools! I edited my entire video without any signup.", author: "Sarah K.", role: "Content Creator" },
-                { quote: "The photo collage maker saved me hours. Highly recommended.", author: "James L.", role: "Designer" },
-                { quote: "Audio editor is so simple yet powerful. Love it!", author: "Priya M.", role: "Musician" },
+                { quote: "The photo collage maker saved me hours. Highly recommended.", author: "Abdul M.", role: "Designer" },
+                { quote: "Audio editor is so simple yet powerful. Love it!", author: "Rose M.", role: "Musician" },
               ].map((t, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.12 }} viewport={{ once: true }}
                   whileHover={{ y: -10, scale: 1.03 }} className="p-8 rounded-3xl border shadow-xl text-center relative"
@@ -519,7 +521,7 @@ export default function Home() {
                   whileHover={{ scale: 1.1, rotate: -5 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <BiGame size={48} style={{ color: "var(--black)" }} />
+                  <VscSnake size={48} style={{ color: "var(--black)" }} />
                 </motion.div>
                 
                 <div className="flex flex-col items-end gap-2">
@@ -615,7 +617,7 @@ export default function Home() {
                   whileHover={{ scale: 1.1, rotate: -8 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <FiGrid size={36} style={{ color: "var(--white)" }} />
+                  <FaChess size={36} style={{ color: "var(--white)" }} />
                 </motion.div>
                 
                 <div className="flex-1 min-w-0">

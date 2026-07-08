@@ -248,145 +248,145 @@ export default function PhotoEditor() {
   };
 
   const advancedCanvasRemoval = (img) => {
-    setRemovingBackground(true);
-    setRemovalProgress(10);
+  setRemovingBackground(true);
+  setRemovalProgress(10);
 
-    const tempCanvas = document.createElement('canvas');
-    tempCanvas.width = img.width;
-    tempCanvas.height = img.height;
-    const tempCtx = tempCanvas.getContext('2d');
-    tempCtx.drawImage(img, 0, 0);
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = img.width;
+  tempCanvas.height = img.height;
+  const tempCtx = tempCanvas.getContext('2d');
+  tempCtx.drawImage(img, 0, 0);
 
-    setRemovalProgress(30);
+  setRemovalProgress(30);
 
-    const imageData = tempCtx.getImageData(
-      0,
-      0,
-      tempCanvas.width,
-      tempCanvas.height
+  const imageData = tempCtx.getImageData(
+    0,
+    0,
+    tempCanvas.width,
+    tempCanvas.height
+  );
+  const data = imageData.data;
+
+  const edgeSamples = [];
+  const step = 20;
+  for (let x = 0; x < tempCanvas.width; x += step) {
+    edgeSamples.push({ x, y: 0 });
+    edgeSamples.push({ x, y: 1 });
+  }
+  for (let x = 0; x < tempCanvas.width; x += step) {
+    edgeSamples.push({ x, y: tempCanvas.height - 1 });
+    edgeSamples.push({ x, y: tempCanvas.height - 2 });
+  }
+  for (let y = 0; y < tempCanvas.height; y += step) {
+    edgeSamples.push({ x: 0, y });
+    edgeSamples.push({ x: 1, y });
+  }
+  for (let y = 0; y < tempCanvas.height; y += step) {
+    edgeSamples.push({ x: tempCanvas.width - 1, y });
+    edgeSamples.push({ x: tempCanvas.width - 2, y });
+  }
+
+  let totalR = 0,
+    totalG = 0,
+    totalB = 0;
+  edgeSamples.forEach(({ x, y }) => {
+    const idx = (y * tempCanvas.width + x) * 4;
+    totalR += data[idx];
+    totalG += data[idx + 1];
+    totalB += data[idx + 2];
+  });
+  const count = edgeSamples.length;
+  const avgR = Math.round(totalR / count);
+  const avgG = Math.round(totalG / count);
+  const avgB = Math.round(totalB / count);
+
+  setRemovalProgress(50);
+
+  let variance = 0;
+  edgeSamples.forEach(({ x, y }) => {
+    const idx = (y * tempCanvas.width + x) * 4;
+    variance += Math.pow(data[idx] - avgR, 2);
+    variance += Math.pow(data[idx + 1] - avgG, 2);
+    variance += Math.pow(data[idx + 2] - avgB, 2);
+  });
+  variance = Math.sqrt(variance / (count * 3));
+
+  const baseTolerance = 50;
+  const adaptiveTolerance = Math.max(
+    30,
+    Math.min(120, baseTolerance + variance * 0.5)   // ← CORRECTED
+  );
+
+  setRemovalProgress(70);
+
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+
+    const colorDistance = Math.sqrt(
+      Math.pow(r - avgR, 2) +
+        Math.pow(g - avgG, 2) +
+        Math.pow(b - avgB, 2)
     );
-    const data = imageData.data;
 
-    const edgeSamples = [];
-    const step = 20;
-    for (let x = 0; x < tempCanvas.width; x += step) {
-      edgeSamples.push({ x, y: 0 });
-      edgeSamples.push({ x, y: 1 });
-    }
-    for (let x = 0; x < tempCanvas.width; x += step) {
-      edgeSamples.push({ x, y: tempCanvas.height - 1 });
-      edgeSamples.push({ x, y: tempCanvas.height - 2 });
-    }
-    for (let y = 0; y < tempCanvas.height; y += step) {
-      edgeSamples.push({ x: 0, y });
-      edgeSamples.push({ x: 1, y });
-    }
-    for (let y = 0; y < tempCanvas.height; y += step) {
-      edgeSamples.push({ x: tempCanvas.width - 1, y });
-      edgeSamples.push({ x: tempCanvas.width - 2, y });
-    }
-
-    let totalR = 0,
-      totalG = 0,
-      totalB = 0;
-    edgeSamples.forEach(({ x, y }) => {
-      const idx = (y * tempCanvas.width + x) * 4;
-      totalR += data[idx];
-      totalG += data[idx + 1];
-      totalB += data[idx + 2];
-    });
-    const count = edgeSamples.length;
-    const avgR = Math.round(totalR / count);
-    const avgG = Math.round(totalG / count);
-    const avgB = Math.round(totalB / count);
-
-    setRemovalProgress(50);
-
-    let variance = 0;
-    edgeSamples.forEach(({ x, y }) => {
-      const idx = (y * tempCanvas.width + x) * 4;
-      variance += Math.pow(data[idx] - avgR, 2);
-      variance += Math.pow(data[idx + 1] - avgG, 2);
-      variance += Math.pow(data[idx + 2] - avgB, 2);
-    });
-    variance = Math.sqrt(variance / (count * 3));
-
-    const baseTolerance = 50;
-    const adaptiveTolerance = Math.max(
-      30,
-      Math.min(120, baseTolerance + variance * 5)
+    const x = (i / 4) % tempCanvas.width;
+    const y = Math.floor(i / 4 / tempCanvas.width);
+    const distToEdge = Math.min(
+      x,
+      y,
+      tempCanvas.width - x,
+      tempCanvas.height - y
     );
+    const edgeFactor = Math.min(1, distToEdge / 50);
 
-    setRemovalProgress(70);
+    const adjustedTolerance =
+      adaptiveTolerance * (0.5 + edgeFactor * 0.5);
 
-    for (let i = 0; i < data.length; i += 4) {
-      const r = data[i];
-      const g = data[i + 1];
-      const b = data[i + 2];
-
-      const colorDistance = Math.sqrt(
-        Math.pow(r - avgR, 2) +
-          Math.pow(g - avgG, 2) +
-          Math.pow(b - avgB, 2)
-      );
-
-      const x = (i / 4) % tempCanvas.width;
-      const y = Math.floor(i / 4 / tempCanvas.width);
-      const distToEdge = Math.min(
-        x,
-        y,
-        tempCanvas.width - x,
-        tempCanvas.height - y
-      );
-      const edgeFactor = Math.min(1, distToEdge / 50);
-
-      const adjustedTolerance =
-        adaptiveTolerance * (0.5 + edgeFactor * 0.5);
-
-      if (colorDistance < adjustedTolerance) {
-        const alpha = Math.max(
-          0,
-          Math.min(
-            255,
-            Math.round(
-              (1 - colorDistance / adjustedTolerance) * 255
-            )
+    if (colorDistance < adjustedTolerance) {
+      const alpha = Math.max(
+        0,
+        Math.min(
+          255,
+          Math.round(
+            (1 - colorDistance / adjustedTolerance) * 255
           )
-        );
-        data[i + 3] = alpha > 200 ? 0 : alpha;
-      }
+        )
+      );
+      data[i + 3] = alpha > 200 ? 0 : alpha;
     }
+  }
 
-    setRemovalProgress(85);
+  setRemovalProgress(85);
 
-    tempCtx.putImageData(imageData, 0, 0);
+  tempCtx.putImageData(imageData, 0, 0);
 
-    tempCanvas.toBlob((blob) => {
-      if (blob) {
-        const url = URL.createObjectURL(blob);
-        const newImg = new Image();
-        newImg.src = url;
-        newImg.onload = () => {
-          imageRef.current = newImg;
-          setImage(newImg);
-          const full = {
-            x: 0,
-            y: 0,
-            w: newImg.width,
-            h: newImg.height,
-          };
-          setCropRect(full);
-          setAppliedCrop(full);
-          setBackgroundRemoved(true);
-          setRemovingBackground(false);
-          setRemovalProgress(100);
-          saveHistory();
+  tempCanvas.toBlob((blob) => {
+    if (blob) {
+      const url = URL.createObjectURL(blob);
+      const newImg = new Image();
+      newImg.src = url;
+      newImg.onload = () => {
+        imageRef.current = newImg;
+        setImage(newImg);
+        const full = {
+          x: 0,
+          y: 0,
+          w: newImg.width,
+          h: newImg.height,
         };
-      } else {
+        setCropRect(full);
+        setAppliedCrop(full);
+        setBackgroundRemoved(true);
         setRemovingBackground(false);
-      }
-    }, 'image/png');
-  };
+        setRemovalProgress(100);
+        saveHistory();
+      };
+    } else {
+      setRemovingBackground(false);
+    }
+  }, 'image/png');
+};
 
   const handleRestoreOriginal = () => {
     if (originalImage) {

@@ -8,7 +8,8 @@ import {
   FiHeart, FiZap, FiShield, FiGlobe, FiAward,
   FiArrowRight, FiStar, FiChevronDown, FiPlay
 } from "react-icons/fi";
-
+import { FaGamepad, FaChess, FaCircle, FaDice, FaDiceD6, FaPlaystation, FaGolfBall } from "react-icons/fa";
+import { VscSnake } from "react-icons/vsc";
 export default function About() {
   const stats = [
     { icon: <FiUsers size={28} />, value: "10,000+", label: "Active Users" },
@@ -45,11 +46,11 @@ export default function About() {
   ];
 
   const games = [
-    { icon: <FiPlay size={32} />, title: "Snake Game", desc: "Relive the classic snake arcade game.", color: "var(--green)" },
-    { icon: <FiPlay size={32} />, title: "Chess", desc: "Play chess against a friend or the computer.", color: "var(--purple)" },
-    { icon: <FiPlay size={32} />, title: "Infinite Tic-Tac-Toe", desc: "An endless twist on the classic tic-tac-toe.", color: "var(--red)" },
-    { icon: <FiPlay size={32} />, title: "Ludo", desc: "The traditional board game, now online.", color: "var(--orange)" },
-    { icon: <FiPlay size={32} />, title: "More Coming Soon", desc: "Gold, 12 Tennis, and many more on the way!", color: "var(--yellow)" },
+    { icon: <VscSnake size={32} />, title: "Snake Game", desc: "Relive the classic snake arcade game.", color: "var(--green)" },
+    { icon: <FaChess size={32} />, title: "Chess", desc: "Play chess against a friend or the computer.", color: "var(--purple)" },
+    { icon: <FaCircle size={32} />, title: "Infinite Tic-Tac-Toe", desc: "An endless twist on the classic tic-tac-toe.", color: "var(--red)" },
+    { icon: <FaGolfBall size={32} />, title: "Ludo", desc: "The traditional board game, now online.", color: "var(--orange)" },
+    { icon: <FaDiceD6 size={32} />, title: "More Coming Soon", desc: "Gold, 12 Tennis, and many more on the way!", color: "var(--yellow)" },
   ];
 
   const faqs = [
@@ -62,6 +63,10 @@ export default function About() {
       question: "Why doesn't resizing work well on mobile?",
       answer:
         "Fingers are larger than a mouse cursor, making it harder to drag small resize handles. To resize accurately, use the numeric input fields: swipe left/right on the field to change the value, or double‑tap to type an exact number.",
+    },
+    {
+      question:"Why photo editor slow after removing background of an Image?",
+      answer:"Removing the background of an image can be a resource-intensive process, especially for high-resolution images. This can cause the photo editor to slow down temporarily while processing the image."
     },
     {
       question: "Why does exporting a video take so long?",

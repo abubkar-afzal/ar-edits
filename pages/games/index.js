@@ -4,12 +4,12 @@ import Footer from "../../components/Footer";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FaGamepad, FaChess, FaCircle, FaDice, FaDiceD6, FaPlaystation, FaGolfBall } from "react-icons/fa";
-
+import { VscSnake } from "react-icons/vsc";
 const games = [
   {
     slug: "snake",
     title: "Snake",
-    icon: <FaGamepad size={36} />,
+    icon: <VscSnake size={36} />,
     desc: "Classic snake game with glowing effects and smooth controls.",
     color: "var(--green)",
     bg: "var(--green)",
