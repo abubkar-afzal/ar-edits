@@ -34,7 +34,7 @@ function estimateReadTime(text) {
 // ─── Share Button Component ────────────────────────────────
 function ShareButtons({ title, slug }) {
   const [copied, setCopied] = useState(false);
-  const url = `https://ar-studio-five.vercel.app/blog/${slug}`;
+  const url = `https://www.aredits.app/blog/${slug}`;
 
   const copyLink = () => {
     navigator.clipboard.writeText(url);
@@ -326,9 +326,9 @@ export default function BlogPost({ post }) {
                   </h4>
                   <div className="flex flex-col gap-2">
                     {[
-                      { icon: <FaTwitter size={16} />, label: "Twitter", href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=https://ar-studio-five.vercel.app/blog/${post.slug}`, color: "var(--red)" },
-                      { icon: <FaLinkedin size={16} />, label: "LinkedIn", href: `https://linkedin.com/sharing/share-offsite/?url=https://ar-studio-five.vercel.app/blog/${post.slug}`, color: "var(--red)" },
-                      { icon: <FaWhatsapp size={16} />, label: "WhatsApp", href: `https://wa.me/?text=${encodeURIComponent(post.title + " https://ar-studio-five.vercel.app/blog/" + post.slug)}`, color: "var(--green)" },
+                      { icon: <FaTwitter size={16} />, label: "Twitter", href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=https://www.aredits.app/blog/${post.slug}`, color: "var(--red)" },
+                      { icon: <FaLinkedin size={16} />, label: "LinkedIn", href: `https://linkedin.com/sharing/share-offsite/?url=https://www.aredits.app/blog/${post.slug}`, color: "var(--red)" },
+                      { icon: <FaWhatsapp size={16} />, label: "WhatsApp", href: `https://wa.me/?text=${encodeURIComponent(post.title + " https://www.aredits.app/blog/" + post.slug)}`, color: "var(--green)" },
                     ].map((link, idx) => (
                       <motion.a
                         key={idx}

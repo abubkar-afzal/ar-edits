@@ -61,7 +61,7 @@ export default function Document() {
           name="twitter:description"
           content="Edit photos, videos, and audio directly in your browser. No downloads, no signups, completely free."
         />
-        <meta name="twitter:image" content="https://ar-studio-five.vercel.app/my_logo.jpg" />
+        <meta name="twitter:image" content="https://www.aredits.app/my_logo.jpg" />
         <meta name="twitter:image:alt" content="AR Edits – Free Creative Tools" />
 
         {/* ─── Open Graph / Facebook ────────────────────────── */}
@@ -73,8 +73,8 @@ export default function Document() {
           property="og:description"
           content="Powerful photo, video, and audio editing tools that run entirely in your browser. No signup required, no files uploaded — 100% private and free."
         />
-        <meta property="og:url" content="https://ar-studio-five.vercel.app" />
-        <meta property="og:image" content="https://ar-studio-five.vercel.app/my_logo.jpg" />
+        <meta property="og:url" content="https://www.aredits.app" />
+        <meta property="og:image" content="https://www.aredits.app/my_logo.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content="AR Edits – Free Browser-Based Creative Suite" />
@@ -88,7 +88,7 @@ export default function Document() {
               "@context": "https://schema.org",
               "@type": "WebApplication",
               name: "AR Edits",
-              url: "https://ar-studio-five.vercel.app",
+              url: "https://www.aredits.app",
               description:
                 "Free browser-based creative suite with photo editor, video combiner, audio editor, collage makers, and file compressor. No signup required.",
               applicationCategory: "Multimedia",
@@ -111,7 +111,7 @@ export default function Document() {
               publisher: {
                 "@type": "Organization",
                 name: "AR Edits",
-                url: "https://ar-studio-five.vercel.app",
+                url: "https://www.aredits.app",
               },
               browserRequirements: "Requires JavaScript. Works best on Chrome, Firefox, Edge, and Safari.",
               featureList: [
@@ -135,8 +135,8 @@ export default function Document() {
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "AR Edits",
-              url: "https://ar-studio-five.vercel.app",
-              logo: "https://ar-studio-five.vercel.app/my_logo_no_bg.png",
+              url: "https://www.aredits.app",
+              logo: "https://www.aredits.app/my_logo_no_bg.png",
               sameAs: [
                 "https://github.com/abubkar-afzal",
                 "https://www.linkedin.com/in/hafiz-abubakar-afzal-b77a46354/",
@@ -163,37 +163,37 @@ export default function Document() {
                   "@type": "ListItem",
                   position: 1,
                   name: "Home",
-                  item: "https://ar-studio-five.vercel.app",
+                  item: "https://www.aredits.app",
                 },
                 {
                   "@type": "ListItem",
                   position: 2,
                   name: "Tools",
-                  item: "https://ar-studio-five.vercel.app/tools",
+                  item: "https://www.aredits.app/tools",
                 },
                 {
                   "@type": "ListItem",
                   position: 3,
                   name: "Games",
-                  item: "https://ar-studio-five.vercel.app/games",
+                  item: "https://www.aredits.app/games",
                 },
                 {
                   "@type": "ListItem",
                   position: 4,
                   name: "Blog",
-                  item: "https://ar-studio-five.vercel.app/blog",
+                  item: "https://www.aredits.app/blog",
                 },
                 {
                   "@type": "ListItem",
                   position: 5,
                   name: "About",
-                  item: "https://ar-studio-five.vercel.app/about",
+                  item: "https://www.aredits.app/about",
                 },
                 {
                   "@type": "ListItem",
                   position: 6,
                   name: "Contact",
-                  item: "https://ar-studio-five.vercel.app/contact",
+                  item: "https://www.aredits.app/contact",
                 },
               ],
             }),
