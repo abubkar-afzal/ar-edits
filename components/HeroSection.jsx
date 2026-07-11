@@ -185,7 +185,7 @@ export default function HeroSection() {
                 backgroundClip: "text",
               }}
             >
-              Limits.
+              Limits
             </h1>
           </TextReveal>
         </div>
@@ -197,8 +197,8 @@ export default function HeroSection() {
           className="text-base sm:text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed"
           style={{ color: "var(--gray)" }}
         >
-          A free, browser‑based creative suite with powerful tools for photos,
-          videos, audio, and games. Everything runs locally — your files never leave your device.
+          A free, browser based creative suite with powerful tools for photos,
+          videos, audio, and games. Everything runs locally your files never leave your device.
         </motion.p>
 
         <motion.div

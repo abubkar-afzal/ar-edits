@@ -22,20 +22,20 @@ export default function Document() {
         <meta name="developer" content="Hafiz Abubakar Afzal" />
 
         {/* ─── Favicon & Icons ─────────────────────────────── */}
-        <link rel="icon" type="image/png" sizes="16x16" href="/my_logo_no_bg.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/my_logo_no_bg.png" />
-        <link rel="icon" type="image/png" sizes="96x96" href="/my_logo_no_bg.png" />
-        <link rel="icon" type="image/x-icon" href="/my_logo_no_bg.png" />
-        <link rel="apple-touch-icon" sizes="57x57" href="/my_logo_no_bg.png" />
-        <link rel="apple-touch-icon" sizes="60x60" href="/my_logo_no_bg.png" />
-        <link rel="apple-touch-icon" sizes="72x72" href="/my_logo_no_bg.png" />
-        <link rel="apple-touch-icon" sizes="76x76" href="/my_logo_no_bg.png" />
-        <link rel="apple-touch-icon" sizes="114x114" href="/my_logo_no_bg.png" />
-        <link rel="apple-touch-icon" sizes="120x120" href="/my_logo_no_bg.png" />
-        <link rel="apple-touch-icon" sizes="144x144" href="/my_logo_no_bg.png" />
-        <link rel="apple-touch-icon" sizes="152x152" href="/my_logo_no_bg.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/my_logo_no_bg.png" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/my_logo_no_bg.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/my_logo.jpg" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/my_logo.jpg" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/my_logo.jpg" />
+        <link rel="icon" type="image/x-icon" href="/my_logo.jpg" />
+        <link rel="apple-touch-icon" sizes="57x57" href="/my_logo.jpg" />
+        <link rel="apple-touch-icon" sizes="60x60" href="/my_logo.jpg" />
+        <link rel="apple-touch-icon" sizes="72x72" href="/my_logo.jpg" />
+        <link rel="apple-touch-icon" sizes="76x76" href="/my_logo.jpg" />
+        <link rel="apple-touch-icon" sizes="114x114" href="/my_logo.jpg" />
+        <link rel="apple-touch-icon" sizes="120x120" href="/my_logo.jpg" />
+        <link rel="apple-touch-icon" sizes="144x144" href="/my_logo.jpg" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/my_logo.jpg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/my_logo.jpg" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/my_logo.jpg" />
         <link rel="manifest" href="/manifest.json" />
 
         {/* ─── Preconnect for Performance ──────────────────── */}
@@ -51,10 +51,10 @@ export default function Document() {
         />
         <meta
           name="keywords"
-          content="photo editor, video editor, audio editor, video combiner, photo collage, video collage, media compressor, free editor, online editor, browser editor, no signup, AR Edits, Hafiz Abubakar Afzal"
+          content="photo editor, video editor, audio editor, video combiner, photo collage, video collage, media compressor, free editor, online editor, browser editor, no signup, AR Edits, Hafiz Abubakar Afzal, aredits, free online creative suite, free online photo editor, free online video editor, free online audio editor, free online collage maker, free online media compressor, free online creative tools, free online editing tools, free online multimedia tools, free online photo and video editor, free online audio and video editor, free online media editing suite, hafizabubakarafzal, aredits.app, aredits.com, aredits.net, aredits.org, aredits.co, aredits.io, aredits.dev, snake game, online snake game, chess game, 2 players chess game, online chess game, tic tac toe game, infinite tic tac toe, 2 players tic tac toe, tic tac toe, 3 players tic tac toe, 4 players tic tac toe, online tic tac toe, online multiplayer games, free online games, free browser games, free online multiplayer games, ludo game, ludo, snake, chess, 2 player ludo online, 3 player ludo online, 4 player ludo online, free ludo online"
         />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@arstudio" />
+        <meta name="twitter:site" content="@aredits" />
         <meta name="twitter:creator" content="@hafizabubakarafzal" />
         <meta name="twitter:title" content="AR Edits – Free Browser-Based Creative Suite" />
         <meta
@@ -122,6 +122,10 @@ export default function Document() {
                 "Photo Collage Maker",
                 "Video Collage Maker",
                 "Media Compressor",
+                "Snake Game",
+                "Chess Game",
+                "Tic Tac Toe Game",
+                "Ludo Game",
               ],
             }),
           }}
@@ -136,7 +140,7 @@ export default function Document() {
               "@type": "Organization",
               name: "AR Edits",
               url: "https://www.aredits.app",
-              logo: "https://www.aredits.app/my_logo_no_bg.png",
+              logo: "https://www.aredits.app/my_logo.jpg",
               sameAs: [
                 "https://github.com/abubkar-afzal",
                 "https://www.linkedin.com/in/hafiz-abubakar-afzal-b77a46354/",

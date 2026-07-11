@@ -1,56 +1,91 @@
 [
   {
     "id": 1,
-    "slug": "10-tips-for-stunning-photo-collages",
-    "title": "10 Tips for Stunning Photo Collages",
-    "excerpt": "Learn how to arrange photos for maximum impact using our Photo Collage tool.",
-    "content": "Creating a photo collage is an art. Here are 10 tips to make yours stand out...",
-    "date": "2025-06-15",
-    "image": "https://picsum.photos/seed/collage/800/400"
+    "slug": "photo-editing",
+    "title": "Why I Built a Free, No-Sign-Up Photo Editor (And Why You'll Love It)",
+    "excerpt": "Tired of paying for simple photo edits? Discover why I created a completely free, unlimited online photo editor with no sign-up required.",
+    "content": "A few months ago, I needed to crop a personal photo to a 1:1 square size for a social media profile. I searched online, thinking it would be a quick and easy task. To my surprise, almost every online tool I found either required a paid subscription or limited my usage. It was frustrating to pay for such a small, simple task.I realized I couldn't be alone in this. Millions of people around the world just need to make a quick crop, adjust the brightness, or remove a background. They shouldn't have to pull out their credit card or create an account for a one-minute job.That frustration sparked an idea: AR Edits.I set out to build a completely free, unlimited online photo editing platform. No sign-ups. No watermarks. No hidden fees. Just the essential tools you need to get your photos looking perfect.Here’s what you can do with AR Edits:Adjust Your Image: Fine-tune the brightness, contrast, and saturation to make your colors pop.Blur & Focus: Easily blur parts of your image for artistic effects or to hide sensitive information.Crop to Any Size: Need a 1:1 square for Instagram? A 16:9 for a YouTube thumbnail? Our crop tool lets you choose any dimension.More Advanced Features: Remove unwanted backgrounds in one click and replace colors with ease.Getting started is incredibly simple:Visit AR Edits and navigate to the Photo Editor tool. Click the tool to open it in full-screen mode. Select your image. Start editing! All features are instantly available and completely free to use as much as you want. My goal is to create a hassle-free experience for anyone who needs a quick photo fix. No paywalls, no barriers, just powerful editing at your fingertips. Visit AR Edits today and give it a try. I'm confident you'll find it's the simple, free solution you've been looking for.",
+    "date": "2026-07-10",
+    "image": "/photoeditor.png"
   },
   {
     "id": 2,
-    "slug": "reduce-video-size-without-losing-quality",
-    "title": "How to Reduce Video File Size Without Losing Quality",
-    "excerpt": "Our Media Compressor makes it easy – here's how to get the best results.",
-    "content": "Video files can be huge. Use our compressor to shrink them while retaining clarity...",
-    "date": "2025-06-10",
-    "image": "https://picsum.photos/seed/compress/800/400"
+    "slug": "video-combining-tips",
+    "title": "Combine Videos Seamlessly with Our Free Online Video Combinor",
+    "excerpt": "Learn how to merge multiple video clips into one polished file with our free, no-sign-up Video Combinor tool.",
+    "content": "I remember spending hours trying to stitch together family vacation clips for a memorable montage. Every online tool I tried either added a giant watermark, limited me to 5 minutes, or forced me to download sketchy software. That experience made me realize that combining videos should be effortless and completely free.That's exactly why I built the AR Edits Video Combinor. It’s an online tool that lets you merge multiple clips into a single, seamless video without any hidden costs or registration requirements. Whether you're creating a YouTube compilation, a business presentation, or a birthday tribute, our tool handles it all in your browser.Here’s what you can do with our Video Combinor:Upload Multiple Clips: Select several video files from your device and bring them all into one workspace. You can also resize each video to fit perfectly within the frame.Add Background Music: Upload an audio track to play over your merged video – perfect for setting the mood.Mute Original Audio: Easily silence the sound from your original clips if you only want the background music to play.Preview in Real-Time: Watch your combined video before downloading to ensure everything looks perfect.Getting started is incredibly simple: Visit AR Edits, click on the Video Combinor tool, upload your clips, arrange them in your preferred order, adjust audio settings, and hit export. Your finished video will be ready for download in high quality exporting time must be accoridng to video length and quality.My goal is to give creators a powerful yet simple video merging tool that respects their time and their wallet. No downloads, no subscriptions, no watermarks – just pure creative freedom. Try it today at AR Edits and turn your clips into a story worth sharing.",
+    "date": "2026-07-10",
+    "image": "/videocombinor.png"
   },
   {
     "id": 3,
-    "slug": "audio-editing-techniques-for-beginners",
-    "title": "The Best Audio Editing Techniques for Beginners",
-    "excerpt": "Start with gain, EQ, and trimming – master the basics with our Audio Editor.",
-    "content": "Audio editing doesn't have to be complicated. Learn the essential techniques...",
-    "date": "2025-06-05",
-    "image": "https://picsum.photos/seed/audio/800/400"
+    "slug": "audio-editing-tips",
+    "title": "Edit Audio Like a Pro with Our Free Online Audio Editor",
+    "excerpt": "Adjust Gain and Lowpass filters, and trim your tracks effortlessly with AR Edits.",
+    "content": "I’ve always loved recording my own podcast, but the audio quality was never quite right. Inconsistent loudness, and awkward pauses made my episodes sound amateur. When I looked for editing tools, I found expensive software with steep learning curves. I knew there had to be a simpler way.That's why I created the AR Edits Audio Editor. It gives you professional-grade audio editing capabilities right in your web browser, completely free and with no sign-up required. You don’t need to be a sound engineer to make your recordings sound crisp and clear.Here’s what you can do with our Audio Editor:Trim: Cut out unwanted silences, mistakes, or long intros with precision using the visual waveform.Adjust Gain: Change the gain of your voice or music to match the tone of your project – great for voice-overs or creative effects. Fine-Tune Loudness: Normalize your volume levels to ensure consistent listening from start to finish. No more sudden spikes or drops. Preview and Save: Listen to your edits in real-time and download your polished audio in high-quality .WAV.Getting started is incredibly simple: Visit AR Edits, select the Audio Editor, upload your file (MP3, WAV, or M4A), use the waveform to select sections for trimming, adjust the sliders for gain and lowpass filter, and download your masterpiece. It takes only minutes to turn a raw recording into a professional track. Elevate your audio for free right now at AR Edits.",
+    "date": "2026-07-10",
+    "image": "/audioeditor.png"
   },
   {
-    "id": 4,
-    "slug": "mastering-video-combining",
-    "title": "Mastering Video Combining: A Complete Guide",
-    "excerpt": "Combine multiple clips into one seamless video with our Video Combinor.",
-    "content": "Our Video Combinor lets you merge, trim, and arrange clips effortlessly...",
-    "date": "2025-05-28",
-    "image": "https://picsum.photos/seed/video/800/400"
-  },
-  {
-    "id": 5,
-    "slug": "photo-editing-tips-for-beginners",
-    "title": "Photo Editing Tips for Beginners",
-    "excerpt": "Transform your photos with our Photo Editor – from cropping to filters.",
-    "content": "Start editing your photos like a pro with these simple yet powerful techniques...",
-    "date": "2025-05-20",
-    "image": "https://picsum.photos/seed/photo/800/400"
-  },
+  "id": 4,
+  "slug": "mastering-video-combining",
+  "title": "Create Stunning Video Collages with Our Free Tool",
+  "excerpt": "Combine multiple videos into one cohesive collage seamlessly with our Video Collage Editor.",
+  "content": "I've always loved creating video montages for family events and social media, but I was always frustrated with the tools available. Either they were too complicated, left watermarks, or forced me to pay for basic features like arranging videos side by side. I knew there had to be a better way. That's why I built the AR Edits Video Collage Editor. It's not just a simple merger – it's a complete video collage tool that lets you get creative with your footage. Whether you want to create a multi-panel collage, our tool handles it all completely free with no sign-up required.Here's what you can do with our Video Collage Editor: Create Video Collages: Arrange multiple videos side by side in a grid layout. Perfect for reaction videos, comparisons, or showcasing multiple angles of the same event. Add your clips in any order and the tool stitches them together flawlessly. Resize & Fit: Each video in your collage can be resized and positioned exactly how you want. No awkward cropping or black bars. Add Background Music: Upload an audio track to play over your entire collage or merged video – perfect for setting the mood. Mute Original Audio: Easily silence the audio from your individual clips so only your background music plays. Arrange with Ease: Drag and drop your videos to reorder them. The intuitive interface makes experimenting with different layouts simple.Real-Time Preview: See your collage before exporting. Make adjustments on the fly until it looks perfect. Getting started is incredibly simple: Visit AR Edits, click on the Video Collage Editor tool, upload your video clips, arrange your videos in the desired layout, add background music if you want, and hit export. Your finished video will be ready for download in high quality export time must be according to video length and quality.Whether you're creating a birthday tribute, a music video collage, or a professional presentation, our tool gives you the creative freedom to bring your vision to life. No downloads, no watermarks, no limits – just powerful video editing at your fingertips. Try it today at AR Edits and turn your clips into something extraordinary.",
+  "date": "2026-07-10",
+  "image": "/videocollage.png"
+},{
+  "id": 5,
+  "slug": "photo-editing-tips-for-beginners",
+  "title": "Create Stunning Photo Collages Like a Pro – Free!",
+  "excerpt": "Design beautiful photo collages our Photo Collage Editor. No sign-up required.",
+  "content": "I used to spend hours trying to create the perfect photo collage for Instagram or a family memory book. The online tools were either limited me to 3 photos, or forced me to pay for premium layouts. That frustration is exactly why I built the AR Edits Photo Collage Editor. It's a complete photo collage creation tool. You can arrange your photos into beautiful collages – all completely free and with no sign-up required. Here's what you can do: Create Stunning Photo Collages: Choose from various grid layouts and arrange your photos side by side. Perfect for social media posts, greeting cards, or showcasing a memory album. Need a 1:1 square for Instagram? A landscape for a YouTube thumbnail? We've got you covered. Swap Arrangement: Moving photos around your collage is as simple as swaping them. Experiment with different layouts instantly. Real-Time Preview: See your collage come together as you work. Add photos, adjust edits, and rearrange until it's perfect. Getting started is incredibly simple: Visit AR Edits, click on the Photo Collage Editor tool, upload your photos, then arrange them in beautiful layouts. Adjust spacing, and fine-tune until you love the result. Download your finished collage in high quality – all for free. Stop switching between apps and paying for premium tools. Whether you're creating a photo gift, a social media post, or just preserving memories, our Photo Colalge Editor gives you everything you need. Start creating at AR Edits today and watch your photos come to life.",
+  "date": "2026-07-10",
+  "image": "/photocollage.png"
+},
   {
     "id": 6,
     "slug": "extract-audio-from-video",
-    "title": "How to Extract Audio from Any Video",
-    "excerpt": "Use our Video to Audio converter to pull high-quality audio tracks.",
-    "content": "Need the audio from a video? Our converter extracts it in seconds...",
-    "date": "2025-05-15",
-    "image": "https://picsum.photos/seed/audioextract/800/400"
+    "title": "How to Extract Audio from Any Video – Fast and Free",
+    "excerpt": "Turn any video clip into a high-quality audio track with our simple Video to Audio converter.",
+    "content": "Have you ever stumbled upon a video with an incredible sound effect, a perfect music loop, or a dialogue snippet you wanted to save? I faced this all the time while creating content. Downloading the video and then hunting for a converter was a hassle, and most online converters were riddled with ads and file size limits.I built the AR Edits Video to Audio converter to solve exactly this problem. It’s a lightning-fast tool that extracts pristine audio from video files in seconds, with zero quality loss. No software downloads, no account creation, and no annoying restrictions.Here’s what you can do with our converter:Extract High-Quality webm: Pull the audio track and save it directly as a high-bitrate webm file, perfect for listening or further editing.Perfect for Podcasters: Grab interview clips from video recordings and turn them into podcast-ready audio.Sample Sound Effects: Isolate specific sounds from movies, nature videos, or game clips to use in your own projects.Preserve Original Quality: Our conversion process maintains the original audio fidelity, so you never lose clarity.Getting started is incredibly simple: Visit AR Edits, find the Video to Audio tool, upload your video file (MP4, MOV, AVI, etc.), wait just a few seconds for the extraction to complete, and click download. You’ll have a clean, high-quality audio file ready to use. Whether you're a podcaster, a musician, or just someone who wants that catchy song from a meme, our converter makes it effortless. Try it for free right now at AR Edits.",
+    "date": "2026-07-10",
+    "image": "/videotoaudio.png"
+  },
+  {
+    "id": 7,
+    "slug": "snake-game",
+    "title": "Play the Classic Snake Game Online – Free and Addictive",
+    "excerpt": "Relive the nostalgia of the classic Snake game with a modern twist. Play instantly on AR Edits.",
+    "content": "Do you remember the hours spent on old mobile phones, guiding a pixelated snake to eat food and grow longer? That simple yet addictive gameplay has stood the test of time. I wanted to bring that exact nostalgic experience to your browser, but with a modern, sleek design and absolutely zero barriers to entry.That’s why I built the Snake Game on AR Edits. It's a pure, distraction-free version of the classic arcade game. No sign-ups, no downloads – just you, a growing snake, and the challenge of beating your own high score.Here’s what you can expect:Classic Gameplay: Control a snake that grows longer with every piece of food it eats. The challenge is to avoid crashing into the walls or your own ever-lengthening tail. Intuitive Controls: Use your keyboard arrow keys (or swipe on mobile) to guide the snake in four directions. It responds instantly for precise maneuvering.Increasing Difficulty: The game speeds up as your snake grows, testing your reflexes and strategic planning. How long can you survive? High Score Tracking: Your current score is displayed prominently. Can you beat your own record and become the ultimate Snake champion? Instant Restart: Made a mistake? Hit restart and jump back into the action immediately – no loading screens or delays.Getting started is incredibly simple: Visit AR Edits, click on the Snake Game, and start moving immediately. Use arrow keys to guide the snake towards the red food pellet. Plan your route carefully to avoid trapping yourself. It's the perfect way to kill a few minutes or challenge your friends to a high-score battle. Pure, free, and endlessly entertaining. Start playing at AR Edits today!",
+    "date": "2026-07-10",
+    "image": "/snakegame.png"
+  },
+  {
+    "id": 8,
+    "slug": "chess-game",
+    "title": "Play Chess Online with Friends or AI – Completely Free",
+    "excerpt": "Challenge your mind with our online Chess game. Play against AI or a friend with no sign-up required.",
+    "content": "Chess is the ultimate game of strategy, patience, and intellect. For centuries, it has brought people together over the board. But finding a reliable, free, and clean online platform to play chess can be surprisingly difficult. Many sites require tedious registrations, or limit your moves per day. I wanted to change that.I built the AR Edits Chess game to be the simplest, most accessible way to play chess online. Whether you want to sharpen your skills against a smart AI opponent or challenge a friend on the same device, our game gives you a beautiful, responsive board without any distractions.Here’s what you can do: Play vs AI: Face off against a computer opponent that offers a decent challenge for both beginners and intermediate players. It's a great way to practice your openings and tactics. Two-Player Mode: Invite a friend to sit beside you and play on the same device. Perfect for family game nights or coffee breaks. Classic Rules: All standard chess rules are implemented. The game validates every move to ensure fair play. Intuitive Interface: Click a piece to select it, and the board highlights all valid moves. Drag and drop pieces smoothly with your mouse or tap on mobile. Getting started is incredibly simple: Visit AR Edits, click on the Chess Game, choose your mode (vs AI or 2-Player), and start playing. The board is clean, the pieces are clear, and the experience is seamless. Challenge your mind and enjoy the timeless game of chess for free at AR Edits today.",
+    "date": "2026-07-10",
+    "image": "/chessgame.png"
+  },
+  {
+  "id": 9,
+  "slug": "tic-tac-toe",
+  "title": "Tic Tac Toe Infinite – Play with Friends in New Exciting Ways",
+  "excerpt": "Play classic X's and O's against AI or challenge 2-4 friends in our unique infinite mode where pieces get removed for endless fun.",
+  "content": "Tic Tac Toe is a timeless classic that everyone knows and loves. It's the first game many of us learned, and it's perfect for a quick mental break. But let's be honest – the classic version with just X's and O's on a 3x3 grid always ends in a draw when both players know what they're doing. I wanted to create something more exciting, more strategic, and infinitely more fun. That's why I built the AR Edits Tic Tac Toe game. It takes the classic game you love and adds an incredible twist that makes it fresh, challenging, and perfect for groups. Whether you're playing solo against AI or challenging 2-4 friends, our game delivers endless entertainment completely free with no sign-up required. Here's what you can do: Play vs AI (Classic Mode): Test your skills against a smart computer opponent. The AI blocks your wins and tries to beat you – perfect for practicing your X and O strategy. Only X and O are used in this mode. Play with 2 Friends (3 Players): Each player gets a unique symbol (X, O, Δ). The grid starts empty. After 4 turns, the oldest piece on the board is automatically removed to make space. This keeps the game dynamic and prevents draws! Play with 3 Friends (4 Players): Each player gets a unique symbol (X, O, Δ, □). After 5 turns, the oldest piece is removed. The game becomes a strategic battle of timing – do you place aggressively or wait for the perfect moment? 2-Player Extended Mode: Challenge one friend but with our infinite twist! After 3 turns, the oldest piece on the board is removed. This transforms the simple game into a deep strategic battle that never gets boring. Auto-Removal System: Our intelligent system tracks every move and automatically removes the oldest piece when the board gets full. No manual deletion needed – just pure strategic gameplay. Clean Visuals: Each player gets a distinct, colorful symbol. The grid is bold and clear, with smooth animations for placing and removing symbols. Score Tracking: The game automatically keeps track of wins for all players (and ties) so you can play a full series and see who comes out on top. Undo & Reset: Made a bad move? Undo it instantly. Want a fresh start? Reset the board with one click. Getting started is incredibly simple: Visit AR Edits, click on the Tic Tac Toe game, select your mode (vs AI, 2-Player, 3-Player, or 4-Player), and start playing. Click any empty square to place your symbol. Watch as the oldest pieces get automatically removed, creating a fast-paced, ever-changing battlefield. The game announces the winner or a draw immediately. The infinite mode changes everything. Games last longer, require more strategy, and are perfect for group play. No more boring draws – every match is exciting until the very end. Whether you're playing with family, friends, or challenging the AI, our Tic Tac Toe Infinite delivers endless fun for all ages. Play for free right now at AR Edits and discover the most exciting version of Tic Tac Toe you've ever played!",
+  "date": "2026-07-10",
+  "image": "/tictactoegame.png"
+},
+  {
+    "id": 10,
+    "slug": "ludo-game",
+    "title": "Bring the Classic Board Game Online – Play Ludo for Free",
+    "excerpt": "Roll the dice and race your tokens to the finish. Play Ludo with friends or AI on AR Edits.",
+    "content": "Ludo is a board game that brings families and friends together. The thrill of rolling a six, the strategy of knocking an opponent's token home, and the excitement of the final race to the center – it's pure nostalgia and joy. But finding a digital version that force you to sign up has been a challenge. Until now. I created the AR Edits Ludo game to capture all the classic fun of the board game in a clean, accessible online format. Whether you're playing solo against AI or with up to three other friends on the same device, our game delivers the authentic experience completely free. Here’s what you can do: Play with Friends (2-4 Players): Up to four players can play on the same device, passing it around for their turns. Perfect for family gatherings or game nights. Solo vs AI: Can't find anyone to play with? Challenge our AI opponents who will roll the dice and move their tokens strategically.Classic Ludo Rules: Exactly the rules you know and love. Roll a 6 to bring a token out of base, land on an opponent's token to send it home, and be the first to get all four tokens to the center.Intuitive Dice Rolling: Just click the dice to roll. The game handles token movement, showing you all valid moves so you can choose the best strategy.Automatic Turn Management: The game clearly highlights whose turn it is and guides you through the process, making it easy for everyone to follow.Getting started is incredibly simple: Visit AR Edits, select the Ludo game, choose the number of players, and start rolling. Click the dice, select a token to move, and race to the finish. It’s all the excitement of the classic board game, right in your browser, with zero downloads or sign-ups. Gather your friends and start playing for free at AR Edits today!",
+    "date": "2026-07-10",
+    "image": "/ludogame.png"
   }
 ]
