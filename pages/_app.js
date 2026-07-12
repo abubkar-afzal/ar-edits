@@ -2,6 +2,7 @@
 import { useState, useEffect, createContext } from 'react';
 import '../styles/globals.css';
 import Head from 'next/head';
+import Script from 'next/script';
 
 export const AppContext = createContext();
 
@@ -170,6 +171,11 @@ export default function App({ Component, pageProps }) {
       }}
     >
       <Component {...pageProps} />
-    </AppContext.Provider></>
+    </AppContext.Provider>
+    
+    
+    
+    
+    </>
   );
 }

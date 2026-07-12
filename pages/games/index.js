@@ -215,6 +215,7 @@ export default function Games() {
             <p className="text-sm md:text-base mb-8 max-w-xl mx-auto" style={{ color: "var(--gray)" }}>
               We're constantly adding new games to the arcade. Check back often for new additions!
             </p>
+            <Link href="https://www.effectivecpmnetwork.com/n2rz4udj?key=f18be60e80ce937464124a6e2070b67c" target="_blank" rel="noopener noreferrer">
             <motion.button
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
@@ -223,7 +224,7 @@ export default function Games() {
               style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
             >
               <FaGamepad size={16} /> Browse Games
-            </motion.button>
+            </motion.button></Link>
           </motion.div>
         </div>
       </section>

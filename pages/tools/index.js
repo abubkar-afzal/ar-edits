@@ -11,6 +11,8 @@ import {
   FiGrid, FiDownload, FiArrowRight, FiZap,
   FiChevronRight,
 } from "react-icons/fi";
+import Script from "next/script";
+import Link from "next/link";
 
 const toolMeta = {
   photo: { icon: <FiCamera size={32} />, color: "var(--red)" },
@@ -138,7 +140,27 @@ export default function Tools() {
             </div>
           </div>
         </section>
-
+        {/* Added width:100% and position:relative to help contain the ad */}
+<div className="flex items-center overflow-x-hidden w-full" style={{ width: '100%', position: 'relative' }}>
+  
+  <Script id="atOptions-script" strategy="lazyOnload">
+    {`
+      var atOptions = {
+        'key' : 'feda6285059b95344152349fe7dea03f',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 320,
+        'params' : {}
+      };
+    `}
+  </Script>
+  
+  <Script 
+    src="https://www.highperformanceformat.com/feda6285059b95344152349fe7dea03f/invoke.js" 
+    strategy="lazyOnload" 
+  />
+  
+</div>
         {/* CTA */}
         <section className="py-16 px-4" style={{ backgroundColor: "var(--lightgray)" }}>
           <div className="max-w-4xl mx-auto text-center">
@@ -155,6 +177,7 @@ export default function Tools() {
                 Pick any tool above and start editing instantly. No downloads, no accounts, no hassle.
               </p>
               <div className="flex items-center justify-center w-full text-center">
+                <Link href="https://www.effectivecpmnetwork.com/n2rz4udj?key=f18be60e80ce937464124a6e2070b67c" target="_blank" rel="noopener noreferrer">
               <motion.button
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
@@ -163,7 +186,7 @@ export default function Tools() {
                 style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
               >
                 <FiArrowRight size={16} /> Explore Tools
-              </motion.button>
+              </motion.button></Link>
             </div>
             </motion.div>
           </div>

@@ -36,6 +36,7 @@ export default function Document() {
         <link rel="apple-touch-icon" sizes="152x152" href="/my_logo.jpg" />
         <link rel="apple-touch-icon" sizes="180x180" href="/my_logo.jpg" />
         <link rel="icon" type="image/png" sizes="192x192" href="/my_logo.jpg" />
+        <link rel="mask-icon" href="/my_logo.jpg" color="#000000" />
         <link rel="manifest" href="/manifest.json" />
 
         {/* ─── Preconnect for Performance ──────────────────── */}

@@ -306,3 +306,32 @@ img, a {
     }
     
   }
+/* Make the injected iframe ad responsive and fit mobile screens */
+body iframe[style*="width: 320px"] {
+  max-width: 100% !important;
+  width: 100% !important;     /* Stretches to full screen width */
+  height: 90px !important;    /* Keep height fixed at 90px */
+  display: block !important;
+  margin: 0 auto !important;  /* Center it on the screen */
+}
+/* 1. Force the entire page to stop horizontal scrolling */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+/* 2. Specifically target the injected ad iframes to prevent overflow */
+iframe[src*="effectivecpmnetwork"],
+iframe[src*="highperformanceformat"],
+div[id*="feda6285"],
+div[id*="container-feda"] {
+  max-width: 100% !important;
+  width: 100% !important; 
+  height: 90px !important;
+  display: block !important;
+  margin: 0 auto !important;
+  overflow: hidden !important;
+}

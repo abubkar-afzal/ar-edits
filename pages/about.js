@@ -10,6 +10,8 @@ import {
 } from "react-icons/fi";
 import { FaGamepad, FaChess, FaCircle, FaDice, FaDiceD6, FaPlaystation, FaGolfBall } from "react-icons/fa";
 import { VscSnake } from "react-icons/vsc";
+import Link from "next/link";
+import Script from "next/script";
 export default function About() {
   const stats = [
     { icon: <FiUsers size={28} />, value: "10,000+", label: "Active Users" },
@@ -412,6 +414,7 @@ export default function About() {
             <p className="text-sm md:text-base mb-8 max-w-xl mx-auto" style={{ color: "var(--white)", opacity: 0.85 }}>
               All our tools are free, no signup required. Pick a tool and start editing right in your browser.
             </p>
+            <Link href="https://www.effectivecpmnetwork.com/n2rz4udj?key=f18be60e80ce937464124a6e2070b67c" target="_blank" rel="noopener noreferrer">
             <motion.a
               href="/tools"
               whileHover={{ scale: 1.04 }}
@@ -420,11 +423,11 @@ export default function About() {
               style={{ backgroundColor: "var(--white)", color: "var(--red)" }}
             >
               Explore Tools <FiArrowRight size={16} />
-            </motion.a>
+            </motion.a></Link>
           </motion.div>
         </div>
       </section>
-
+<Script src="https://pl30304266.effectivecpmnetwork.com/66/2d/be/662dbe0a736ad1cd15c7b3dec51f3ca5.js" strategy="lazyOnload" ></Script>
       <Footer />
     </div>
   );

@@ -9,6 +9,7 @@ import {
   FiArrowRight, FiClock, FiCalendar, FiSearch,
   FiTag, FiSend, FiBookOpen, FiStar,
 } from "react-icons/fi";
+import Script from "next/script";
 
 export default function BlogIndex() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -247,6 +248,7 @@ export default function BlogIndex() {
                     "--tw-ring-color": "var(--red)",
                   }}
                 />
+                <Link href="https://www.effectivecpmnetwork.com/n2rz4udj?key=f18be60e80ce937464124a6e2070b67c" target="_blank" rel="noopener noreferrer">
                 <motion.button
                   whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.96 }}
@@ -255,7 +257,7 @@ export default function BlogIndex() {
                   style={{ backgroundColor: "var(--red)", color: "var(--white)" }}
                 >
                   Subscribe <FiArrowRight size={16} />
-                </motion.button>
+                </motion.button></Link>
               </form>
             )}
           </motion.div>
@@ -263,6 +265,7 @@ export default function BlogIndex() {
       </section>
 
       <Footer />
+      <Script src="https://pl30304267.effectivecpmnetwork.com/73/f4/29/73f42913cc0adfbdcd3fe0b49b9371da.js"></Script>
     </div>
   );
 }

@@ -20,6 +20,7 @@ import EditorWorkspace from "./tools/EditorWorkspace";
 import { tools } from "../lib/tools";
 import blogs from "../data/blogs.json";
 import { FaChess } from "react-icons/fa";
+import Script from "next/script";
 
 const ThreeBackground = dynamic(() => import("../components/ThreeBackground"), { ssr: false });
 
@@ -845,6 +846,9 @@ export default function Home() {
       <AnimatePresence>
         {feedbackOpen && <FeedbackModal isOpen={feedbackOpen} onClose={() => setFeedbackOpen(false)} />}
       </AnimatePresence>
+      <Script async="async" data-cfasync="false" src="https://pl30304268.effectivecpmnetwork.com/f6835921f0c3c106bac787c18865b5a5/invoke.js" strategy="lazyOnload" ></Script>
+    <div id="container-f6835921f0c3c106bac787c18865b5a5"></div>
     </div>
+    
   );
 }
